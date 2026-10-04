@@ -188,17 +188,30 @@ def main():
     todo.sort(key=lambda it: len(it["ids"]))
     t0 = time.time()
     done = 0
-    for b in range(0, len(todo), a.batch_size):
-        batch = todo[b: b + a.batch_size]
+    def run_batch(batch):
         L = max(len(it["ids"]) for it in batch)
         ids = torch.full((len(batch), L), tok.pad_token_id, dtype=torch.long)
         att = torch.zeros((len(batch), L), dtype=torch.long)
         for i, it in enumerate(batch):
             ids[i, L - len(it["ids"]):] = torch.tensor(it["ids"])
             att[i, L - len(it["ids"]):] = 1
-        with torch.no_grad():
-            gen = model.generate(input_ids=ids.cuda(), attention_mask=att.cuda(), max_new_tokens=max_new,
-                                 do_sample=False, num_beams=1, eos_token_id=eos_ids, pad_token_id=tok.pad_token_id)
+        gen = None
+        try:
+            with torch.no_grad():
+                gen = model.generate(input_ids=ids.cuda(), attention_mask=att.cuda(), max_new_tokens=max_new,
+                                     do_sample=False, num_beams=1, eos_token_id=eos_ids,
+                                     pad_token_id=tok.pad_token_id)
+        except torch.cuda.OutOfMemoryError:
+            if len(batch) == 1:
+                raise
+        if gen is None:
+            # long generations can exhaust memory; split the batch (greedy decoding -> same results).
+            # Recurse outside the except block so the failed attempt's tensors are freed first.
+            torch.cuda.empty_cache()
+            h = len(batch) // 2
+            print(f"OOM at batch size {len(batch)}, splitting", flush=True)
+            run_batch(batch[:h]); run_batch(batch[h:])
+            return
         gen = gen[:, L:].cpu()
         for i, it in enumerate(batch):
             g = gen[i].tolist()
@@ -210,11 +223,16 @@ def main():
                         "hit_eos": hit, "prompt_tokens": len(it["ids"])})
             with open(out / f"{it['id']}.json", "w") as f:
                 json.dump(rec, f)
+        del gen
+        torch.cuda.empty_cache()
+
+    for b in range(0, len(todo), a.batch_size):
+        batch = todo[b: b + a.batch_size]
+        run_batch(batch)
         done += len(batch)
         el = time.time() - t0
         print(f"[{done}/{len(todo)}] {el / 60:.1f} min, max_mem {torch.cuda.max_memory_allocated() / 2**30:.1f} GB",
               flush=True)
-
 
 if __name__ == "__main__":
     main()

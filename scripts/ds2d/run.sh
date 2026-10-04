@@ -38,7 +38,7 @@ run_variant() {  # spec gpu batch
   OUT="outputs/ds2d/$V"; mkdir -p "$OUT/raw"
   N=$([ "$DS" = rplan ] && echo "$N_RPLAN" || echo "$N_PROCTHOR")
   VERARG=$([ "$VER" = - ] && echo "" || echo "--version $VER")
-  CMD="conda run -n fpe-ds2d python scripts/ds2d/generate.py --dataset $DS --inputs data/method_inputs/ds2d/$INP --lora checkpoints/ds2d/$LORA $VERARG --level $LEVEL --limit $N --batch_size $BATCH --base_model $BASE --out_raw $OUT/raw"
+  CMD="conda run --no-capture-output -n fpe-ds2d python scripts/ds2d/generate.py --dataset $DS --inputs data/method_inputs/ds2d/$INP --lora checkpoints/ds2d/$LORA $VERARG --level $LEVEL --limit $N --batch_size $BATCH --base_model $BASE --out_raw $OUT/raw"
   echo "== $V"
   # GT layouts for the same test inputs (independent of generation)
   PYTHONPATH="$ROOT" conda run -n fpe python scripts/ds2d/convert.py "$OUT" --dataset "$DS" --gt_from_inputs "data/method_inputs/ds2d/$INP" --limit "$N"

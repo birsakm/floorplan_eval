@@ -2,24 +2,45 @@
 
 Submodule: `external/methods/ds2d` @ `d3f734bd465d6239100b50bb11b3903741a2be08`. It is not modified, so there is no `patches/ds2d.patch`.
 
-## Status (2026-10-04)
+## Status (2026-10-04): all 10 variants done
 
-**Blocked: no generations yet.** The base model `meta-llama/Meta-Llama-3-8B-Instruct` is gated on Hugging Face. The HF token at `~/.cache/huggingface/token` (account `BirsakM`) gets HTTP 403. `meta-llama/Meta-Llama-3-8B` also gets 403. We did not request access. Once the account has been granted access:
+The base-model access (gated `meta-llama/Meta-Llama-3-8B-Instruct`) was granted to the HF token. All 10 variants were then generated, converted and rendered:
 
 ```bash
-SKIP_SETUP=1 bash scripts/ds2d/run.sh            # all 10 variants
-SKIP_SETUP=1 bash scripts/ds2d/run.sh rplan5R_bubble_roomarea_test   # just one
+GPUS="0 1 2 3" SKIP_SETUP=1 bash scripts/ds2d/run.sh            # all variants, one worker per GPU
+GPUS="1" BATCH=12 SKIP_SETUP=1 bash scripts/ds2d/run.sh rplan6R_bubble_roomarea_test   # one variant
 ```
 
-`DS2D_BASE_MODEL=<hub id or local path>` can point to a local copy of the same weights.
+Generation resumes: ids that already have `raw/<id>.json` are skipped, and runtime accumulates in `run_info.json`.
 
-Everything else is ready:
+### Results
 
-- The env works.
-- The LoRAs are downloaded.
-- The test inputs and GT are built.
-- `outputs/ds2d/<variant>/gt_samples` and `gt_renders` are filled.
-- The generation and conversion pipeline passed a smoke test with `Qwen2.5-0.5B-Instruct` and no LoRA. That output was thrown away.
+Validity rules are under "Deviations" item 7. "count match" means the generated room count equals the GT room count.
+
+| variant | requested | parsed (strict) | +repaired | valid | count match | truncated | GPU-min |
+|---|---|---|---|---|---|---|---|
+| procthor_bubble_constraints_test_lora-fullprompt | 1000 | 1000 | 0 | 1000 | 1000 | 0 | 28 |
+| procthor_bubble_constraints_test_lora-mask | 1000 | 998 | 2 | 1000 | 999 | 0 | 37 |
+| procthor_bubble_constraints_test_lora-presetmask | 1000 | 998 | 2 | 995 | 995 | 0 | 29 |
+| procthor_constraints_test_lora-fullprompt | 1000 | 1000 | 0 | 1000 | 1000 | 0 | 24 |
+| procthor_constraints_test_lora-mask | 1000 | 998 | 2 | 998 | 997 | 1 | 41 |
+| procthor_constraints_test_lora-presetmask | 1000 | 1000 | 0 | **790** | 789 | 0 | 30 |
+| rplan5R_bubble_roomarea_test | 500 | 495 | 5 | 500 | **4** | 4 | 64 |
+| rplan6R_bubble_roomarea_test | 500 | 485 | 15 | 500 | 485 | 15 | 73 |
+| rplan7R_bubble_roomarea_test | 500 | 488 | 12 | 500 | **295** | 9 | 50 |
+| rplan8R_bubble_roomarea_test | 500 | 481 | 19 | 500 | 481 | 18 | 95 |
+
+Observations:
+
+- **The ProcTHOR outputs copy the requested room ids, types and counts almost perfectly.**
+- **nonBD preset_mask emits room-spec JSON without `floor_polygon` for 21% of plans.** These are counted as invalid. The likely cause is our assumed full-spec prompt: it contains `height`, `width` and `is_regular`, which never appear in preset_mask's training prompts. The training prompts have only room_count, total_area, room_types and room areas.
+- **The held-out-count RPLAN models behave very differently from each other:**
+  - 5R outputs 8 rooms for 493/500 inputs.
+  - 7R outputs 7 rooms 294 times and 8 rooms 201 times.
+  - 6R and 8R hit the requested count about 97% of the time.
+  - In all cases the model copies the listed room ids and types first, then appends extra rooms.
+  - This is a model property, not a parse problem: the smoke tests on seen counts also follow the given rooms.
+- Validated by eye: the RPLAN outputs look like RPLAN, axis-aligned with wall gaps between rooms. Our Graph2Plan-derived GT polygons are tight, with no gaps. The ProcTHOR outputs are plausible, with occasional overlaps or gaps on large plans.
 
 ## Scripts
 
@@ -67,7 +88,7 @@ All LoRAs have r=8, alpha=32, q_proj and v_proj, base Meta-Llama-3-8B-Instruct.
    - Batched with left padding.
    - Generation stops at `<|eot_id|>` or `<|end_of_text|>`.
    - max_new_tokens is 2800 for RPLAN and 4000 for ProcTHOR, as in DS2D.
-   - Batch size is 12. Our estimate is about 16 GB of weights plus up to about 7 GB of KV cache, under the 25 GB cap. GPU 0 only.
+   - Batch size is 12 on GPU 0 (peak about 24 GB) and 24 on GPUs 1–3 (up to about 38 GB), with automatic halving on OOM. See Known issues.
 6. **Coordinates.**
    - ProcTHOR: `[x, z]` in meters (`units: "m"`, `scale_m_per_unit: 1`).
    - RPLAN: DS2D writes `"x"` = image row and `"z"` = image column, so we store `[z, x]` in px (`units: "px"`, `scale_m_per_unit: 18/256`).
@@ -86,9 +107,16 @@ All LoRAs have r=8, alpha=32, q_proj and v_proj, base Meta-Llama-3-8B-Instruct.
 
 ## Runtime
 
-There are no Llama runs yet. Our estimate is about 0.3 to 0.7 GPU-h per ProcTHOR variant (1000 plans) and less for RPLAN (500 plans) on an A100-40GB, about 4 to 6 GPU-h in total. Each run writes its actual runtime to `run_info.json`.
+About 7.8 GPU-h in total, on 4x A100-40GB, from about 20:49 to 23:15 wall-clock. Per-variant minutes are in the table above. They include model load and time wasted on OOM retries; the rplan8R and rplan6R totals also include a run that was killed and restarted at batch 12.
+
+The RPLAN variants are slower than ProcTHOR: about 900 tokens per output, a few runaway generations of 2800 tokens, and OOM retries at batch 24.
 
 ## Known issues
 
 - The conda package cache is shared with other agents. One `mamba create` hung on a lock for about 25 minutes. Killing it and retrying worked, and `setup_env.sh` retries on its own.
 - RPLAN GT polygons come from Graph2Plan's vectorization, not DS2D's own. This may differ slightly, by about 1 px, from what the RPLAN LoRAs were trained on.
+- Batched HF generation (transformers 4.40, sdpa) computes full-vocab fp32 logits over the whole prompt at prefill. Runaway generations also grow the KV cache. Together these cause OOMs at batch 24 on 40 GB GPUs. `generate.py` halves the batch on OOM; greedy decoding gives the same results at any batch size. Use `BATCH=12` for RPLAN: the first RPLAN runs at 24 thrashed, which is why rplan6R and rplan8R were restarted at 12.
+- The first version of the OOM fallback retried inside the `except` block, which kept the failed tensors alive. It OOMed all the way down to batch size 1. This is fixed.
+- `run.sh` shards variants round-robin over `GPUS`, with ProcTHOR (heavier) first. Batch size is `BATCH0` on GPU 0 (shared, default 12, peak about 24 GB) and `BATCH` elsewhere (default 24). `OMP_NUM_THREADS=4` is set and `torch.set_num_threads(4)` is called per worker.
+- Throughput: 0.4 to 0.7 min per 24 ProcTHOR plans, with GPU utilisation at 95% or more.
+

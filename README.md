@@ -77,7 +77,7 @@ Render any sample directory with `python -m fpeval.render <dir>`.
 | WallPlan | SIGGRAPH 2022 | boundary | RPLAN test subset (1000), bundled samples (500) | done |
 | MaskPLAN | CVPR 2024 | boundary (+ partial attributes) | RPLAN test (500 each) | done |
 | ChatHouseDiffusion | arXiv 2024 | text → graph | Tell2Design test (2308) | done |
-| DS2D | arXiv 2024 | JSON constraints (Llama-3-8B LoRA) | RPLAN 5–8 rooms, ProcTHOR (10 variants) | in progress |
+| DS2D | arXiv 2024 | JSON constraints (Llama-3-8B LoRA) | RPLAN 5–8 rooms (500 each), ProcTHOR (6 × 1000) | done |
 | Residential Floorplan Diffusion | Autom. Constr. 2024/25 | room masks | — | blocked: weights need Drive access approval |
 | Floor-plan RLVR | ACL Findings 2026 | bubble + areas (Llama-3.3-70B) | — | not run yet (needs all 4 GPUs) |
 
