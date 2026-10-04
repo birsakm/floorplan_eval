@@ -4,6 +4,10 @@
 # interior doors (Graph2Plan data has none) -- see g2p_to_hgjson.py and NOTES.md.
 set -euo pipefail
 export PYTHONNOUSERSITE=1
+# limit CPU threads (shared machine): torch uses TORCH_NUM_THREADS (infer.py), conversion uses a
+# process pool of CONVERT_WORKERS single-threaded workers
+export OMP_NUM_THREADS=${OMP_NUM_THREADS:-1} MKL_NUM_THREADS=${MKL_NUM_THREADS:-1} OPENBLAS_NUM_THREADS=${OPENBLAS_NUM_THREADS:-1}
+export TORCH_NUM_THREADS=${TORCH_NUM_THREADS:-4} CONVERT_WORKERS=${CONVERT_WORKERS:-8}
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 IDS="${IDS:-$ROOT/data/method_inputs/common_rplan_test/ids_test_1000.txt}"

@@ -41,13 +41,13 @@ fixed seed, and (c) it saves the raw 64×64 masks plus the graph as `raw/<inputi
 with the native HG++ rendering `raw/<id>.png`.
 
 Variants:
-1. `rplan_bubble_public`: 7 public graphs × 100 samples = **700 samples**. About 90 s on 1 A100,
-   using under 3 GB.
+1. `rplan_bubble_public`: 7 public graphs × 100 samples = **700 samples**. Takes 81 s on an idle machine and 543 s in the recorded run, which happened under a
+   machine load average of about 100. The work is CPU-bound per-sample torch ops; GPU memory stays under 3 GB.
 2. `rplan-g2p_bubble_test1000_syndoors` (`run_g2p.sh`): **1000 samples**, 1 per graph. The bubble
    diagrams are built by `g2p_to_hgjson.py` from the Graph2Plan-preprocessed RPLAN **test** split
    (`/datawaha/cggroup/datasets/RPLAN/Network/data/data_test.mat`), restricted to the shared ids in
    `data/method_inputs/common_rplan_test/ids_test_1000.txt`, the same ids as iPLAN, DiffPlanner and
-   WallPlan. About 6.5 min.
+   WallPlan. Took 125 s in the recorded run.
    - **Approximation:** Graph2Plan has no interior doors, so they are *synthesized*. Each
      non-living room gets one door on its wall with the living room if they share one, otherwise
      with the best neighbour (dining > entrance > longest shared wall).
@@ -75,6 +75,18 @@ Variants:
 Graph2Plan pixel frame.
 
 ## Known issues
-- In 185 of 700 samples at least one room is completely covered by later rooms after painting
+- In 187 of 700 (public) and 201 of 1000 (g2p) samples at least one room is completely covered by later rooms after painting
   (listed in `condition.missing_nodes`). This is how HG++'s own rendering behaves.
 - The generator sometimes produces oversized front-door masks, e.g. for 45161.
+
+## CPU and threads
+HG++ inference runs one graph at a time, so it is mostly small CPU tensor ops plus 11 tiny
+generator passes on the GPU. Without caps, torch used about 12 cores.
+
+`run.sh` now sets:
+- `OMP/MKL/OPENBLAS_NUM_THREADS=1`
+- `TORCH_NUM_THREADS=4`, which `infer.py` passes to `torch.set_num_threads`
+- `CONVERT_WORKERS=8` for `convert.py` (a process pool of at most 16 single-threaded workers, with
+  `cv2.setNumThreads(1)`)
+
+Batching graphs on the GPU was not implemented. The whole public run is only a few minutes.

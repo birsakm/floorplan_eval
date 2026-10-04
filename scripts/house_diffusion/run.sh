@@ -4,6 +4,10 @@
 # from the inputs), VARIANT, N_PER_GRAPH, BATCH, SEED, GPU.
 set -euo pipefail
 export PYTHONNOUSERSITE=1  # ignore ~/.local site-packages (they shadow env packages)
+# limit CPU threads (shared machine): torch uses TORCH_NUM_THREADS (infer.py), conversion uses a
+# process pool of CONVERT_WORKERS single-threaded workers
+export OMP_NUM_THREADS=${OMP_NUM_THREADS:-1} MKL_NUM_THREADS=${MKL_NUM_THREADS:-1} OPENBLAS_NUM_THREADS=${OPENBLAS_NUM_THREADS:-1}
+export TORCH_NUM_THREADS=${TORCH_NUM_THREADS:-4} CONVERT_WORKERS=${CONVERT_WORKERS:-8}
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 GPU="${GPU:-0}"

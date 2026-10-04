@@ -69,8 +69,8 @@ Render any sample directory with `python -m fpeval.render <dir>`.
 | Method | Venue | Condition | Variants run | Status |
 |---|---|---|---|---|
 | House-GAN | ECCV 2020 | bubble diagram | LIFULL test group D (5000) | done |
-| House-GAN++ | CVPR 2021 | bubble diagram + doors | RPLAN test subset (1000) | in progress |
-| HouseDiffusion | CVPR 2023 | bubble diagram | RPLAN test subset (1000), public samples | in progress |
+| House-GAN++ | CVPR 2021 | bubble diagram + doors | RPLAN test subset (1000, made-up interior doors), 7 public graphs ×100 | done |
+| HouseDiffusion | CVPR 2023 | bubble diagram | RPLAN test subset (997 of 1000, made-up interior doors), 7 public graphs ×100 | done |
 | GSDiff | AAAI 2025 | none / bubble / boundary | uncond (3000), bubble (1000), boundary (1000) | done |
 | iPLAN | CVPR 2022 | boundary | RPLAN test subset (1000) | done |
 | DiffPlanner | TVCG 2025 | boundary | RPLAN full test (12002) | done |
@@ -81,7 +81,7 @@ Render any sample directory with `python -m fpeval.render <dir>`.
 | Residential Floorplan Diffusion | Autom. Constr. 2024/25 | room masks | — | blocked: weights need Drive access approval |
 | Floor-plan RLVR | ACL Findings 2026 | bubble + areas (Llama-3.3-70B) | — | not run yet (needs all 4 GPUs) |
 
-"RPLAN test subset" is a fixed set of 1000 plans (seed 0) drawn from the Graph2Plan RPLAN test split, listed in `data/method_inputs/common_rplan_test/ids_test_1000.txt`. The boundary methods are all compared on it.
+"RPLAN test subset" is a fixed set of 1000 plans (seed 0) drawn from the Graph2Plan RPLAN test split, listed in `data/method_inputs/common_rplan_test/ids_test_1000.txt`. The boundary methods are all compared on it. The Graph2Plan data has no interior doors, so for House-GAN++ and HouseDiffusion they are made up (one per non-living room, on the wall shared with the living room or a neighbour). This means neither run reproduces the papers' own test set.
 
 Methods without pretrained weights (Graph2Plan, Tell2Design, FloorplanGAN, MSD baselines, …) are included as submodules but not run. See [external/README.md](external/README.md).
 

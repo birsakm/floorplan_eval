@@ -19,6 +19,8 @@ from pathlib import Path
 
 import numpy as np
 import torch
+
+torch.set_num_threads(int(os.environ.get("OMP_NUM_THREADS", "4")))
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 ROOM_LABEL = {0: "LivingRoom", 1: "MasterRoom", 2: "Kitchen", 3: "Bathroom", 4: "DiningRoom",

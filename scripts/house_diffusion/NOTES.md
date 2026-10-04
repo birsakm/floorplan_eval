@@ -99,3 +99,11 @@ To run on real HG++ JSON (e.g. the 8-room RPLAN eval set), use:
 - `gt_samples/` holds the input layouts traced from the JSON (the same centred frame).
 - Renders were checked against a re-implementation of the native `save_samples` colouring: the
   orientation and the rooms and doors match.
+
+## CPU and threads
+`run.sh` sets:
+- `OMP/MKL/OPENBLAS_NUM_THREADS=1`
+- `TORCH_NUM_THREADS=4` (`th.set_num_threads` in `infer.py`)
+- `CONVERT_WORKERS=8` for `convert.py` (process pool, at most 16)
+
+Sampling itself is batched on the GPU: 70–100 graphs × 1000 steps per batch, using about 3 GB.
