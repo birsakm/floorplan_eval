@@ -1,0 +1,62 @@
+[submodule "external/methods/housegan"]
+	path = external/methods/housegan
+	url = https://github.com/ennauata/housegan.git
+[submodule "external/methods/houseganpp"]
+	path = external/methods/houseganpp
+	url = https://github.com/ennauata/houseganpp.git
+[submodule "external/methods/house_diffusion"]
+	path = external/methods/house_diffusion
+	url = https://github.com/aminshabani/house_diffusion.git
+[submodule "external/methods/graph2plan"]
+	path = external/methods/graph2plan
+	url = https://github.com/HanHan55/Graph2plan.git
+[submodule "external/methods/iplan"]
+	path = external/methods/iplan
+	url = https://github.com/realcrane/iPLAN-Interactive-and-Procedural-Layout-Planning.git
+[submodule "external/methods/wallplan"]
+	path = external/methods/wallplan
+	url = https://github.com/cgjiahui/WallPlan.git
+[submodule "external/methods/tell2design"]
+	path = external/methods/tell2design
+	url = https://github.com/LengSicong/Tell2Design.git
+[submodule "external/methods/gsdiff"]
+	path = external/methods/gsdiff
+	url = https://github.com/SizheHu/GSDiff.git
+[submodule "external/methods/maskplan"]
+	path = external/methods/maskplan
+	url = https://github.com/HangZhangZ/MaskPLAN.git
+[submodule "external/methods/ds2d"]
+	path = external/methods/ds2d
+	url = https://github.com/plstory/DS2D.git
+[submodule "external/methods/floorplan_rlvr"]
+	path = external/methods/floorplan_rlvr
+	url = https://github.com/ludolara/floor-plan-rlvr.git
+[submodule "external/methods/chathousediffusion"]
+	path = external/methods/chathousediffusion
+	url = https://github.com/ChatHouseDiffusion/chathousediffusion.git
+[submodule "external/methods/diffplanner"]
+	path = external/methods/diffplanner
+	url = https://github.com/shidong-wang/DiffPlanner.git
+[submodule "external/methods/residential_floorplan_diffusion"]
+	path = external/methods/residential_floorplan_diffusion
+	url = https://github.com/zengpengyu-student/Residential_Floorplan_Diffusion.git
+[submodule "external/methods/floorplangan"]
+	path = external/methods/floorplangan
+	url = https://github.com/luozn15/FloorplanGAN.git
+[submodule "external/methods/what_a_comfortable_world"]
+	path = external/methods/what_a_comfortable_world
+	url = https://github.com/Musialski-Research-Group/WhatAComfortableWorld.git
+[submodule "external/methods/floorplan_llm"]
+	path = external/methods/floorplan_llm
+	url = https://github.com/JongHwa-Shim/floorplan-llm.git
+	branch = new_branch
+[submodule "external/data_tools/housegan_data_reader"]
+	path = external/data_tools/housegan_data_reader
+	url = https://github.com/sepidsh/Housegan-data-reader.git
+[submodule "external/data_tools/rplan_toolbox"]
+	path = external/data_tools/rplan_toolbox
+	url = https://github.com/zzilch/RPLAN-Toolbox.git
+[submodule "external/methods/msd"]
+	path = external/methods/msd
+	url = https://github.com/caspervanengelenburg/msd.git
+	branch = wip-house-diffusion-msd

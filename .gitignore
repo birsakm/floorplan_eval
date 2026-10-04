@@ -1,0 +1,6 @@
+# large/generated artifacts live outside git
+data/
+checkpoints/
+outputs/
+__pycache__/
+*.pyc
