@@ -47,3 +47,10 @@ TLC-Plan and FloorPlan-LLaMa have repos, but they contain only a README.
 RPLAN's own "Data-driven Interior Plan Generation" code is a Drive zip only, not a GitHub repo.
 
 Excluded as out of scope: Building-GAN (3D volumetric), FloorGenT (robotics line segments), BubbleFormer (outputs bubble diagrams only).
+
+## Dataset code (`datasets/`)
+
+- `cubicasa5k`: the official CubiCasa5k parser.
+- `resplan`: the ResPlan repo.
+
+See `docs/datasets.md` for all ground-truth sources, how to get them, and their converters.

@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# End-to-end DS2D: env -> downloads -> test inputs -> generation (GPU 0) -> conversion -> renders.
+# Usage: bash scripts/ds2d/run.sh [variant ...]   (default: all 10 released LoRAs)
+# Env vars: DS2D_BASE_MODEL (default meta-llama/Meta-Llama-3-8B-Instruct; gated on HF),
+#           BATCH (default 12, ~25 GB peak est.), N_RPLAN (500), N_PROCTHOR (1000), SKIP_SETUP=1
+set -euo pipefail
+export PYTHONNOUSERSITE=1  # keep ~/.local site-packages out of the envs
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"; cd "$ROOT"
+export CUDA_VISIBLE_DEVICES=0
+BASE="${DS2D_BASE_MODEL:-meta-llama/Meta-Llama-3-8B-Instruct}"
+BATCH="${BATCH:-12}"; N_RPLAN="${N_RPLAN:-500}"; N_PROCTHOR="${N_PROCTHOR:-1000}"
+if [ "${SKIP_SETUP:-0}" != 1 ]; then
+  bash scripts/ds2d/setup_env.sh
+  bash scripts/ds2d/download.sh
+  conda run -n fpe python scripts/ds2d/prepare_inputs.py --rplan_n "$N_RPLAN" --procthor_n "$N_PROCTHOR"
+fi
+COMMIT=$(git -C external/methods/ds2d rev-parse HEAD)
+
+# variant : dataset : lora dir : prompt version : condition level : inputs
+VARIANTS=(
+  "rplan5R_bubble_roomarea_test:rplan:rplan/5R:-:only_room_area:rplan/test_inputs_5R.jsonl"
+  "rplan6R_bubble_roomarea_test:rplan:rplan/6R:-:only_room_area:rplan/test_inputs_6R.jsonl"
+  "rplan7R_bubble_roomarea_test:rplan:rplan/7R:-:only_room_area:rplan/test_inputs_7R.jsonl"
+  "rplan8R_bubble_roomarea_test:rplan:rplan/8R:-:only_room_area:rplan/test_inputs_8R.jsonl"
+  "procthor_bubble_constraints_test_lora-fullprompt:procthor:procthor_bd/full_prompt:bd:full_prompt:procthor/test_inputs.jsonl"
+  "procthor_bubble_constraints_test_lora-mask:procthor:procthor_bd/mask:bd:full_prompt:procthor/test_inputs.jsonl"
+  "procthor_bubble_constraints_test_lora-presetmask:procthor:procthor_bd/preset_mask:bd:full_prompt:procthor/test_inputs.jsonl"
+  "procthor_constraints_test_lora-fullprompt:procthor:procthor_nonbd/full_prompt:non_bd:full_prompt:procthor/test_inputs.jsonl"
+  "procthor_constraints_test_lora-mask:procthor:procthor_nonbd/mask:non_bd:full_prompt:procthor/test_inputs.jsonl"
+  "procthor_constraints_test_lora-presetmask:procthor:procthor_nonbd/preset_mask:non_bd:full_prompt:procthor/test_inputs.jsonl"
+)
+want=("$@")
+for spec in "${VARIANTS[@]}"; do
+  IFS=: read -r V DS LORA VER LEVEL INP <<<"$spec"
+  if [ ${#want[@]} -gt 0 ] && [[ ! " ${want[*]} " =~ " $V " ]]; then continue; fi
+  OUT="outputs/ds2d/$V"; mkdir -p "$OUT/raw"
+  N=$([ "$DS" = rplan ] && echo "$N_RPLAN" || echo "$N_PROCTHOR")
+  VERARG=$([ "$VER" = - ] && echo "" || echo "--version $VER")
+  CMD="conda run -n fpe-ds2d python scripts/ds2d/generate.py --dataset $DS --inputs data/method_inputs/ds2d/$INP --lora checkpoints/ds2d/$LORA $VERARG --level $LEVEL --limit $N --batch_size $BATCH --base_model $BASE --out_raw $OUT/raw"
+  echo "== $V"
+  # GT layouts for the same test inputs (independent of generation)
+  PYTHONPATH="$ROOT" conda run -n fpe python scripts/ds2d/convert.py "$OUT" --dataset "$DS" --gt_from_inputs "data/method_inputs/ds2d/$INP" --limit "$N"
+  T0=$(date +%s)
+  $CMD 2>&1 | tee -a "$OUT/raw/_generation.log"
+  T1=$(date +%s)
+  if [ "$DS" = rplan ]; then
+    COND="RPLAN room-count hold-out: LoRA ${LORA##*/} never saw ${LORA##*/}-room plans; input = bubble diagram (DS2D adjacency pairs from box proximity) + per-room {area (m^2), room_type, id} (DS2D level '$LEVEL')"
+  elif [ "$VER" = bd ]; then
+    COND="ProcTHOR bubble diagram (adjacency pairs) + full specification {room_count,total_area,room_types,rooms[{area,height,width,is_regular,room_type,id}]} (DS2D level '$LEVEL')"
+  else
+    COND="ProcTHOR constraints only (no bubble diagram): full specification {room_count,total_area,room_types,rooms[{area,height,width,is_regular,room_type,id}]} (DS2D level '$LEVEL')"
+  fi
+  PREV=$(python3 -c "import json,sys;print(json.load(open('$OUT/raw/_generation_info.json')).get('runtime_sec',0))" 2>/dev/null || echo 0)
+  python3 - "$OUT/raw/_generation_info.json" <<PY
+import json,sys,datetime
+json.dump({"commit":"$COMMIT","base_model":"$BASE","lora":"checkpoints/ds2d/$LORA","version":"$VER","level":"$LEVEL",
+ "inputs":"data/method_inputs/ds2d/$INP","n_requested":$N,"condition_description":"""$COND""",
+ "decoding":"greedy, bf16 (no 8-bit), batched left-padded, max_new_tokens=$([ "$DS" = rplan ] && echo 2800 || echo 4000)",
+ "command":"""$CMD""","runtime_sec":$PREV+$((T1-T0)),"gpu":"$(nvidia-smi --query-gpu=name --format=csv,noheader -i 0)",
+ "date":datetime.datetime.now().isoformat(timespec="seconds")},open(sys.argv[1],"w"),indent=1)
+PY
+  PYTHONPATH="$ROOT" conda run -n fpe python scripts/ds2d/convert.py "$OUT" --dataset "$DS"
+  conda run -n fpe python -m fpeval.render "$OUT"
+done

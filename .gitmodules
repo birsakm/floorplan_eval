@@ -60,3 +60,9 @@
 	path = external/methods/msd
 	url = https://github.com/caspervanengelenburg/msd.git
 	branch = wip-house-diffusion-msd
+[submodule "external/datasets/cubicasa5k"]
+	path = external/datasets/cubicasa5k
+	url = https://github.com/CubiCasa/CubiCasa5k.git
+[submodule "external/datasets/resplan"]
+	path = external/datasets/resplan
+	url = https://github.com/m-agour/ResPlan.git
