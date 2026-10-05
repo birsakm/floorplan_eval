@@ -17,7 +17,7 @@ assert set(PALETTE) == set(ROOM_TYPES)
 
 
 def render(sample, size=512, margin=16, rooms_only=False):
-    """Render a sample. rooms_only=True skips boundary/doors/windows (used for FID)."""
+    """Render a sample. rooms_only=True skips boundary/doors/windows."""
     pts = [p for r in sample["rooms"] for p in r["polygon"]]
     if sample.get("boundary") and not rooms_only:
         pts += sample["boundary"]

@@ -35,6 +35,32 @@ def adjacency_graph(shapes, tol, min_shared):
     return g
 
 
+def door_edges(sample, shapes, tol):
+    """Room pairs connected by an interior door: [(i, j)], one entry per door.
+
+    A door connects the two rooms that overlap most with its tol-buffer; a door
+    touching only one room (an exterior/front door) gives no edge.
+    """
+    from .geometry import to_polygon
+    edges = []
+    if not shapes:
+        return edges
+    tree = shapely.STRtree([g for _, g, _ in shapes])
+    for door in sample.get("doors") or []:
+        if door.get("type") == "front_door":
+            continue
+        geom, _ = to_polygon(door["polygon"])
+        if geom.is_empty:
+            continue
+        probe = geom.buffer(tol)
+        hits = [(probe.intersection(shapes[k][1]).area, int(k)) for k in tree.query(probe, predicate="intersects")]
+        hits = sorted((h for h in hits if h[0] > 0), reverse=True)
+        if len(hits) >= 2:
+            i, j = sorted((hits[0][1], hits[1][1]))
+            edges.append((i, j))
+    return edges
+
+
 def room_records(shapes, scale):
     """Per-room geometric attributes (meters)."""
     total = sum(geom.area for _, geom, _ in shapes) or 1.0
@@ -131,22 +157,18 @@ def _multiset_f1(pred, ref):
     return 2 * p * r / (p + r) if p + r > 0 else 0.0
 
 
-def rasterize_types(shapes, bounds, res):
-    """Label map (res x res) of room type indices over bounds; -1 = empty."""
-    from PIL import Image, ImageDraw
-    x0, y0, x1, y1 = bounds
-    s = res / max(x1 - x0, y1 - y0, 1e-9)
-    img = Image.new("I", (res, res), -1)
-    draw = ImageDraw.Draw(img)
-    for rtype, geom, _ in shapes:
-        for part in getattr(geom, "geoms", [geom]):
-            pts = [((x - x0) * s, (y - y0) * s) for x, y in part.exterior.coords]
-            if len(pts) >= 3:
-                draw.polygon(pts, fill=ROOM_TYPES.index(rtype))
-    return np.asarray(img)
+def type_iou(gshapes, tshapes):
+    """Mean over room types of the exact polygon IoU of the type's union (gen vs GT)."""
+    ious = []
+    for t in {s[0] for s in gshapes} | {s[0] for s in tshapes}:
+        a = unary_union([g for k, g, _ in gshapes if k == t])
+        b = unary_union([g for k, g, _ in tshapes if k == t])
+        union = a.union(b).area
+        ious.append(a.intersection(b).area / union if union > 0 else 0.0)
+    return float(np.mean(ious)) if ious else NAN
 
 
-def paired_metrics(gen, gt, frame_aligned, res=256):
+def paired_metrics(gen, gt, frame_aligned):
     """Metrics comparing a generated sample with its GT (both from sample_metrics)."""
     (gs, grecs, gg, gshapes), (ts, trecs, tg, tshapes) = gen, gt
     out = {}
@@ -159,20 +181,5 @@ def paired_metrics(gen, gt, frame_aligned, res=256):
     out["type_multiset_match"] = float(gtypes == ttypes)
     out["adjacency_f1"] = _multiset_f1(_type_pair_edges(gg, gshapes), _type_pair_edges(tg, tshapes))
 
-    if frame_aligned and gshapes and tshapes:
-        bounds = unary_union([g for _, g, _ in tshapes]).bounds
-        a = rasterize_types(gshapes, bounds, res)
-        b = rasterize_types(tshapes, bounds, res)
-        ious = []
-        for k in set(np.unique(a)) | set(np.unique(b)):
-            if k < 0:
-                continue
-            inter = np.sum((a == k) & (b == k))
-            uni = np.sum((a == k) | (b == k))
-            ious.append(inter / uni)
-        out["type_miou"] = float(np.mean(ious)) if ious else NAN
-        inside = b >= 0
-        out["pixel_type_acc"] = float(np.mean(a[inside] == b[inside])) if inside.any() else NAN
-    else:
-        out["type_miou"] = out["pixel_type_acc"] = NAN
+    out["type_iou"] = type_iou(gshapes, tshapes) if frame_aligned and gshapes and tshapes else NAN
     return out

@@ -91,23 +91,24 @@ Methods without pretrained weights (Graph2Plan, Tell2Design, FloorplanGAN, MSD b
 ```bash
 export PYTHONPATH=. OMP_NUM_THREADS=1
 conda run -n fpe python -m fpeval.evaluate refs       # metrics on GT reference sets
-conda run -n fpe python -m fpeval.evaluate variants   # metrics on all generated variants (uses 1 GPU for FID)
+conda run -n fpe python -m fpeval.evaluate stats      # real-dataset statistics -> results/datasets/
+conda run -n fpe python -m fpeval.evaluate variants   # rule checks on all generated variants
 conda run -n fpe python -m fpeval.evaluate report     # -> results/summary.md
 ```
 
-The metrics fall into four groups:
-- rules from the PI's notes (overlap, holes, boundary coverage, connectivity, rectilinearity, minimum area and width, aspect ratio)
-- paired comparison with each sample's GT (room count and types, adjacency F1, per-type IoU)
-- distribution distances to a GT reference set (FID/KID on rooms-only renders, room-count/type/area distributions)
-- the same rule metrics on every GT dataset, as a baseline
+Everything is computed from room polygons in meters; there are no image-based metrics.
 
-The latest results are in [results/summary.md](results/summary.md) and the definitions in [docs/metrics.md](docs/metrics.md). Each variant is configured in `fpeval/eval_config.py`: scale, condition, reference set, and whether the output was vectorized from a raster.
+- **Rules** (`fpeval/rules.py`): no overlap, no holes, one connected plan, and minimum area, minimum clear width and maximum aspect ratio per room type. They are checked on generated plans and on real datasets (as a baseline).
+- **Input adherence:** room count/types, adjacency F1, and exact polygon type IoU against the GT plan for the same input.
+- **Real-dataset statistics:** composition, room-area percentiles (p5/p50/p95) per type, connection matrices (shared wall and door) and average apartment graphs. These are computed from real data only and are meant to be sampled from later.
+
+The latest results are in [results/summary.md](results/summary.md) and [results/datasets/](results/datasets/), and the definitions in [docs/metrics.md](docs/metrics.md).
 
 ## Ground-truth datasets
 
 | Dataset | Plans | Units |
 |---|---|---|
-| CubiCasa5k | 6,103 floors | m |
+| CubiCasa5k | 5,000 plans (6,103 floors), all used as one evaluation set | m |
 | ResPlan | 17,000 | m |
 | RPLAN (Graph2Plan version) | 80,436 | px (18/256 m) |
 | House-GAN LIFULL | 145,811 | px |

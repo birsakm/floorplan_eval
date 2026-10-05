@@ -1,0 +1,4138 @@
+{
+ "info": {
+  "dataset": "magicplan:train",
+  "label": "MagicPlan",
+  "kind": "real",
+  "unit": "floor",
+  "n_samples": 10000,
+  "n_rooms": 61228,
+  "scale_known": true,
+  "connection_kinds": [
+   "wall",
+   "door"
+  ],
+  "mean_rooms": 6.1228,
+  "mean_total_area_m2": 80.98303107577516
+ },
+ "composition": [
+  {
+   "type": "living_room",
+   "presence": 0.5298,
+   "mean_count": 0.6164
+  },
+  {
+   "type": "kitchen",
+   "presence": 0.4893,
+   "mean_count": 0.5303
+  },
+  {
+   "type": "bedroom",
+   "presence": 0.6427,
+   "mean_count": 1.2504
+  },
+  {
+   "type": "bathroom",
+   "presence": 0.763,
+   "mean_count": 1.0211
+  },
+  {
+   "type": "balcony",
+   "presence": 0.186,
+   "mean_count": 0.2153
+  },
+  {
+   "type": "hallway",
+   "presence": 0.6767,
+   "mean_count": 0.9206
+  },
+  {
+   "type": "dining_room",
+   "presence": 0.1395,
+   "mean_count": 0.1511
+  },
+  {
+   "type": "study",
+   "presence": 0.1027,
+   "mean_count": 0.1502
+  },
+  {
+   "type": "storage",
+   "presence": 0.0692,
+   "mean_count": 0.0902
+  },
+  {
+   "type": "garage",
+   "presence": 0.063,
+   "mean_count": 0.0697
+  },
+  {
+   "type": "laundry",
+   "presence": 0.105,
+   "mean_count": 0.1097
+  },
+  {
+   "type": "closet",
+   "presence": 0.2124,
+   "mean_count": 0.3416
+  },
+  {
+   "type": "outdoor",
+   "presence": 0.0092,
+   "mean_count": 0.0103
+  },
+  {
+   "type": "other",
+   "presence": 0.3503,
+   "mean_count": 0.6459
+  }
+ ],
+ "area_percentiles": [
+  {
+   "type": "balcony",
+   "n_rooms": 2153,
+   "area_m2_p5": 1.351169226,
+   "area_m2_p50": 6.059200050000001,
+   "area_m2_p95": 32.91524418999996,
+   "width_m_p5": 0.701602450326024,
+   "width_m_p50": 1.5000014695585089,
+   "width_m_p95": 4.171063420223994
+  },
+  {
+   "type": "bathroom",
+   "n_rooms": 10211,
+   "area_m2_p5": 1.3465806999999994,
+   "area_m2_p50": 3.91531148,
+   "area_m2_p95": 10.171458999999999,
+   "width_m_p5": 0.8887869012861713,
+   "width_m_p50": 1.6077729034650203,
+   "width_m_p95": 2.7
+  },
+  {
+   "type": "bedroom",
+   "n_rooms": 12504,
+   "area_m2_p5": 5.9152954405000004,
+   "area_m2_p50": 12.1523453625,
+   "area_m2_p95": 23.768685278499987,
+   "width_m_p5": 1.9988983533223423,
+   "width_m_p50": 3.0100406062141665,
+   "width_m_p95": 4.252821894315406
+  },
+  {
+   "type": "closet",
+   "n_rooms": 3416,
+   "area_m2_p5": 0.3770348049999999,
+   "area_m2_p50": 1.4057619600000002,
+   "area_m2_p95": 8.112801285,
+   "width_m_p5": 0.42807500000000015,
+   "width_m_p50": 0.8382999999999996,
+   "width_m_p95": 2.300040415833336
+  },
+  {
+   "type": "dining_room",
+   "n_rooms": 1511,
+   "area_m2_p5": 5.779404734999998,
+   "area_m2_p50": 14.548250605000002,
+   "area_m2_p95": 43.868517067499994,
+   "width_m_p5": 1.9854364860828262,
+   "width_m_p50": 3.3129499971850227,
+   "width_m_p95": 5.241669965519434
+  },
+  {
+   "type": "garage",
+   "n_rooms": 697,
+   "area_m2_p5": 7.410589300000001,
+   "area_m2_p50": 24.936034695000004,
+   "area_m2_p95": 74.89800542999998,
+   "width_m_p5": 2.0564331556480213,
+   "width_m_p50": 3.951570758480365,
+   "width_m_p95": 7.254065287700131
+  },
+  {
+   "type": "hallway",
+   "n_rooms": 9206,
+   "area_m2_p5": 1.408511385,
+   "area_m2_p50": 6.139562385000002,
+   "area_m2_p95": 34.822729551250006,
+   "width_m_p5": 0.8477897720164956,
+   "width_m_p50": 1.6281318626768977,
+   "width_m_p95": 4.299227041447305
+  },
+  {
+   "type": "kitchen",
+   "n_rooms": 5303,
+   "area_m2_p5": 3.632317536000001,
+   "area_m2_p50": 10.285700469999997,
+   "area_m2_p95": 32.713126192499985,
+   "width_m_p5": 1.459033391817089,
+   "width_m_p50": 2.6534629303599626,
+   "width_m_p95": 4.580044955410396
+  },
+  {
+   "type": "laundry",
+   "n_rooms": 1097,
+   "area_m2_p5": 1.399600134,
+   "area_m2_p50": 5.38488322,
+   "area_m2_p95": 19.284316894000014,
+   "width_m_p5": 0.844301020305094,
+   "width_m_p50": 1.855,
+   "width_m_p95": 3.5121957840750815
+  },
+  {
+   "type": "living_room",
+   "n_rooms": 6164,
+   "area_m2_p5": 7.68526615675,
+   "area_m2_p50": 20.108077145,
+   "area_m2_p95": 52.47346327474996,
+   "width_m_p5": 2.275368990934985,
+   "width_m_p50": 3.758960635323123,
+   "width_m_p95": 5.717887169314753
+  },
+  {
+   "type": "other",
+   "n_rooms": 6459,
+   "area_m2_p5": 1.2346800730000014,
+   "area_m2_p50": 8.760378000000001,
+   "area_m2_p95": 69.22949134649987,
+   "width_m_p5": 0.8109797751139625,
+   "width_m_p50": 2.351296074129738,
+   "width_m_p95": 6.095017014701032
+  },
+  {
+   "type": "outdoor",
+   "n_rooms": 103,
+   "area_m2_p5": 1.623831019,
+   "area_m2_p50": 11.457618415000002,
+   "area_m2_p95": 51.236891210999985,
+   "width_m_p5": 0.8950951808275317,
+   "width_m_p50": 2.2500490952592047,
+   "width_m_p95": 5.707998471105235
+  },
+  {
+   "type": "storage",
+   "n_rooms": 902,
+   "area_m2_p5": 1.6038758405,
+   "area_m2_p50": 9.6507075,
+   "area_m2_p95": 50.22594288,
+   "width_m_p5": 0.9098805627615731,
+   "width_m_p50": 2.467138756775677,
+   "width_m_p95": 5.6674913955695745
+  },
+  {
+   "type": "study",
+   "n_rooms": 1502,
+   "area_m2_p5": 3.819591134000001,
+   "area_m2_p50": 11.553000000000004,
+   "area_m2_p95": 44.260384931000004,
+   "width_m_p5": 1.49842988358716,
+   "width_m_p50": 2.9043299027539105,
+   "width_m_p95": 5.2881468697392515
+  }
+ ],
+ "violations": [
+  {
+   "type": "balcony",
+   "n_rooms": 2153,
+   "below_min_area": 0.025081281932187643,
+   "below_min_width": 0.08221086855550395,
+   "above_max_aspect": 0.0074314909428704135
+  },
+  {
+   "type": "bathroom",
+   "n_rooms": 10211,
+   "below_min_area": 0.06884732151601214,
+   "below_min_width": 0.09901087062971306,
+   "above_max_aspect": 0.006463617667221624
+  },
+  {
+   "type": "bedroom",
+   "n_rooms": 12504,
+   "below_min_area": 0.031269993602047345,
+   "below_min_width": 0.05110364683301344,
+   "above_max_aspect": 0.005678182981445937
+  },
+  {
+   "type": "closet",
+   "n_rooms": 3416,
+   "below_min_area": 0.1094847775175644,
+   "below_min_width": 0.20228337236533958,
+   "above_max_aspect": 0.01288056206088993
+  },
+  {
+   "type": "dining_room",
+   "n_rooms": 1511,
+   "below_min_area": 0.024487094639311716,
+   "below_min_width": 0.054268696227663796,
+   "above_max_aspect": 0.009927200529450696
+  },
+  {
+   "type": "garage",
+   "n_rooms": 697,
+   "below_min_area": 0.09325681492109039,
+   "below_min_width": 0.08464849354375897,
+   "above_max_aspect": 0.00860832137733142
+  },
+  {
+   "type": "hallway",
+   "n_rooms": 9206,
+   "below_min_area": 0.022268086030849447,
+   "below_min_width": 0.03345644145122746,
+   "above_max_aspect": 0.027888446215139442
+  },
+  {
+   "type": "kitchen",
+   "n_rooms": 5303,
+   "below_min_area": 0.03036017348670564,
+   "below_min_width": 0.05770318687535357,
+   "above_max_aspect": 0.004148595134829342
+  },
+  {
+   "type": "laundry",
+   "n_rooms": 1097,
+   "below_min_area": 0.023701002734731084,
+   "below_min_width": 0.06836827711941659,
+   "above_max_aspect": 0.004557885141294439
+  },
+  {
+   "type": "living_room",
+   "n_rooms": 6164,
+   "below_min_area": 0.055321219987021414,
+   "below_min_width": 0.06262167423750811,
+   "above_max_aspect": 0.0027579493835171967
+  },
+  {
+   "type": "other",
+   "n_rooms": 6459,
+   "below_min_area": 0.007121845486917479,
+   "below_min_width": 0.011921350054187955,
+   "above_max_aspect": NaN
+  },
+  {
+   "type": "outdoor",
+   "n_rooms": 103,
+   "below_min_area": 0.009708737864077669,
+   "below_min_width": 0.019417475728155338,
+   "above_max_aspect": NaN
+  },
+  {
+   "type": "storage",
+   "n_rooms": 902,
+   "below_min_area": 0.0033259423503325942,
+   "below_min_width": 0.007760532150776054,
+   "above_max_aspect": 0.008869179600886918
+  },
+  {
+   "type": "study",
+   "n_rooms": 1502,
+   "below_min_area": 0.05392809587217044,
+   "below_min_width": 0.09054593874833555,
+   "above_max_aspect": 0.020639147802929428
+  }
+ ],
+ "connections": [
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "living_room",
+   "p_room": 0.1792667099286178,
+   "p_plan": 0.7216981132075472,
+   "n_plans_both": 636,
+   "mean_edges": 0.0736
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "kitchen",
+   "p_room": 0.4492212848799481,
+   "p_plan": 0.7215770996489334,
+   "n_plans_both": 3703,
+   "mean_edges": 0.2807
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "living_room",
+   "p_room": 0.5127286441636809,
+   "p_plan": 0.7215770996489334,
+   "n_plans_both": 3703,
+   "mean_edges": 0.2807
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "bedroom",
+   "p_room": 0.4218040233614536,
+   "p_plan": 0.7404580152671756,
+   "n_plans_both": 3406,
+   "mean_edges": 0.3367
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "living_room",
+   "p_room": 0.26383557261676266,
+   "p_plan": 0.7404580152671756,
+   "n_plans_both": 3406,
+   "mean_edges": 0.3367
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "bathroom",
+   "p_room": 0.33046722907203113,
+   "p_plan": 0.4533888503354152,
+   "n_plans_both": 4323,
+   "mean_edges": 0.2265
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "living_room",
+   "p_room": 0.21574772304377632,
+   "p_plan": 0.4533888503354152,
+   "n_plans_both": 4323,
+   "mean_edges": 0.2265
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "balcony",
+   "p_room": 0.14925373134328357,
+   "p_plan": 0.782646801051709,
+   "n_plans_both": 1141,
+   "mean_edges": 0.095
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "living_room",
+   "p_room": 0.4300975383186252,
+   "p_plan": 0.782646801051709,
+   "n_plans_both": 1141,
+   "mean_edges": 0.095
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "hallway",
+   "p_room": 0.6083711875405581,
+   "p_plan": 0.905966968566862,
+   "n_plans_both": 3754,
+   "mean_edges": 0.4264
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "living_room",
+   "p_room": 0.42624375407343035,
+   "p_plan": 0.905966968566862,
+   "n_plans_both": 3754,
+   "mean_edges": 0.4264
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "dining_room",
+   "p_room": 0.12800129785853342,
+   "p_plan": 0.8159041394335512,
+   "n_plans_both": 918,
+   "mean_edges": 0.0806
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "living_room",
+   "p_room": 0.5069490403706155,
+   "p_plan": 0.8159041394335512,
+   "n_plans_both": 918,
+   "mean_edges": 0.0806
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "study",
+   "p_room": 0.04445165476963011,
+   "p_plan": 0.5745140388768899,
+   "n_plans_both": 463,
+   "mean_edges": 0.0283
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "living_room",
+   "p_room": 0.18308921438082557,
+   "p_plan": 0.5745140388768899,
+   "n_plans_both": 463,
+   "mean_edges": 0.0283
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "storage",
+   "p_room": 0.02465931213497729,
+   "p_plan": 0.5648854961832062,
+   "n_plans_both": 262,
+   "mean_edges": 0.0165
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "living_room",
+   "p_room": 0.17849223946784923,
+   "p_plan": 0.5648854961832062,
+   "n_plans_both": 262,
+   "mean_edges": 0.0165
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "garage",
+   "p_room": 0.03504218040233614,
+   "p_plan": 0.516209476309227,
+   "n_plans_both": 401,
+   "mean_edges": 0.0222
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "living_room",
+   "p_room": 0.30559540889526543,
+   "p_plan": 0.516209476309227,
+   "n_plans_both": 401,
+   "mean_edges": 0.0222
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "laundry",
+   "p_room": 0.04493835171966256,
+   "p_plan": 0.4032983508245877,
+   "n_plans_both": 667,
+   "mean_edges": 0.028
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "living_room",
+   "p_room": 0.2479489516864175,
+   "p_plan": 0.4032983508245877,
+   "n_plans_both": 667,
+   "mean_edges": 0.028
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "closet",
+   "p_room": 0.10561323815704088,
+   "p_plan": 0.5440414507772021,
+   "n_plans_both": 1158,
+   "mean_edges": 0.0838
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "living_room",
+   "p_room": 0.23975409836065573,
+   "p_plan": 0.5440414507772021,
+   "n_plans_both": 1158,
+   "mean_edges": 0.0838
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "outdoor",
+   "p_room": 0.008111615833874108,
+   "p_plan": 0.7014925373134329,
+   "n_plans_both": 67,
+   "mean_edges": 0.0054
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "living_room",
+   "p_room": 0.4854368932038835,
+   "p_plan": 0.7014925373134329,
+   "n_plans_both": 67,
+   "mean_edges": 0.0054
+  },
+  {
+   "kind": "wall",
+   "type_a": "living_room",
+   "type_b": "other",
+   "p_room": 0.16499026606099934,
+   "p_plan": 0.6334426229508197,
+   "n_plans_both": 1525,
+   "mean_edges": 0.1233
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "living_room",
+   "p_room": 0.18392940083604273,
+   "p_plan": 0.6334426229508197,
+   "n_plans_both": 1525,
+   "mean_edges": 0.1233
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "kitchen",
+   "p_room": 0.10880633603620592,
+   "p_plan": 0.84765625,
+   "n_plans_both": 256,
+   "mean_edges": 0.0425
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "bedroom",
+   "p_room": 0.2719215538374505,
+   "p_plan": 0.4516543527144234,
+   "n_plans_both": 3113,
+   "mean_edges": 0.1659
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "kitchen",
+   "p_room": 0.1300383877159309,
+   "p_plan": 0.4516543527144234,
+   "n_plans_both": 3113,
+   "mean_edges": 0.1659
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "bathroom",
+   "p_room": 0.4529511597209127,
+   "p_plan": 0.5731108930323847,
+   "n_plans_both": 4076,
+   "mean_edges": 0.2552
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "kitchen",
+   "p_room": 0.24483400254627363,
+   "p_plan": 0.5731108930323847,
+   "n_plans_both": 4076,
+   "mean_edges": 0.2552
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "balcony",
+   "p_room": 0.08334904770884405,
+   "p_plan": 0.3976449275362319,
+   "n_plans_both": 1104,
+   "mean_edges": 0.0455
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "kitchen",
+   "p_room": 0.2099396191360892,
+   "p_plan": 0.3976449275362319,
+   "n_plans_both": 1104,
+   "mean_edges": 0.0455
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "hallway",
+   "p_room": 0.539505940033943,
+   "p_plan": 0.7642857142857142,
+   "n_plans_both": 3640,
+   "mean_edges": 0.3155
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "kitchen",
+   "p_room": 0.33499891375190094,
+   "p_plan": 0.7642857142857142,
+   "n_plans_both": 3640,
+   "mean_edges": 0.3155
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "dining_room",
+   "p_room": 0.17688101074863286,
+   "p_plan": 0.8460111317254174,
+   "n_plans_both": 1078,
+   "mean_edges": 0.0953
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "kitchen",
+   "p_room": 0.614824619457313,
+   "p_plan": 0.8460111317254174,
+   "n_plans_both": 1078,
+   "mean_edges": 0.0953
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "study",
+   "p_room": 0.03601734867056383,
+   "p_plan": 0.41273584905660377,
+   "n_plans_both": 424,
+   "mean_edges": 0.0203
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "kitchen",
+   "p_room": 0.12516644474034622,
+   "p_plan": 0.41273584905660377,
+   "n_plans_both": 424,
+   "mean_edges": 0.0203
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "storage",
+   "p_room": 0.017725815576089005,
+   "p_plan": 0.5227272727272727,
+   "n_plans_both": 176,
+   "mean_edges": 0.0096
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "kitchen",
+   "p_room": 0.10421286031042129,
+   "p_plan": 0.5227272727272727,
+   "n_plans_both": 176,
+   "mean_edges": 0.0096
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "garage",
+   "p_room": 0.02715444088251933,
+   "p_plan": 0.3983050847457627,
+   "n_plans_both": 354,
+   "mean_edges": 0.0145
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "kitchen",
+   "p_room": 0.20373027259684362,
+   "p_plan": 0.3983050847457627,
+   "n_plans_both": 354,
+   "mean_edges": 0.0145
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "laundry",
+   "p_room": 0.07995474259852914,
+   "p_plan": 0.7079796264855688,
+   "n_plans_both": 589,
+   "mean_edges": 0.0429
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "kitchen",
+   "p_room": 0.3846855059252507,
+   "p_plan": 0.7079796264855688,
+   "n_plans_both": 589,
+   "mean_edges": 0.0429
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "closet",
+   "p_room": 0.08127475014142937,
+   "p_plan": 0.4606986899563319,
+   "n_plans_both": 916,
+   "mean_edges": 0.0497
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "kitchen",
+   "p_room": 0.14373536299765807,
+   "p_plan": 0.4606986899563319,
+   "n_plans_both": 916,
+   "mean_edges": 0.0497
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "outdoor",
+   "p_room": 0.0058457476899867996,
+   "p_plan": 0.5254237288135594,
+   "n_plans_both": 59,
+   "mean_edges": 0.0031
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "kitchen",
+   "p_room": 0.30097087378640774,
+   "p_plan": 0.5254237288135594,
+   "n_plans_both": 59,
+   "mean_edges": 0.0031
+  },
+  {
+   "kind": "wall",
+   "type_a": "kitchen",
+   "type_b": "other",
+   "p_room": 0.17216669809541768,
+   "p_plan": 0.6146408839779005,
+   "n_plans_both": 1448,
+   "mean_edges": 0.1114
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "kitchen",
+   "p_room": 0.1686019507663725,
+   "p_plan": 0.6146408839779005,
+   "n_plans_both": 1448,
+   "mean_edges": 0.1114
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "bedroom",
+   "p_room": 0.5297504798464492,
+   "p_plan": 0.6887987835783071,
+   "n_plans_both": 3946,
+   "mean_edges": 0.3951
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "bathroom",
+   "p_room": 0.43402111324376197,
+   "p_plan": 0.7391690340909091,
+   "n_plans_both": 5632,
+   "mean_edges": 0.5955
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "bedroom",
+   "p_room": 0.49828616198217607,
+   "p_plan": 0.7391690340909091,
+   "n_plans_both": 5632,
+   "mean_edges": 0.5955
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "balcony",
+   "p_room": 0.09628918746001279,
+   "p_plan": 0.6191762322754896,
+   "n_plans_both": 1481,
+   "mean_edges": 0.1234
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "bedroom",
+   "p_room": 0.465861588481189,
+   "p_plan": 0.6191762322754896,
+   "n_plans_both": 1481,
+   "mean_edges": 0.1234
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "hallway",
+   "p_room": 0.6352367242482405,
+   "p_plan": 0.9066407934454507,
+   "n_plans_both": 4638,
+   "mean_edges": 0.8417
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "bedroom",
+   "p_room": 0.5140126004779492,
+   "p_plan": 0.9066407934454507,
+   "n_plans_both": 4638,
+   "mean_edges": 0.8417
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "dining_room",
+   "p_room": 0.046625079974408186,
+   "p_plan": 0.6164978292329957,
+   "n_plans_both": 691,
+   "mean_edges": 0.0595
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "bedroom",
+   "p_room": 0.29185969556585045,
+   "p_plan": 0.6164978292329957,
+   "n_plans_both": 691,
+   "mean_edges": 0.0595
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "study",
+   "p_room": 0.023432501599488165,
+   "p_plan": 0.5701559020044543,
+   "n_plans_both": 449,
+   "mean_edges": 0.03
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "bedroom",
+   "p_room": 0.17509986684420772,
+   "p_plan": 0.5701559020044543,
+   "n_plans_both": 449,
+   "mean_edges": 0.03
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "storage",
+   "p_room": 0.008637236084452975,
+   "p_plan": 0.4729064039408867,
+   "n_plans_both": 203,
+   "mean_edges": 0.0115
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "bedroom",
+   "p_room": 0.11529933481152993,
+   "p_plan": 0.4729064039408867,
+   "n_plans_both": 203,
+   "mean_edges": 0.0115
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "garage",
+   "p_room": 0.010876519513755598,
+   "p_plan": 0.48132780082987553,
+   "n_plans_both": 241,
+   "mean_edges": 0.0138
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "bedroom",
+   "p_room": 0.17360114777618366,
+   "p_plan": 0.48132780082987553,
+   "n_plans_both": 241,
+   "mean_edges": 0.0138
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "laundry",
+   "p_room": 0.021833013435700575,
+   "p_plan": 0.4112903225806452,
+   "n_plans_both": 620,
+   "mean_edges": 0.0274
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "bedroom",
+   "p_room": 0.2333637192342753,
+   "p_plan": 0.4112903225806452,
+   "n_plans_both": 620,
+   "mean_edges": 0.0274
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "closet",
+   "p_room": 0.1369961612284069,
+   "p_plan": 0.8037508372404555,
+   "n_plans_both": 1493,
+   "mean_edges": 0.2131
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "bedroom",
+   "p_room": 0.5322014051522248,
+   "p_plan": 0.8037508372404555,
+   "n_plans_both": 1493,
+   "mean_edges": 0.2131
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "outdoor",
+   "p_room": 0.0031190019193857964,
+   "p_plan": 0.576271186440678,
+   "n_plans_both": 59,
+   "mean_edges": 0.0039
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "bedroom",
+   "p_room": 0.33980582524271846,
+   "p_plan": 0.576271186440678,
+   "n_plans_both": 59,
+   "mean_edges": 0.0039
+  },
+  {
+   "kind": "wall",
+   "type_a": "bedroom",
+   "type_b": "other",
+   "p_room": 0.13235764555342291,
+   "p_plan": 0.6709905660377359,
+   "n_plans_both": 1696,
+   "mean_edges": 0.1887
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "bedroom",
+   "p_room": 0.21582288279919493,
+   "p_plan": 0.6709905660377359,
+   "n_plans_both": 1696,
+   "mean_edges": 0.1887
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "bathroom",
+   "p_room": 0.264322789148957,
+   "p_plan": 0.5734961555857079,
+   "n_plans_both": 2211,
+   "mean_edges": 0.1502
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "balcony",
+   "p_room": 0.023504064244442267,
+   "p_plan": 0.13254437869822486,
+   "n_plans_both": 1690,
+   "mean_edges": 0.0242
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "bathroom",
+   "p_room": 0.1072921504876916,
+   "p_plan": 0.13254437869822486,
+   "n_plans_both": 1690,
+   "mean_edges": 0.0242
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "hallway",
+   "p_room": 0.5723239643521693,
+   "p_plan": 0.8730621922305307,
+   "n_plans_both": 5483,
+   "mean_edges": 0.625
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "bathroom",
+   "p_room": 0.571583749728438,
+   "p_plan": 0.8730621922305307,
+   "n_plans_both": 5483,
+   "mean_edges": 0.625
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "dining_room",
+   "p_room": 0.0434825188522182,
+   "p_plan": 0.388454011741683,
+   "n_plans_both": 1022,
+   "mean_edges": 0.0445
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "bathroom",
+   "p_room": 0.26472534745201853,
+   "p_plan": 0.388454011741683,
+   "n_plans_both": 1022,
+   "mean_edges": 0.0445
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "study",
+   "p_room": 0.03799823719518167,
+   "p_plan": 0.4695767195767196,
+   "n_plans_both": 756,
+   "mean_edges": 0.041
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "bathroom",
+   "p_room": 0.25432756324900135,
+   "p_plan": 0.4695767195767196,
+   "n_plans_both": 756,
+   "mean_edges": 0.041
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "storage",
+   "p_room": 0.029478013906571343,
+   "p_plan": 0.5807860262008734,
+   "n_plans_both": 458,
+   "mean_edges": 0.0312
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "bathroom",
+   "p_room": 0.31042128603104213,
+   "p_plan": 0.5807860262008734,
+   "n_plans_both": 458,
+   "mean_edges": 0.0312
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "garage",
+   "p_room": 0.018117716188424247,
+   "p_plan": 0.367170626349892,
+   "n_plans_both": 463,
+   "mean_edges": 0.0191
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "bathroom",
+   "p_room": 0.2539454806312769,
+   "p_plan": 0.367170626349892,
+   "n_plans_both": 463,
+   "mean_edges": 0.0191
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "laundry",
+   "p_room": 0.046910194887866026,
+   "p_plan": 0.5422276621787026,
+   "n_plans_both": 817,
+   "mean_edges": 0.0484
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "bathroom",
+   "p_room": 0.40929808568824066,
+   "p_plan": 0.5422276621787026,
+   "n_plans_both": 817,
+   "mean_edges": 0.0484
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "closet",
+   "p_room": 0.10351581627656449,
+   "p_plan": 0.5658362989323843,
+   "n_plans_both": 1686,
+   "mean_edges": 0.1238
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "bathroom",
+   "p_room": 0.34192037470725994,
+   "p_plan": 0.5658362989323843,
+   "n_plans_both": 1686,
+   "mean_edges": 0.1238
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "outdoor",
+   "p_room": 0.002840074429536774,
+   "p_plan": 0.42028985507246375,
+   "n_plans_both": 69,
+   "mean_edges": 0.003
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "bathroom",
+   "p_room": 0.2912621359223301,
+   "p_plan": 0.42028985507246375,
+   "n_plans_both": 69,
+   "mean_edges": 0.003
+  },
+  {
+   "kind": "wall",
+   "type_a": "bathroom",
+   "type_b": "other",
+   "p_room": 0.17128586818137304,
+   "p_plan": 0.6092046830843763,
+   "n_plans_both": 2477,
+   "mean_edges": 0.204
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "bathroom",
+   "p_room": 0.280848428549311,
+   "p_plan": 0.6092046830843763,
+   "n_plans_both": 2477,
+   "mean_edges": 0.204
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "balcony",
+   "p_room": 0.02833255921969345,
+   "p_plan": 0.11029411764705882,
+   "n_plans_both": 272,
+   "mean_edges": 0.0031
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "hallway",
+   "p_room": 0.16209939619136088,
+   "p_plan": 0.2365290412876137,
+   "n_plans_both": 1429,
+   "mean_edges": 0.0367
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "balcony",
+   "p_room": 0.03910493156636976,
+   "p_plan": 0.2365290412876137,
+   "n_plans_both": 1429,
+   "mean_edges": 0.0367
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "dining_room",
+   "p_room": 0.07756618671620993,
+   "p_plan": 0.6113207547169811,
+   "n_plans_both": 265,
+   "mean_edges": 0.017
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "balcony",
+   "p_room": 0.10919920582395765,
+   "p_plan": 0.6113207547169811,
+   "n_plans_both": 265,
+   "mean_edges": 0.017
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "study",
+   "p_room": 0.024616813748258245,
+   "p_plan": 0.4094488188976378,
+   "n_plans_both": 127,
+   "mean_edges": 0.0057
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "balcony",
+   "p_room": 0.037283621837549935,
+   "p_plan": 0.4094488188976378,
+   "n_plans_both": 127,
+   "mean_edges": 0.0057
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "storage",
+   "p_room": 0.0041802136553646075,
+   "p_plan": 0.25,
+   "n_plans_both": 36,
+   "mean_edges": 0.0009
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "balcony",
+   "p_room": 0.009977827050997782,
+   "p_plan": 0.25,
+   "n_plans_both": 36,
+   "mean_edges": 0.0009
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "garage",
+   "p_room": 0.01114723641430562,
+   "p_plan": 0.42857142857142855,
+   "n_plans_both": 56,
+   "mean_edges": 0.0026
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "balcony",
+   "p_room": 0.03730272596843615,
+   "p_plan": 0.42857142857142855,
+   "n_plans_both": 56,
+   "mean_edges": 0.0026
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "laundry",
+   "p_room": 0.018114259173246633,
+   "p_plan": 0.2765957446808511,
+   "n_plans_both": 141,
+   "mean_edges": 0.004
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "balcony",
+   "p_room": 0.03646308113035551,
+   "p_plan": 0.2765957446808511,
+   "n_plans_both": 141,
+   "mean_edges": 0.004
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "closet",
+   "p_room": 0.01579191825359963,
+   "p_plan": 0.12890625,
+   "n_plans_both": 256,
+   "mean_edges": 0.0034
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "balcony",
+   "p_room": 0.009953161592505855,
+   "p_plan": 0.12890625,
+   "n_plans_both": 256,
+   "mean_edges": 0.0034
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "outdoor",
+   "p_room": 0.00046446818392940084,
+   "p_plan": 0.16666666666666666,
+   "n_plans_both": 6,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "balcony",
+   "p_room": 0.009708737864077669,
+   "p_plan": 0.16666666666666666,
+   "n_plans_both": 6,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "wall",
+   "type_a": "balcony",
+   "type_b": "other",
+   "p_room": 0.06734788666976312,
+   "p_plan": 0.27689243027888444,
+   "n_plans_both": 502,
+   "mean_edges": 0.0172
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "balcony",
+   "p_room": 0.02585539557206998,
+   "p_plan": 0.27689243027888444,
+   "n_plans_both": 502,
+   "mean_edges": 0.0172
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "hallway",
+   "p_room": 0.3446665218335868,
+   "p_plan": 0.7522603978300181,
+   "n_plans_both": 1659,
+   "mean_edges": 0.2343
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "dining_room",
+   "p_room": 0.0914620899413426,
+   "p_plan": 0.7565392354124748,
+   "n_plans_both": 994,
+   "mean_edges": 0.0863
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "hallway",
+   "p_room": 0.5122435473196558,
+   "p_plan": 0.7565392354124748,
+   "n_plans_both": 994,
+   "mean_edges": 0.0863
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "study",
+   "p_room": 0.06376276341516403,
+   "p_plan": 0.8052147239263804,
+   "n_plans_both": 652,
+   "mean_edges": 0.0712
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "hallway",
+   "p_room": 0.4347536617842876,
+   "p_plan": 0.8052147239263804,
+   "n_plans_both": 652,
+   "mean_edges": 0.0712
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "storage",
+   "p_room": 0.03399956550076037,
+   "p_plan": 0.7506775067750677,
+   "n_plans_both": 369,
+   "mean_edges": 0.036
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "hallway",
+   "p_room": 0.3625277161862528,
+   "p_plan": 0.7506775067750677,
+   "n_plans_both": 369,
+   "mean_edges": 0.036
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "garage",
+   "p_room": 0.03660656093851836,
+   "p_plan": 0.6605080831408776,
+   "n_plans_both": 433,
+   "mean_edges": 0.0344
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "hallway",
+   "p_room": 0.4232424677187948,
+   "p_plan": 0.6605080831408776,
+   "n_plans_both": 433,
+   "mean_edges": 0.0344
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "laundry",
+   "p_room": 0.04670866825983055,
+   "p_plan": 0.5716374269005848,
+   "n_plans_both": 684,
+   "mean_edges": 0.0436
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "hallway",
+   "p_room": 0.3609845031905196,
+   "p_plan": 0.5716374269005848,
+   "n_plans_both": 684,
+   "mean_edges": 0.0436
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "closet",
+   "p_room": 0.12209428633499891,
+   "p_plan": 0.7366573033707865,
+   "n_plans_both": 1424,
+   "mean_edges": 0.1406
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "hallway",
+   "p_room": 0.39227166276346603,
+   "p_plan": 0.7366573033707865,
+   "n_plans_both": 1424,
+   "mean_edges": 0.1406
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "outdoor",
+   "p_room": 0.001955246578318488,
+   "p_plan": 0.32727272727272727,
+   "n_plans_both": 55,
+   "mean_edges": 0.0019
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "hallway",
+   "p_room": 0.18446601941747573,
+   "p_plan": 0.32727272727272727,
+   "n_plans_both": 55,
+   "mean_edges": 0.0019
+  },
+  {
+   "kind": "wall",
+   "type_a": "hallway",
+   "type_b": "other",
+   "p_room": 0.19324353682381057,
+   "p_plan": 0.7810473815461346,
+   "n_plans_both": 2005,
+   "mean_edges": 0.2417
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "hallway",
+   "p_room": 0.3413841151881096,
+   "p_plan": 0.7810473815461346,
+   "n_plans_both": 2005,
+   "mean_edges": 0.2417
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "dining_room",
+   "p_room": 0.09397749834546658,
+   "p_plan": 0.7012987012987013,
+   "n_plans_both": 77,
+   "mean_edges": 0.0109
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "study",
+   "p_room": 0.033752481800132364,
+   "p_plan": 0.34965034965034963,
+   "n_plans_both": 143,
+   "mean_edges": 0.0051
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "dining_room",
+   "p_room": 0.033288948069241014,
+   "p_plan": 0.34965034965034963,
+   "n_plans_both": 143,
+   "mean_edges": 0.0051
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "storage",
+   "p_room": 0.008603573792190603,
+   "p_plan": 0.325,
+   "n_plans_both": 40,
+   "mean_edges": 0.0013
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "dining_room",
+   "p_room": 0.014412416851441241,
+   "p_plan": 0.325,
+   "n_plans_both": 40,
+   "mean_edges": 0.0013
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "garage",
+   "p_room": 0.03970880211780278,
+   "p_plan": 0.34911242603550297,
+   "n_plans_both": 169,
+   "mean_edges": 0.006
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "dining_room",
+   "p_room": 0.08464849354375897,
+   "p_plan": 0.34911242603550297,
+   "n_plans_both": 169,
+   "mean_edges": 0.006
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "laundry",
+   "p_room": 0.05162144275314361,
+   "p_plan": 0.34545454545454546,
+   "n_plans_both": 220,
+   "mean_edges": 0.0078
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "dining_room",
+   "p_room": 0.06927985414767548,
+   "p_plan": 0.34545454545454546,
+   "n_plans_both": 220,
+   "mean_edges": 0.0078
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "closet",
+   "p_room": 0.0827266710787558,
+   "p_plan": 0.4169611307420495,
+   "n_plans_both": 283,
+   "mean_edges": 0.0137
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "dining_room",
+   "p_room": 0.038056206088992975,
+   "p_plan": 0.4169611307420495,
+   "n_plans_both": 283,
+   "mean_edges": 0.0137
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "outdoor",
+   "p_room": 0.008603573792190603,
+   "p_plan": 0.5909090909090909,
+   "n_plans_both": 22,
+   "mean_edges": 0.0014
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "dining_room",
+   "p_room": 0.13592233009708737,
+   "p_plan": 0.5909090909090909,
+   "n_plans_both": 22,
+   "mean_edges": 0.0014
+  },
+  {
+   "kind": "wall",
+   "type_a": "dining_room",
+   "type_b": "other",
+   "p_room": 0.1555261416280609,
+   "p_plan": 0.5252293577981652,
+   "n_plans_both": 436,
+   "mean_edges": 0.0266
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "dining_room",
+   "p_room": 0.04040873200185787,
+   "p_plan": 0.5252293577981652,
+   "n_plans_both": 436,
+   "mean_edges": 0.0266
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "study",
+   "p_room": 0.37616511318242346,
+   "p_plan": 0.8080357142857143,
+   "n_plans_both": 224,
+   "mean_edges": 0.0459
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "storage",
+   "p_room": 0.05392809587217044,
+   "p_plan": 0.5354330708661418,
+   "n_plans_both": 127,
+   "mean_edges": 0.009
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "study",
+   "p_room": 0.08536585365853659,
+   "p_plan": 0.5354330708661418,
+   "n_plans_both": 127,
+   "mean_edges": 0.009
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "garage",
+   "p_room": 0.02529960053262317,
+   "p_plan": 0.42857142857142855,
+   "n_plans_both": 84,
+   "mean_edges": 0.0038
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "study",
+   "p_room": 0.05164992826398852,
+   "p_plan": 0.42857142857142855,
+   "n_plans_both": 84,
+   "mean_edges": 0.0038
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "laundry",
+   "p_room": 0.02596537949400799,
+   "p_plan": 0.3486238532110092,
+   "n_plans_both": 109,
+   "mean_edges": 0.0039
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "study",
+   "p_room": 0.03463992707383774,
+   "p_plan": 0.3486238532110092,
+   "n_plans_both": 109,
+   "mean_edges": 0.0039
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "closet",
+   "p_room": 0.0692410119840213,
+   "p_plan": 0.4791666666666667,
+   "n_plans_both": 192,
+   "mean_edges": 0.0121
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "study",
+   "p_room": 0.03249414519906323,
+   "p_plan": 0.4791666666666667,
+   "n_plans_both": 192,
+   "mean_edges": 0.0121
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "outdoor",
+   "p_room": 0.0006657789613848203,
+   "p_plan": 0.14285714285714285,
+   "n_plans_both": 7,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "study",
+   "p_room": 0.009708737864077669,
+   "p_plan": 0.14285714285714285,
+   "n_plans_both": 7,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "wall",
+   "type_a": "study",
+   "type_b": "other",
+   "p_room": 0.3122503328894807,
+   "p_plan": 0.6884210526315789,
+   "n_plans_both": 475,
+   "mean_edges": 0.0591
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "study",
+   "p_room": 0.07013469577333953,
+   "p_plan": 0.6884210526315789,
+   "n_plans_both": 475,
+   "mean_edges": 0.0591
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "storage",
+   "p_room": 0.29933481152993346,
+   "p_plan": 0.781021897810219,
+   "n_plans_both": 137,
+   "mean_edges": 0.0178
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "garage",
+   "p_room": 0.07095343680709534,
+   "p_plan": 0.6506024096385542,
+   "n_plans_both": 83,
+   "mean_edges": 0.0067
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "storage",
+   "p_room": 0.08321377331420372,
+   "p_plan": 0.6506024096385542,
+   "n_plans_both": 83,
+   "mean_edges": 0.0067
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "laundry",
+   "p_room": 0.08425720620842572,
+   "p_plan": 0.5982905982905983,
+   "n_plans_both": 117,
+   "mean_edges": 0.0076
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "storage",
+   "p_room": 0.06381039197812215,
+   "p_plan": 0.5982905982905983,
+   "n_plans_both": 117,
+   "mean_edges": 0.0076
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "closet",
+   "p_room": 0.06097560975609756,
+   "p_plan": 0.366412213740458,
+   "n_plans_both": 131,
+   "mean_edges": 0.0061
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "storage",
+   "p_room": 0.015807962529274005,
+   "p_plan": 0.366412213740458,
+   "n_plans_both": 131,
+   "mean_edges": 0.0061
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "outdoor",
+   "p_room": 0.0011086474501108647,
+   "p_plan": 1.0,
+   "n_plans_both": 1,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "storage",
+   "p_room": 0.009708737864077669,
+   "p_plan": 1.0,
+   "n_plans_both": 1,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "wall",
+   "type_a": "storage",
+   "type_b": "other",
+   "p_room": 0.4212860310421286,
+   "p_plan": 0.7587006960556845,
+   "n_plans_both": 431,
+   "mean_edges": 0.0473
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "storage",
+   "p_room": 0.06502554575011611,
+   "p_plan": 0.7587006960556845,
+   "n_plans_both": 431,
+   "mean_edges": 0.0473
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "garage",
+   "p_room": 0.13486370157819225,
+   "p_plan": 0.7592592592592593,
+   "n_plans_both": 54,
+   "mean_edges": 0.0056
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "laundry",
+   "p_room": 0.133428981348637,
+   "p_plan": 0.5174418604651163,
+   "n_plans_both": 172,
+   "mean_edges": 0.0095
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "garage",
+   "p_room": 0.0829535095715588,
+   "p_plan": 0.5174418604651163,
+   "n_plans_both": 172,
+   "mean_edges": 0.0095
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "closet",
+   "p_room": 0.08895265423242468,
+   "p_plan": 0.42657342657342656,
+   "n_plans_both": 143,
+   "mean_edges": 0.0069
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "garage",
+   "p_room": 0.01990632318501171,
+   "p_plan": 0.42657342657342656,
+   "n_plans_both": 143,
+   "mean_edges": 0.0069
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "outdoor",
+   "p_room": 0.01291248206599713,
+   "p_plan": 0.5625,
+   "n_plans_both": 16,
+   "mean_edges": 0.0011
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "garage",
+   "p_room": 0.10679611650485436,
+   "p_plan": 0.5625,
+   "n_plans_both": 16,
+   "mean_edges": 0.0011
+  },
+  {
+   "kind": "wall",
+   "type_a": "garage",
+   "type_b": "other",
+   "p_room": 0.24820659971305595,
+   "p_plan": 0.5955882352941176,
+   "n_plans_both": 272,
+   "mean_edges": 0.0216
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "garage",
+   "p_room": 0.03173865923517572,
+   "p_plan": 0.5955882352941176,
+   "n_plans_both": 272,
+   "mean_edges": 0.0216
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "laundry",
+   "p_room": 0.053783044667274384,
+   "p_plan": 0.7142857142857143,
+   "n_plans_both": 28,
+   "mean_edges": 0.0035
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "closet",
+   "p_room": 0.10118505013673655,
+   "p_plan": 0.42045454545454547,
+   "n_plans_both": 264,
+   "mean_edges": 0.0129
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "laundry",
+   "p_room": 0.03776346604215457,
+   "p_plan": 0.42045454545454547,
+   "n_plans_both": 264,
+   "mean_edges": 0.0129
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "outdoor",
+   "p_room": 0.006381039197812215,
+   "p_plan": 0.5,
+   "n_plans_both": 14,
+   "mean_edges": 0.0007
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "laundry",
+   "p_room": 0.06796116504854369,
+   "p_plan": 0.5,
+   "n_plans_both": 14,
+   "mean_edges": 0.0007
+  },
+  {
+   "kind": "wall",
+   "type_a": "laundry",
+   "type_b": "other",
+   "p_room": 0.19781221513217867,
+   "p_plan": 0.5819672131147541,
+   "n_plans_both": 366,
+   "mean_edges": 0.0273
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "laundry",
+   "p_room": 0.04180213655364608,
+   "p_plan": 0.5819672131147541,
+   "n_plans_both": 366,
+   "mean_edges": 0.0273
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "closet",
+   "p_room": 0.23536299765807964,
+   "p_plan": 0.4296028880866426,
+   "n_plans_both": 831,
+   "mean_edges": 0.0459
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "outdoor",
+   "p_room": 0.0014637002341920376,
+   "p_plan": 0.17647058823529413,
+   "n_plans_both": 17,
+   "mean_edges": 0.0005
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "closet",
+   "p_room": 0.02912621359223301,
+   "p_plan": 0.17647058823529413,
+   "n_plans_both": 17,
+   "mean_edges": 0.0005
+  },
+  {
+   "kind": "wall",
+   "type_a": "closet",
+   "type_b": "other",
+   "p_room": 0.12997658079625293,
+   "p_plan": 0.5522151898734177,
+   "n_plans_both": 632,
+   "mean_edges": 0.0511
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "closet",
+   "p_room": 0.06518036847809258,
+   "p_plan": 0.5522151898734177,
+   "n_plans_both": 632,
+   "mean_edges": 0.0511
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "outdoor",
+   "p_room": 0.07766990291262135,
+   "p_plan": 0.36363636363636365,
+   "n_plans_both": 11,
+   "mean_edges": 0.0004
+  },
+  {
+   "kind": "wall",
+   "type_a": "outdoor",
+   "type_b": "other",
+   "p_room": 0.14563106796116504,
+   "p_plan": 0.6521739130434783,
+   "n_plans_both": 23,
+   "mean_edges": 0.0018
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "outdoor",
+   "p_room": 0.002786809103576405,
+   "p_plan": 0.6521739130434783,
+   "n_plans_both": 23,
+   "mean_edges": 0.0018
+  },
+  {
+   "kind": "wall",
+   "type_a": "other",
+   "type_b": "other",
+   "p_room": 0.5471435206688342,
+   "p_plan": 0.772318339100346,
+   "n_plans_both": 1445,
+   "mean_edges": 0.3124
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "living_room",
+   "p_room": 0.12151200519143414,
+   "p_plan": 0.48742138364779874,
+   "n_plans_both": 636,
+   "mean_edges": 0.0447
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "kitchen",
+   "p_room": 0.3101881894873459,
+   "p_plan": 0.5060761544693492,
+   "n_plans_both": 3703,
+   "mean_edges": 0.1923
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "living_room",
+   "p_room": 0.3564020365830662,
+   "p_plan": 0.5060761544693492,
+   "n_plans_both": 3703,
+   "mean_edges": 0.1923
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "bedroom",
+   "p_room": 0.22306943543153795,
+   "p_plan": 0.3998825601879037,
+   "n_plans_both": 3406,
+   "mean_edges": 0.1859
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "living_room",
+   "p_room": 0.1483525271912988,
+   "p_plan": 0.3998825601879037,
+   "n_plans_both": 3406,
+   "mean_edges": 0.1859
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "bathroom",
+   "p_room": 0.14600908500973395,
+   "p_plan": 0.20495026601896832,
+   "n_plans_both": 4323,
+   "mean_edges": 0.0987
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "living_room",
+   "p_room": 0.09597492899813927,
+   "p_plan": 0.20495026601896832,
+   "n_plans_both": 4323,
+   "mean_edges": 0.0987
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "balcony",
+   "p_room": 0.12848799480856588,
+   "p_plan": 0.684487291849255,
+   "n_plans_both": 1141,
+   "mean_edges": 0.0808
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "living_room",
+   "p_room": 0.3715745471435207,
+   "p_plan": 0.684487291849255,
+   "n_plans_both": 1141,
+   "mean_edges": 0.0808
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "hallway",
+   "p_room": 0.5627839065541856,
+   "p_plan": 0.8489611081513053,
+   "n_plans_both": 3754,
+   "mean_edges": 0.3708
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "living_room",
+   "p_room": 0.3746469693678036,
+   "p_plan": 0.8489611081513053,
+   "n_plans_both": 3754,
+   "mean_edges": 0.3708
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "dining_room",
+   "p_room": 0.10188189487345879,
+   "p_plan": 0.6623093681917211,
+   "n_plans_both": 918,
+   "mean_edges": 0.0634
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "living_room",
+   "p_room": 0.4083388484447386,
+   "p_plan": 0.6623093681917211,
+   "n_plans_both": 918,
+   "mean_edges": 0.0634
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "study",
+   "p_room": 0.02482154445165477,
+   "p_plan": 0.31965442764578833,
+   "n_plans_both": 463,
+   "mean_edges": 0.0157
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "living_room",
+   "p_room": 0.10119840213049268,
+   "p_plan": 0.31965442764578833,
+   "n_plans_both": 463,
+   "mean_edges": 0.0157
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "storage",
+   "p_room": 0.014114211550940947,
+   "p_plan": 0.3282442748091603,
+   "n_plans_both": 262,
+   "mean_edges": 0.0092
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "living_room",
+   "p_room": 0.1008869179600887,
+   "p_plan": 0.3282442748091603,
+   "n_plans_both": 262,
+   "mean_edges": 0.0092
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "garage",
+   "p_room": 0.01881894873458793,
+   "p_plan": 0.27680798004987534,
+   "n_plans_both": 401,
+   "mean_edges": 0.0116
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "living_room",
+   "p_room": 0.15925394548063126,
+   "p_plan": 0.27680798004987534,
+   "n_plans_both": 401,
+   "mean_edges": 0.0116
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "laundry",
+   "p_room": 0.026768332251784554,
+   "p_plan": 0.24737631184407796,
+   "n_plans_both": 667,
+   "mean_edges": 0.0165
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "living_room",
+   "p_room": 0.1504102096627165,
+   "p_plan": 0.24737631184407796,
+   "n_plans_both": 667,
+   "mean_edges": 0.0165
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "closet",
+   "p_room": 0.055321219987021414,
+   "p_plan": 0.2918825561312608,
+   "n_plans_both": 1158,
+   "mean_edges": 0.0399
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "living_room",
+   "p_room": 0.11651053864168619,
+   "p_plan": 0.2918825561312608,
+   "n_plans_both": 1158,
+   "mean_edges": 0.0399
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "outdoor",
+   "p_room": 0.0053536664503569115,
+   "p_plan": 0.4925373134328358,
+   "n_plans_both": 67,
+   "mean_edges": 0.0034
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "living_room",
+   "p_room": 0.3300970873786408,
+   "p_plan": 0.4925373134328358,
+   "n_plans_both": 67,
+   "mean_edges": 0.0034
+  },
+  {
+   "kind": "door",
+   "type_a": "living_room",
+   "type_b": "other",
+   "p_room": 0.10674886437378325,
+   "p_plan": 0.42032786885245904,
+   "n_plans_both": 1525,
+   "mean_edges": 0.0749
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "living_room",
+   "p_room": 0.11425917324663261,
+   "p_plan": 0.42032786885245904,
+   "n_plans_both": 1525,
+   "mean_edges": 0.0749
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "kitchen",
+   "p_room": 0.08957194041108807,
+   "p_plan": 0.70703125,
+   "n_plans_both": 256,
+   "mean_edges": 0.0293
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "bedroom",
+   "p_room": 0.09447482557043183,
+   "p_plan": 0.15965306778027627,
+   "n_plans_both": 3113,
+   "mean_edges": 0.062
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "kitchen",
+   "p_room": 0.04950415866922585,
+   "p_plan": 0.15965306778027627,
+   "n_plans_both": 3113,
+   "mean_edges": 0.062
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "bathroom",
+   "p_room": 0.10842919102394871,
+   "p_plan": 0.1393523061825319,
+   "n_plans_both": 4076,
+   "mean_edges": 0.06
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "kitchen",
+   "p_room": 0.05856429340906865,
+   "p_plan": 0.1393523061825319,
+   "n_plans_both": 4076,
+   "mean_edges": 0.06
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "balcony",
+   "p_room": 0.05638317933245333,
+   "p_plan": 0.26992753623188404,
+   "n_plans_both": 1104,
+   "mean_edges": 0.0305
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "kitchen",
+   "p_room": 0.14119832791453785,
+   "p_plan": 0.26992753623188404,
+   "n_plans_both": 1104,
+   "mean_edges": 0.0305
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "hallway",
+   "p_room": 0.46256835753347164,
+   "p_plan": 0.6590659340659341,
+   "n_plans_both": 3640,
+   "mean_edges": 0.2552
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "kitchen",
+   "p_room": 0.271996524006083,
+   "p_plan": 0.6590659340659341,
+   "n_plans_both": 3640,
+   "mean_edges": 0.2552
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "dining_room",
+   "p_room": 0.14086366207806902,
+   "p_plan": 0.6827458256029685,
+   "n_plans_both": 1078,
+   "mean_edges": 0.0751
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "kitchen",
+   "p_room": 0.49172733289212445,
+   "p_plan": 0.6827458256029685,
+   "n_plans_both": 1078,
+   "mean_edges": 0.0751
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "study",
+   "p_room": 0.01640580803318876,
+   "p_plan": 0.2028301886792453,
+   "n_plans_both": 424,
+   "mean_edges": 0.009
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "kitchen",
+   "p_room": 0.05992010652463382,
+   "p_plan": 0.2028301886792453,
+   "n_plans_both": 424,
+   "mean_edges": 0.009
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "storage",
+   "p_room": 0.010748632849330567,
+   "p_plan": 0.32386363636363635,
+   "n_plans_both": 176,
+   "mean_edges": 0.0057
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "kitchen",
+   "p_room": 0.06319290465631928,
+   "p_plan": 0.32386363636363635,
+   "n_plans_both": 176,
+   "mean_edges": 0.0057
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "garage",
+   "p_room": 0.011314350367716388,
+   "p_plan": 0.16666666666666666,
+   "n_plans_both": 354,
+   "mean_edges": 0.006
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "kitchen",
+   "p_room": 0.08464849354375897,
+   "p_plan": 0.16666666666666666,
+   "n_plans_both": 354,
+   "mean_edges": 0.006
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "laundry",
+   "p_room": 0.060154629455025456,
+   "p_plan": 0.5365025466893039,
+   "n_plans_both": 589,
+   "mean_edges": 0.0319
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "kitchen",
+   "p_room": 0.2880583409298086,
+   "p_plan": 0.5365025466893039,
+   "n_plans_both": 589,
+   "mean_edges": 0.0319
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "closet",
+   "p_room": 0.03997737129926457,
+   "p_plan": 0.2292576419213974,
+   "n_plans_both": 916,
+   "mean_edges": 0.0228
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "kitchen",
+   "p_room": 0.06674473067915691,
+   "p_plan": 0.2292576419213974,
+   "n_plans_both": 916,
+   "mean_edges": 0.0228
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "outdoor",
+   "p_room": 0.003960022628700735,
+   "p_plan": 0.3559322033898305,
+   "n_plans_both": 59,
+   "mean_edges": 0.0021
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "kitchen",
+   "p_room": 0.20388349514563106,
+   "p_plan": 0.3559322033898305,
+   "n_plans_both": 59,
+   "mean_edges": 0.0021
+  },
+  {
+   "kind": "door",
+   "type_a": "kitchen",
+   "type_b": "other",
+   "p_room": 0.11653780878747878,
+   "p_plan": 0.4212707182320442,
+   "n_plans_both": 1448,
+   "mean_edges": 0.0689
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "kitchen",
+   "p_room": 0.10574392320792693,
+   "p_plan": 0.4212707182320442,
+   "n_plans_both": 1448,
+   "mean_edges": 0.0689
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "bedroom",
+   "p_room": 0.10276711452335252,
+   "p_plan": 0.13634059807399898,
+   "n_plans_both": 3946,
+   "mean_edges": 0.0726
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "bathroom",
+   "p_room": 0.14027511196417147,
+   "p_plan": 0.2723721590909091,
+   "n_plans_both": 5632,
+   "mean_edges": 0.1789
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "bedroom",
+   "p_room": 0.1700127313681324,
+   "p_plan": 0.2723721590909091,
+   "n_plans_both": 5632,
+   "mean_edges": 0.1789
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "balcony",
+   "p_room": 0.0531829814459373,
+   "p_plan": 0.3923024983119514,
+   "n_plans_both": 1481,
+   "mean_edges": 0.0669
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "bedroom",
+   "p_room": 0.28889921040408734,
+   "p_plan": 0.3923024983119514,
+   "n_plans_both": 1481,
+   "mean_edges": 0.0669
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "hallway",
+   "p_room": 0.5982085732565579,
+   "p_plan": 0.8622250970245796,
+   "n_plans_both": 4638,
+   "mean_edges": 0.756
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "bedroom",
+   "p_room": 0.46024331957419073,
+   "p_plan": 0.8622250970245796,
+   "n_plans_both": 4638,
+   "mean_edges": 0.756
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "dining_room",
+   "p_room": 0.028710812539987203,
+   "p_plan": 0.3704775687409551,
+   "n_plans_both": 691,
+   "mean_edges": 0.0363
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "bedroom",
+   "p_room": 0.17339510258107213,
+   "p_plan": 0.3704775687409551,
+   "n_plans_both": 691,
+   "mean_edges": 0.0363
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "study",
+   "p_room": 0.008557261676263596,
+   "p_plan": 0.2026726057906459,
+   "n_plans_both": 449,
+   "mean_edges": 0.0109
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "bedroom",
+   "p_room": 0.061917443408788284,
+   "p_plan": 0.2026726057906459,
+   "n_plans_both": 449,
+   "mean_edges": 0.0109
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "storage",
+   "p_room": 0.0025591810620601407,
+   "p_plan": 0.14285714285714285,
+   "n_plans_both": 203,
+   "mean_edges": 0.0032
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "bedroom",
+   "p_room": 0.03325942350332594,
+   "p_plan": 0.14285714285714285,
+   "n_plans_both": 203,
+   "mean_edges": 0.0032
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "garage",
+   "p_room": 0.0025591810620601407,
+   "p_plan": 0.12863070539419086,
+   "n_plans_both": 241,
+   "mean_edges": 0.0032
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "bedroom",
+   "p_room": 0.04447632711621234,
+   "p_plan": 0.12863070539419086,
+   "n_plans_both": 241,
+   "mean_edges": 0.0032
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "laundry",
+   "p_room": 0.006078055022392835,
+   "p_plan": 0.11451612903225807,
+   "n_plans_both": 620,
+   "mean_edges": 0.0077
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "bedroom",
+   "p_room": 0.06563354603463993,
+   "p_plan": 0.11451612903225807,
+   "n_plans_both": 620,
+   "mean_edges": 0.0077
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "closet",
+   "p_room": 0.10548624440179143,
+   "p_plan": 0.6349631614199598,
+   "n_plans_both": 1493,
+   "mean_edges": 0.1423
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "bedroom",
+   "p_room": 0.40456674473067916,
+   "p_plan": 0.6349631614199598,
+   "n_plans_both": 1493,
+   "mean_edges": 0.1423
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "outdoor",
+   "p_room": 0.0011196417146513116,
+   "p_plan": 0.2033898305084746,
+   "n_plans_both": 59,
+   "mean_edges": 0.0014
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "bedroom",
+   "p_room": 0.1262135922330097,
+   "p_plan": 0.2033898305084746,
+   "n_plans_both": 59,
+   "mean_edges": 0.0014
+  },
+  {
+   "kind": "door",
+   "type_a": "bedroom",
+   "type_b": "other",
+   "p_room": 0.08141394753678823,
+   "p_plan": 0.39681603773584906,
+   "n_plans_both": 1696,
+   "mean_edges": 0.1092
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "bedroom",
+   "p_room": 0.11905867781390309,
+   "p_plan": 0.39681603773584906,
+   "n_plans_both": 1696,
+   "mean_edges": 0.1092
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "bathroom",
+   "p_room": 0.06346097345999413,
+   "p_plan": 0.12709181365897784,
+   "n_plans_both": 2211,
+   "mean_edges": 0.0357
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "balcony",
+   "p_room": 0.004015277641758888,
+   "p_plan": 0.023076923076923078,
+   "n_plans_both": 1690,
+   "mean_edges": 0.0041
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "bathroom",
+   "p_room": 0.018114259173246633,
+   "p_plan": 0.023076923076923078,
+   "n_plans_both": 1690,
+   "mean_edges": 0.0041
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "hallway",
+   "p_room": 0.5071981196748604,
+   "p_plan": 0.8094109064380813,
+   "n_plans_both": 5483,
+   "mean_edges": 0.5206
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "bathroom",
+   "p_room": 0.4942428850749511,
+   "p_plan": 0.8094109064380813,
+   "n_plans_both": 5483,
+   "mean_edges": 0.5206
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "dining_room",
+   "p_room": 0.0196846538047204,
+   "p_plan": 0.18688845401174167,
+   "n_plans_both": 1022,
+   "mean_edges": 0.0201
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "bathroom",
+   "p_room": 0.12640635340833886,
+   "p_plan": 0.18688845401174167,
+   "n_plans_both": 1022,
+   "mean_edges": 0.0201
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "study",
+   "p_room": 0.010968563314073058,
+   "p_plan": 0.13624338624338625,
+   "n_plans_both": 756,
+   "mean_edges": 0.0112
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "bathroom",
+   "p_room": 0.07057256990679095,
+   "p_plan": 0.13624338624338625,
+   "n_plans_both": 756,
+   "mean_edges": 0.0112
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "storage",
+   "p_room": 0.011360297718147096,
+   "p_plan": 0.22489082969432314,
+   "n_plans_both": 458,
+   "mean_edges": 0.0117
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "bathroom",
+   "p_room": 0.1164079822616408,
+   "p_plan": 0.22489082969432314,
+   "n_plans_both": 458,
+   "mean_edges": 0.0117
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "garage",
+   "p_room": 0.003721476838703359,
+   "p_plan": 0.07991360691144708,
+   "n_plans_both": 463,
+   "mean_edges": 0.0038
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "bathroom",
+   "p_room": 0.054519368723098996,
+   "p_plan": 0.07991360691144708,
+   "n_plans_both": 463,
+   "mean_edges": 0.0038
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "laundry",
+   "p_room": 0.014983840955831947,
+   "p_plan": 0.1799265605875153,
+   "n_plans_both": 817,
+   "mean_edges": 0.0153
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "bathroom",
+   "p_room": 0.1340018231540565,
+   "p_plan": 0.1799265605875153,
+   "n_plans_both": 817,
+   "mean_edges": 0.0153
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "closet",
+   "p_room": 0.02536480266379395,
+   "p_plan": 0.14412811387900357,
+   "n_plans_both": 1686,
+   "mean_edges": 0.0282
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "bathroom",
+   "p_room": 0.08196721311475409,
+   "p_plan": 0.14412811387900357,
+   "n_plans_both": 1686,
+   "mean_edges": 0.0282
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "outdoor",
+   "p_room": 0.0004896680050925472,
+   "p_plan": 0.07246376811594203,
+   "n_plans_both": 69,
+   "mean_edges": 0.0006
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "bathroom",
+   "p_room": 0.05825242718446602,
+   "p_plan": 0.07246376811594203,
+   "n_plans_both": 69,
+   "mean_edges": 0.0006
+  },
+  {
+   "kind": "door",
+   "type_a": "bathroom",
+   "type_b": "other",
+   "p_room": 0.0860836352952698,
+   "p_plan": 0.3039967702866371,
+   "n_plans_both": 2477,
+   "mean_edges": 0.0898
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "bathroom",
+   "p_room": 0.12261960055736182,
+   "p_plan": 0.3039967702866371,
+   "n_plans_both": 2477,
+   "mean_edges": 0.0898
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "balcony",
+   "p_room": 0.016256386437529028,
+   "p_plan": 0.0625,
+   "n_plans_both": 272,
+   "mean_edges": 0.0018
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "hallway",
+   "p_room": 0.13283790060380865,
+   "p_plan": 0.19314205738278517,
+   "n_plans_both": 1429,
+   "mean_edges": 0.029
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "balcony",
+   "p_room": 0.030740821203562894,
+   "p_plan": 0.19314205738278517,
+   "n_plans_both": 1429,
+   "mean_edges": 0.029
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "dining_room",
+   "p_room": 0.06084533209475151,
+   "p_plan": 0.4830188679245283,
+   "n_plans_both": 265,
+   "mean_edges": 0.0134
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "balcony",
+   "p_room": 0.08669755129053607,
+   "p_plan": 0.4830188679245283,
+   "n_plans_both": 265,
+   "mean_edges": 0.0134
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "study",
+   "p_room": 0.01764979098931723,
+   "p_plan": 0.29133858267716534,
+   "n_plans_both": 127,
+   "mean_edges": 0.004
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "balcony",
+   "p_room": 0.02663115845539281,
+   "p_plan": 0.29133858267716534,
+   "n_plans_both": 127,
+   "mean_edges": 0.004
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "storage",
+   "p_room": 0.0023223409196470044,
+   "p_plan": 0.1388888888888889,
+   "n_plans_both": 36,
+   "mean_edges": 0.0005
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "balcony",
+   "p_room": 0.005543237250554324,
+   "p_plan": 0.1388888888888889,
+   "n_plans_both": 36,
+   "mean_edges": 0.0005
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "garage",
+   "p_room": 0.006502554575011612,
+   "p_plan": 0.25,
+   "n_plans_both": 56,
+   "mean_edges": 0.0014
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "balcony",
+   "p_room": 0.020086083213773313,
+   "p_plan": 0.25,
+   "n_plans_both": 56,
+   "mean_edges": 0.0014
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "laundry",
+   "p_room": 0.011611704598235021,
+   "p_plan": 0.1773049645390071,
+   "n_plans_both": 141,
+   "mean_edges": 0.0025
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "balcony",
+   "p_room": 0.022789425706472195,
+   "p_plan": 0.1773049645390071,
+   "n_plans_both": 141,
+   "mean_edges": 0.0025
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "closet",
+   "p_room": 0.004644681839294009,
+   "p_plan": 0.0390625,
+   "n_plans_both": 256,
+   "mean_edges": 0.001
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "balcony",
+   "p_room": 0.002927400468384075,
+   "p_plan": 0.0390625,
+   "n_plans_both": 256,
+   "mean_edges": 0.001
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "outdoor",
+   "p_room": 0.0,
+   "p_plan": 0.0,
+   "n_plans_both": 6,
+   "mean_edges": 0.0
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "balcony",
+   "p_room": 0.0,
+   "p_plan": 0.0,
+   "n_plans_both": 6,
+   "mean_edges": 0.0
+  },
+  {
+   "kind": "door",
+   "type_a": "balcony",
+   "type_b": "other",
+   "p_room": 0.04366000928936368,
+   "p_plan": 0.18127490039840638,
+   "n_plans_both": 502,
+   "mean_edges": 0.0099
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "balcony",
+   "p_room": 0.014862981885740827,
+   "p_plan": 0.18127490039840638,
+   "n_plans_both": 502,
+   "mean_edges": 0.0099
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "hallway",
+   "p_room": 0.3125135781012383,
+   "p_plan": 0.6787221217600965,
+   "n_plans_both": 1659,
+   "mean_edges": 0.1778
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "dining_room",
+   "p_room": 0.07603736693460786,
+   "p_plan": 0.6589537223340041,
+   "n_plans_both": 994,
+   "mean_edges": 0.0711
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "hallway",
+   "p_room": 0.44209133024487096,
+   "p_plan": 0.6589537223340041,
+   "n_plans_both": 994,
+   "mean_edges": 0.0711
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "study",
+   "p_room": 0.05431240495329133,
+   "p_plan": 0.74079754601227,
+   "n_plans_both": 652,
+   "mean_edges": 0.0594
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "hallway",
+   "p_room": 0.38881491344873503,
+   "p_plan": 0.74079754601227,
+   "n_plans_both": 652,
+   "mean_edges": 0.0594
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "storage",
+   "p_room": 0.025418205518140342,
+   "p_plan": 0.6151761517615176,
+   "n_plans_both": 369,
+   "mean_edges": 0.0268
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "hallway",
+   "p_room": 0.29379157427937913,
+   "p_plan": 0.6151761517615176,
+   "n_plans_both": 369,
+   "mean_edges": 0.0268
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "garage",
+   "p_room": 0.025635455137953508,
+   "p_plan": 0.5057736720554272,
+   "n_plans_both": 433,
+   "mean_edges": 0.0239
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "hallway",
+   "p_room": 0.321377331420373,
+   "p_plan": 0.5057736720554272,
+   "n_plans_both": 433,
+   "mean_edges": 0.0239
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "laundry",
+   "p_room": 0.03780143384749077,
+   "p_plan": 0.4956140350877193,
+   "n_plans_both": 684,
+   "mean_edges": 0.035
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "hallway",
+   "p_room": 0.3108477666362808,
+   "p_plan": 0.4956140350877193,
+   "n_plans_both": 684,
+   "mean_edges": 0.035
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "closet",
+   "p_room": 0.08342385400825549,
+   "p_plan": 0.5259831460674157,
+   "n_plans_both": 1424,
+   "mean_edges": 0.0863
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "hallway",
+   "p_room": 0.251463700234192,
+   "p_plan": 0.5259831460674157,
+   "n_plans_both": 1424,
+   "mean_edges": 0.0863
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "outdoor",
+   "p_room": 0.00162937214859874,
+   "p_plan": 0.2727272727272727,
+   "n_plans_both": 55,
+   "mean_edges": 0.0016
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "hallway",
+   "p_room": 0.1553398058252427,
+   "p_plan": 0.2727272727272727,
+   "n_plans_both": 55,
+   "mean_edges": 0.0016
+  },
+  {
+   "kind": "door",
+   "type_a": "hallway",
+   "type_b": "other",
+   "p_room": 0.16380621333912665,
+   "p_plan": 0.7047381546134663,
+   "n_plans_both": 2005,
+   "mean_edges": 0.1964
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "hallway",
+   "p_room": 0.29493729679516956,
+   "p_plan": 0.7047381546134663,
+   "n_plans_both": 2005,
+   "mean_edges": 0.1964
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "dining_room",
+   "p_room": 0.07412309728656519,
+   "p_plan": 0.5584415584415584,
+   "n_plans_both": 77,
+   "mean_edges": 0.0067
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "study",
+   "p_room": 0.017207147584381206,
+   "p_plan": 0.18181818181818182,
+   "n_plans_both": 143,
+   "mean_edges": 0.0026
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "dining_room",
+   "p_room": 0.017310252996005325,
+   "p_plan": 0.18181818181818182,
+   "n_plans_both": 143,
+   "mean_edges": 0.0026
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "storage",
+   "p_room": 0.001985440105890139,
+   "p_plan": 0.075,
+   "n_plans_both": 40,
+   "mean_edges": 0.0003
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "dining_room",
+   "p_room": 0.0033259423503325942,
+   "p_plan": 0.075,
+   "n_plans_both": 40,
+   "mean_edges": 0.0003
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "garage",
+   "p_room": 0.01455989410986102,
+   "p_plan": 0.1301775147928994,
+   "n_plans_both": 169,
+   "mean_edges": 0.0022
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "dining_room",
+   "p_room": 0.03156384505021521,
+   "p_plan": 0.1301775147928994,
+   "n_plans_both": 169,
+   "mean_edges": 0.0022
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "laundry",
+   "p_room": 0.024487094639311716,
+   "p_plan": 0.16363636363636364,
+   "n_plans_both": 220,
+   "mean_edges": 0.0037
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "dining_room",
+   "p_room": 0.032816773017319965,
+   "p_plan": 0.16363636363636364,
+   "n_plans_both": 220,
+   "mean_edges": 0.0037
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "closet",
+   "p_room": 0.0357379219060225,
+   "p_plan": 0.18021201413427562,
+   "n_plans_both": 283,
+   "mean_edges": 0.0059
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "dining_room",
+   "p_room": 0.01639344262295082,
+   "p_plan": 0.18021201413427562,
+   "n_plans_both": 283,
+   "mean_edges": 0.0059
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "outdoor",
+   "p_room": 0.005294506949040371,
+   "p_plan": 0.36363636363636365,
+   "n_plans_both": 22,
+   "mean_edges": 0.0008
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "dining_room",
+   "p_room": 0.07766990291262135,
+   "p_plan": 0.36363636363636365,
+   "n_plans_both": 22,
+   "mean_edges": 0.0008
+  },
+  {
+   "kind": "door",
+   "type_a": "dining_room",
+   "type_b": "other",
+   "p_room": 0.099933818663137,
+   "p_plan": 0.3394495412844037,
+   "n_plans_both": 436,
+   "mean_edges": 0.0166
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "dining_room",
+   "p_room": 0.025236104660164113,
+   "p_plan": 0.3394495412844037,
+   "n_plans_both": 436,
+   "mean_edges": 0.0166
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "study",
+   "p_room": 0.22902796271637815,
+   "p_plan": 0.48214285714285715,
+   "n_plans_both": 224,
+   "mean_edges": 0.0235
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "storage",
+   "p_room": 0.03195739014647137,
+   "p_plan": 0.3464566929133858,
+   "n_plans_both": 127,
+   "mean_edges": 0.0051
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "study",
+   "p_room": 0.05321507760532151,
+   "p_plan": 0.3464566929133858,
+   "n_plans_both": 127,
+   "mean_edges": 0.0051
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "garage",
+   "p_room": 0.007323568575233023,
+   "p_plan": 0.11904761904761904,
+   "n_plans_both": 84,
+   "mean_edges": 0.0011
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "study",
+   "p_room": 0.014347202295552367,
+   "p_plan": 0.11904761904761904,
+   "n_plans_both": 84,
+   "mean_edges": 0.0011
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "laundry",
+   "p_room": 0.007989347536617843,
+   "p_plan": 0.11009174311926606,
+   "n_plans_both": 109,
+   "mean_edges": 0.0012
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "study",
+   "p_room": 0.010938924339106655,
+   "p_plan": 0.11009174311926606,
+   "n_plans_both": 109,
+   "mean_edges": 0.0012
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "closet",
+   "p_room": 0.03661784287616511,
+   "p_plan": 0.2708333333333333,
+   "n_plans_both": 192,
+   "mean_edges": 0.006
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "study",
+   "p_room": 0.01727166276346604,
+   "p_plan": 0.2708333333333333,
+   "n_plans_both": 192,
+   "mean_edges": 0.006
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "outdoor",
+   "p_room": 0.0006657789613848203,
+   "p_plan": 0.14285714285714285,
+   "n_plans_both": 7,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "study",
+   "p_room": 0.009708737864077669,
+   "p_plan": 0.14285714285714285,
+   "n_plans_both": 7,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "door",
+   "type_a": "study",
+   "type_b": "other",
+   "p_room": 0.20905459387483355,
+   "p_plan": 0.4610526315789474,
+   "n_plans_both": 475,
+   "mean_edges": 0.0349
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "study",
+   "p_room": 0.041182845641740205,
+   "p_plan": 0.4610526315789474,
+   "n_plans_both": 475,
+   "mean_edges": 0.0349
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "storage",
+   "p_room": 0.20620842572062084,
+   "p_plan": 0.583941605839416,
+   "n_plans_both": 137,
+   "mean_edges": 0.0106
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "garage",
+   "p_room": 0.045454545454545456,
+   "p_plan": 0.43373493975903615,
+   "n_plans_both": 83,
+   "mean_edges": 0.0041
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "storage",
+   "p_room": 0.054519368723098996,
+   "p_plan": 0.43373493975903615,
+   "n_plans_both": 83,
+   "mean_edges": 0.0041
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "laundry",
+   "p_room": 0.043237250554323724,
+   "p_plan": 0.3162393162393162,
+   "n_plans_both": 117,
+   "mean_edges": 0.0039
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "storage",
+   "p_room": 0.03372835004557885,
+   "p_plan": 0.3162393162393162,
+   "n_plans_both": 117,
+   "mean_edges": 0.0039
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "closet",
+   "p_room": 0.022172949002217297,
+   "p_plan": 0.1297709923664122,
+   "n_plans_both": 131,
+   "mean_edges": 0.0022
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "storage",
+   "p_room": 0.0055620608899297425,
+   "p_plan": 0.1297709923664122,
+   "n_plans_both": 131,
+   "mean_edges": 0.0022
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "outdoor",
+   "p_room": 0.0011086474501108647,
+   "p_plan": 1.0,
+   "n_plans_both": 1,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "storage",
+   "p_room": 0.009708737864077669,
+   "p_plan": 1.0,
+   "n_plans_both": 1,
+   "mean_edges": 0.0001
+  },
+  {
+   "kind": "door",
+   "type_a": "storage",
+   "type_b": "other",
+   "p_room": 0.2804878048780488,
+   "p_plan": 0.5174013921113689,
+   "n_plans_both": 431,
+   "mean_edges": 0.0265
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "storage",
+   "p_room": 0.037931568354234405,
+   "p_plan": 0.5174013921113689,
+   "n_plans_both": 431,
+   "mean_edges": 0.0265
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "garage",
+   "p_room": 0.10186513629842181,
+   "p_plan": 0.5555555555555556,
+   "n_plans_both": 54,
+   "mean_edges": 0.004
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "laundry",
+   "p_room": 0.08608321377331421,
+   "p_plan": 0.3488372093023256,
+   "n_plans_both": 172,
+   "mean_edges": 0.0061
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "garage",
+   "p_room": 0.05560619872379216,
+   "p_plan": 0.3488372093023256,
+   "n_plans_both": 172,
+   "mean_edges": 0.0061
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "closet",
+   "p_room": 0.02582496413199426,
+   "p_plan": 0.1258741258741259,
+   "n_plans_both": 143,
+   "mean_edges": 0.0019
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "garage",
+   "p_room": 0.0055620608899297425,
+   "p_plan": 0.1258741258741259,
+   "n_plans_both": 143,
+   "mean_edges": 0.0019
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "outdoor",
+   "p_room": 0.010043041606886656,
+   "p_plan": 0.4375,
+   "n_plans_both": 16,
+   "mean_edges": 0.0008
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "garage",
+   "p_room": 0.07766990291262135,
+   "p_plan": 0.4375,
+   "n_plans_both": 16,
+   "mean_edges": 0.0008
+  },
+  {
+   "kind": "door",
+   "type_a": "garage",
+   "type_b": "other",
+   "p_room": 0.18077474892395984,
+   "p_plan": 0.4375,
+   "n_plans_both": 272,
+   "mean_edges": 0.014
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "garage",
+   "p_room": 0.020746245548846572,
+   "p_plan": 0.4375,
+   "n_plans_both": 272,
+   "mean_edges": 0.014
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "laundry",
+   "p_room": 0.04649042844120328,
+   "p_plan": 0.6071428571428571,
+   "n_plans_both": 28,
+   "mean_edges": 0.003
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "closet",
+   "p_room": 0.03372835004557885,
+   "p_plan": 0.14015151515151514,
+   "n_plans_both": 264,
+   "mean_edges": 0.0041
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "laundry",
+   "p_room": 0.012002341920374707,
+   "p_plan": 0.14015151515151514,
+   "n_plans_both": 264,
+   "mean_edges": 0.0041
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "outdoor",
+   "p_room": 0.006381039197812215,
+   "p_plan": 0.5,
+   "n_plans_both": 14,
+   "mean_edges": 0.0007
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "laundry",
+   "p_room": 0.06796116504854369,
+   "p_plan": 0.5,
+   "n_plans_both": 14,
+   "mean_edges": 0.0007
+  },
+  {
+   "kind": "door",
+   "type_a": "laundry",
+   "type_b": "other",
+   "p_room": 0.12215132178669097,
+   "p_plan": 0.35792349726775957,
+   "n_plans_both": 366,
+   "mean_edges": 0.0151
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "laundry",
+   "p_room": 0.023068586468493576,
+   "p_plan": 0.35792349726775957,
+   "n_plans_both": 366,
+   "mean_edges": 0.0151
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "closet",
+   "p_room": 0.03776346604215457,
+   "p_plan": 0.06979542719614922,
+   "n_plans_both": 831,
+   "mean_edges": 0.0072
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "outdoor",
+   "p_room": 0.0008782201405152225,
+   "p_plan": 0.11764705882352941,
+   "n_plans_both": 17,
+   "mean_edges": 0.0003
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "closet",
+   "p_room": 0.019417475728155338,
+   "p_plan": 0.11764705882352941,
+   "n_plans_both": 17,
+   "mean_edges": 0.0003
+  },
+  {
+   "kind": "door",
+   "type_a": "closet",
+   "type_b": "other",
+   "p_room": 0.062353629976580796,
+   "p_plan": 0.2721518987341772,
+   "n_plans_both": 632,
+   "mean_edges": 0.0218
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "closet",
+   "p_room": 0.028797027403622853,
+   "p_plan": 0.2721518987341772,
+   "n_plans_both": 632,
+   "mean_edges": 0.0218
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "outdoor",
+   "p_room": 0.05825242718446602,
+   "p_plan": 0.2727272727272727,
+   "n_plans_both": 11,
+   "mean_edges": 0.0003
+  },
+  {
+   "kind": "door",
+   "type_a": "outdoor",
+   "type_b": "other",
+   "p_room": 0.11650485436893204,
+   "p_plan": 0.5217391304347826,
+   "n_plans_both": 23,
+   "mean_edges": 0.0013
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "outdoor",
+   "p_room": 0.0020126954636940702,
+   "p_plan": 0.5217391304347826,
+   "n_plans_both": 23,
+   "mean_edges": 0.0013
+  },
+  {
+   "kind": "door",
+   "type_a": "other",
+   "type_b": "other",
+   "p_room": 0.40780306549001394,
+   "p_plan": 0.5695501730103806,
+   "n_plans_both": 1445,
+   "mean_edges": 0.1835
+  }
+ ],
+ "average_graph": {
+  "wall": {
+   "nodes": [
+    {
+     "type": "living_room",
+     "mean_count": 0.6164
+    },
+    {
+     "type": "kitchen",
+     "mean_count": 0.5303
+    },
+    {
+     "type": "bedroom",
+     "mean_count": 1.2504
+    },
+    {
+     "type": "bathroom",
+     "mean_count": 1.0211
+    },
+    {
+     "type": "balcony",
+     "mean_count": 0.2153
+    },
+    {
+     "type": "hallway",
+     "mean_count": 0.9206
+    },
+    {
+     "type": "dining_room",
+     "mean_count": 0.1511
+    },
+    {
+     "type": "study",
+     "mean_count": 0.1502
+    },
+    {
+     "type": "laundry",
+     "mean_count": 0.1097
+    },
+    {
+     "type": "closet",
+     "mean_count": 0.3416
+    },
+    {
+     "type": "other",
+     "mean_count": 0.6459
+    }
+   ],
+   "edges": [
+    {
+     "a": "kitchen",
+     "b": "living_room",
+     "mean_edges": 0.2807
+    },
+    {
+     "a": "bedroom",
+     "b": "living_room",
+     "mean_edges": 0.3367
+    },
+    {
+     "a": "bathroom",
+     "b": "living_room",
+     "mean_edges": 0.2265
+    },
+    {
+     "a": "hallway",
+     "b": "living_room",
+     "mean_edges": 0.4264
+    },
+    {
+     "a": "living_room",
+     "b": "other",
+     "mean_edges": 0.1233
+    },
+    {
+     "a": "bedroom",
+     "b": "kitchen",
+     "mean_edges": 0.1659
+    },
+    {
+     "a": "bathroom",
+     "b": "kitchen",
+     "mean_edges": 0.2552
+    },
+    {
+     "a": "hallway",
+     "b": "kitchen",
+     "mean_edges": 0.3155
+    },
+    {
+     "a": "kitchen",
+     "b": "other",
+     "mean_edges": 0.1114
+    },
+    {
+     "a": "bedroom",
+     "b": "bedroom",
+     "mean_edges": 0.3951
+    },
+    {
+     "a": "bathroom",
+     "b": "bedroom",
+     "mean_edges": 0.5955
+    },
+    {
+     "a": "balcony",
+     "b": "bedroom",
+     "mean_edges": 0.1234
+    },
+    {
+     "a": "bedroom",
+     "b": "hallway",
+     "mean_edges": 0.8417
+    },
+    {
+     "a": "bedroom",
+     "b": "closet",
+     "mean_edges": 0.2131
+    },
+    {
+     "a": "bedroom",
+     "b": "other",
+     "mean_edges": 0.1887
+    },
+    {
+     "a": "bathroom",
+     "b": "bathroom",
+     "mean_edges": 0.1502
+    },
+    {
+     "a": "bathroom",
+     "b": "hallway",
+     "mean_edges": 0.625
+    },
+    {
+     "a": "bathroom",
+     "b": "closet",
+     "mean_edges": 0.1238
+    },
+    {
+     "a": "bathroom",
+     "b": "other",
+     "mean_edges": 0.204
+    },
+    {
+     "a": "hallway",
+     "b": "hallway",
+     "mean_edges": 0.2343
+    },
+    {
+     "a": "closet",
+     "b": "hallway",
+     "mean_edges": 0.1406
+    },
+    {
+     "a": "hallway",
+     "b": "other",
+     "mean_edges": 0.2417
+    },
+    {
+     "a": "other",
+     "b": "other",
+     "mean_edges": 0.3124
+    }
+   ]
+  },
+  "door": {
+   "nodes": [
+    {
+     "type": "living_room",
+     "mean_count": 0.6164
+    },
+    {
+     "type": "kitchen",
+     "mean_count": 0.5303
+    },
+    {
+     "type": "bedroom",
+     "mean_count": 1.2504
+    },
+    {
+     "type": "bathroom",
+     "mean_count": 1.0211
+    },
+    {
+     "type": "balcony",
+     "mean_count": 0.2153
+    },
+    {
+     "type": "hallway",
+     "mean_count": 0.9206
+    },
+    {
+     "type": "dining_room",
+     "mean_count": 0.1511
+    },
+    {
+     "type": "study",
+     "mean_count": 0.1502
+    },
+    {
+     "type": "laundry",
+     "mean_count": 0.1097
+    },
+    {
+     "type": "closet",
+     "mean_count": 0.3416
+    },
+    {
+     "type": "other",
+     "mean_count": 0.6459
+    }
+   ],
+   "edges": [
+    {
+     "a": "kitchen",
+     "b": "living_room",
+     "mean_edges": 0.1923
+    },
+    {
+     "a": "bedroom",
+     "b": "living_room",
+     "mean_edges": 0.1859
+    },
+    {
+     "a": "hallway",
+     "b": "living_room",
+     "mean_edges": 0.3708
+    },
+    {
+     "a": "hallway",
+     "b": "kitchen",
+     "mean_edges": 0.2552
+    },
+    {
+     "a": "bathroom",
+     "b": "bedroom",
+     "mean_edges": 0.1789
+    },
+    {
+     "a": "bedroom",
+     "b": "hallway",
+     "mean_edges": 0.756
+    },
+    {
+     "a": "bedroom",
+     "b": "closet",
+     "mean_edges": 0.1423
+    },
+    {
+     "a": "bedroom",
+     "b": "other",
+     "mean_edges": 0.1092
+    },
+    {
+     "a": "bathroom",
+     "b": "hallway",
+     "mean_edges": 0.5206
+    },
+    {
+     "a": "hallway",
+     "b": "hallway",
+     "mean_edges": 0.1778
+    },
+    {
+     "a": "hallway",
+     "b": "other",
+     "mean_edges": 0.1964
+    },
+    {
+     "a": "other",
+     "b": "other",
+     "mean_edges": 0.1835
+    }
+   ]
+  }
+ }
+}

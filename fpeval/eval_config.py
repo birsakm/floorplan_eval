@@ -11,16 +11,31 @@ staircase corners into slanted edges; rectilinearity is not reported for these.
 RPLAN_256 = 18 / 256  # RPLAN images: 256 px = 18 m
 
 REFERENCES = {
-    # name: (converted dir, split or None for all, scale, scale_known, max samples)
+    # name: (converted dir, split | [splits] | None for all, scale, scale_known, max samples)
     "rplan_graph2plan:test": ("data/rplan_graph2plan/converted", "test", RPLAN_256, True, 12063),
     "tell2design:test": ("data/tell2design/converted", "test", RPLAN_256, True, 2308),
     "housegan_lifull:all": ("data/housegan_lifull/converted", None, RPLAN_256, False, 10000),
     "procthor10k:test": ("data/procthor10k/converted", "test", 1.0, True, 1000),
-    "cubicasa5k:test": ("data/cubicasa5k/converted", "test", 1.0, True, 501),
-    "resplan:test": ("data/resplan/converted", "test", 1.0, True, 1632),
-    "swiss_dwellings:all": ("data/swiss_dwellings/converted", None, 1.0, True, 5000),
-    "msd:train": ("data/msd/converted", "train", 1.0, True, 2000),
-    "magicplan:train": ("data/magicplan/converted", "train", 1.0, True, 5000),
+    # CubiCasa5k: all 5,000 plans (6,103 floors) as one evaluation set.
+    "cubicasa5k:all": ("data/cubicasa5k/converted", None, 1.0, True, 10000),
+    # ResPlan without its 683 augmented copies.
+    "resplan:all": ("data/resplan/converted", ["train", "val", "test"], 1.0, True, 20000),
+    "swiss_dwellings:all": ("data/swiss_dwellings/converted", None, 1.0, True, 50000),
+    "msd:train": ("data/msd/converted", "train", 1.0, True, 5000),
+    "magicplan:train": ("data/magicplan/converted", "train", 1.0, True, 10000),
+}
+
+# Datasets compared in the dataset statistics (results/datasets/), in display order.
+# kind: "real" or "synthetic"; unit: what one sample is.
+STAT_DATASETS = {
+    "cubicasa5k:all": dict(label="CubiCasa5k", kind="real", unit="floor"),
+    "resplan:all": dict(label="ResPlan", kind="real", unit="apartment"),
+    "rplan_graph2plan:test": dict(label="RPLAN", kind="real", unit="apartment"),
+    "swiss_dwellings:all": dict(label="Swiss Dwellings", kind="real", unit="apartment floor"),
+    "magicplan:train": dict(label="MagicPlan", kind="real", unit="floor"),
+    "msd:train": dict(label="MSD", kind="real", unit="building floor (many apartments)"),
+    "housegan_lifull:all": dict(label="LIFULL", kind="real", unit="apartment, scale unknown"),
+    "procthor10k:test": dict(label="ProcTHOR-10K", kind="synthetic", unit="house"),
 }
 
 
