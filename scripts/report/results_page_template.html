@@ -1,0 +1,355 @@
+<title>Floorplan Generation Benchmark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (~68ch) on a drafting-sheet ground; wide tables and the gallery break out to the full sheet width. */
+:root {
+  --bg: #f3f6f9;            /* drafting paper, cool */
+  --sheet: #ffffff;
+  --ink: #131a23;
+  --ink-2: #47525f;
+  --muted: #6f7a88;
+  --line: #d9e0e8;
+  --grid: #e7ecf2;
+  --accent: #1d4db8;        /* blueprint ink */
+  --accent-soft: #e6edfb;
+  --series-1: #2a78d6;
+  --good: #0f7a4a;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step--1: 0.8125rem; --step-0: 1rem; --step-1: 1.1875rem; --step-2: 1.5rem; --step-3: 2.125rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141a; --sheet: #161d26; --ink: #edf1f5; --ink-2: #b3bdc9; --muted: #8592a2;
+    --line: #2a3441; --grid: #1f2833; --accent: #84a8ff; --accent-soft: #1c2840;
+    --series-1: #3987e5; --good: #4cc38a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141a; --sheet: #161d26; --ink: #edf1f5; --ink-2: #b3bdc9; --muted: #8592a2;
+  --line: #2a3441; --grid: #1f2833; --accent: #84a8ff; --accent-soft: #1c2840;
+  --series-1: #3987e5; --good: #4cc38a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 var(--step-0)/1.6 var(--font-body);
+  padding-inline: 16px; padding-block: 0 64px;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; }
+.col { max-width: 68ch; }
+header.titleblock {
+  margin-top: 32px; background: var(--sheet); border: 1px solid var(--line);
+  display: grid; grid-template-columns: 1fr auto; gap: 0;
+}
+.titleblock .main { padding: 28px 28px 24px; min-width: 0; }
+.titleblock .meta {
+  border-left: 1px solid var(--line); display: grid; grid-template-rows: repeat(4, auto);
+  font: 400 var(--step--1)/1.35 var(--font-data); min-width: 220px;
+}
+.titleblock .meta div { padding: 10px 16px; border-bottom: 1px solid var(--line); }
+.titleblock .meta div:last-child { border-bottom: 0; }
+.titleblock .meta span { display: block; color: var(--muted); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.eyebrow { font: 600 0.75rem/1 var(--font-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 700 var(--step-3)/1.1 var(--font-display); margin: 10px 0 12px; text-wrap: balance; letter-spacing: -0.01em; }
+h2 { font: 600 var(--step-2)/1.2 var(--font-display); margin: 0 0 8px; text-wrap: balance; }
+h3 { font: 600 var(--step-1)/1.3 var(--font-display); margin: 28px 0 8px; }
+p { margin: 0 0 12px; }
+.lede { font-size: var(--step-1); color: var(--ink-2); margin: 0; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { margin-top: 48px; }
+.sheet { background: var(--sheet); border: 1px solid var(--line); padding: 24px; }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 16px; border: 1px solid var(--line); background: var(--sheet); }
+.facts div { padding: 14px 16px; border-right: 1px solid var(--line); }
+.facts div:last-child { border-right: 0; }
+.facts b { display: block; font: 600 var(--step-2)/1.1 var(--font-display); font-variant-numeric: tabular-nums; }
+.facts span { color: var(--ink-2); font-size: var(--step--1); }
+ul.findings { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 12px; }
+ul.findings li { padding-left: 18px; position: relative; }
+ul.findings li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 8px; height: 8px; border: 2px solid var(--accent); }
+ul.findings b { font-weight: 600; }
+.charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.chart { background: var(--sheet); border: 1px solid var(--line); padding: 18px 18px 12px; min-width: 0; position: relative; }
+.chart h3 { margin: 0 0 2px; font-size: var(--step-0); }
+.chart .sub { color: var(--muted); font-size: var(--step--1); margin: 0 0 10px; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart text { font: 400 11px var(--font-body); fill: var(--ink-2); }
+.chart text.val { font: 500 11px var(--font-data); fill: var(--ink); }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--sheet); font: 400 var(--step--1)/1.35 var(--font-body); padding: 6px 9px; white-space: nowrap; transform: translate(-50%, -110%); }
+.tabs { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid var(--line); margin-top: 16px; }
+.tabs button {
+  font: 600 var(--step--1)/1 var(--font-display); letter-spacing: 0.04em; background: none; border: 1px solid transparent;
+  border-bottom: 0; color: var(--ink-2); padding: 10px 14px; cursor: pointer; margin-bottom: -1px;
+}
+.tabs button[aria-selected="true"] { background: var(--sheet); border-color: var(--line); color: var(--ink); }
+.tabpanel { background: var(--sheet); border: 1px solid var(--line); border-top: 0; padding: 18px; }
+.tabpanel .blurb { color: var(--ink-2); font-size: var(--step--1); margin-bottom: 4px; }
+.tablewrap { overflow-x: auto; margin-top: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
+th, td { padding: 6px 10px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--sheet); }
+thead th { font: 600 0.6875rem/1.25 var(--font-display); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); vertical-align: bottom; white-space: normal; min-width: 64px; }
+td { font: 400 var(--step--1) var(--font-data); font-variant-numeric: tabular-nums; }
+td:first-child { font-family: var(--font-body); }
+td .cond { color: var(--muted); font-size: 0.75rem; display: block; }
+tr.baseline td { background: var(--accent-soft); }
+tr.baseline td:first-child { background: var(--accent-soft); }
+td.best { color: var(--good); font-weight: 500; }
+.na { color: var(--muted); }
+.gallery { overflow-x: auto; margin-top: 16px; background: var(--sheet); border: 1px solid var(--line); padding: 14px; }
+.ggrid { display: grid; grid-template-columns: 56px repeat(9, 104px); gap: 8px; min-width: max-content; }
+.ggrid .hd { font: 600 0.6875rem/1.25 var(--font-display); letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); align-self: end; }
+.ggrid .hd.gt { color: var(--accent); }
+.ggrid .rid { font: 400 0.75rem var(--font-data); color: var(--muted); align-self: center; }
+.ggrid img, .ggrid .empty { width: 104px; height: 104px; border: 1px solid var(--line); background: #fff; display: block; }
+.ggrid .empty { display: grid; place-items: center; font-size: 0.75rem; color: var(--muted); background: var(--bg); text-align: center; padding: 8px; }
+.pairs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.pair { background: var(--sheet); border: 1px solid var(--line); padding: 12px; min-width: 0; }
+.pair .imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.pair img { width: 100%; height: auto; aspect-ratio: 1; border: 1px solid var(--line); background: #fff; }
+.pair .cap { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font: 600 0.6875rem var(--font-display); letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.pair h4 { margin: 0 0 8px; font: 600 var(--step--1)/1.3 var(--font-display); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 12px; font-size: var(--step--1); color: var(--ink-2); }
+.legend i { display: inline-block; width: 12px; height: 12px; border: 1px solid rgba(0,0,0,0.35); margin-right: 6px; vertical-align: -1px; }
+dl.defs { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); gap: 8px 20px; margin: 12px 0 0; }
+dl.defs dt { font-weight: 600; }
+dl.defs dd { margin: 0; color: var(--ink-2); }
+ol.decisions { padding-left: 1.4em; margin: 12px 0 0; display: grid; gap: 10px; }
+ol.decisions b { font-weight: 600; }
+code { font: 400 0.875em var(--font-data); background: var(--accent-soft); padding: 1px 4px; }
+footer { margin-top: 48px; color: var(--muted); font-size: var(--step--1); }
+@media (max-width: 860px) {
+  header.titleblock { grid-template-columns: 1fr; }
+  .titleblock .meta { border-left: 0; border-top: 1px solid var(--line); grid-template-columns: 1fr 1fr; grid-template-rows: auto; min-width: 0; }
+  .titleblock .meta div:nth-child(odd) { border-right: 1px solid var(--line); }
+  .charts { grid-template-columns: 1fr; }
+  .pairs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .facts div:nth-child(2) { border-right: 0; }
+  .facts div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  dl.defs { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .titleblock .main { padding: 20px 18px; }
+  .pairs { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="wrap">
+  <header class="titleblock">
+    <div class="main">
+      <div class="eyebrow">Results · first full evaluation</div>
+      <h1>Floorplan Generation Benchmark</h1>
+      <p class="lede">We ran the published floorplan generators that have released weights. All outputs were converted to one format and scored with the same metrics against real datasets.</p>
+    </div>
+    <div class="meta">
+      <div><span>Date</span>5 Oct 2026</div>
+      <div><span>Repository</span><a href="https://github.com/birsakm/floorplan_eval">birsakm/floorplan_eval</a></div>
+      <div><span>Main test set</span>1,000 RPLAN test plans</div>
+      <div><span>Scale</span>RPLAN 256 px = 18 m</div>
+    </div>
+  </header>
+
+  <div class="facts" id="facts"></div>
+
+  <section class="col">
+    <h2>Main findings</h2>
+    <p>Most methods were run on one fixed set of 1,000 plans from the RPLAN test split, so their numbers compare directly. "Real" always means the same metric computed on real plans.</p>
+    <ul class="findings">
+      <li><b>Boundary-conditioned methods produce the cleanest geometry.</b> WallPlan breaks a rule in 12% of plans, against 17% for real RPLAN plans, and has the closest image distribution after DiffPlanner (FID 3.2 against its own GT). iPLAN follows (FID 5.7).</li>
+      <li><b>DiffPlanner looks the most realistic as images (FID 0.7) but produces many too-narrow rooms.</b> 8.4% of its rooms are below the minimum width, against 2.7% in real plans, so 46% of its plans break a rule. Its FID is also not directly comparable: it ran on all 12k test plans, the same set as the reference.</li>
+      <li><b>MaskPLAN is clearly the weakest boundary method.</b> It produces 5.1 rooms per plan instead of 6.8 and lets the living room absorb the rest (FID 47).</li>
+      <li><b>A boundary alone doesn't determine one layout.</b> Every boundary method recovers the GT room layout only partly (per-type IoU 0.38–0.46, MaskPLAN boundary-only 0.28). These paired scores measure how close a method gets to one real plan, not plan quality.</li>
+      <li><b>Of the bubble-diagram methods, GSDiff matches the input graph best and looks most realistic.</b> Adjacency F1 0.90, FID 15.0. HouseDiffusion always gets room counts and types right (it draws one polygon per input node) at FID 18.7. House-GAN++ hides rooms under later rooms, so only 52% of plans have the right room count.</li>
+      <li><b>House-GAN rooms overlap heavily.</b> On average the rooms' summed area exceeds the plan footprint by 24%, so every plan breaks the overlap rule.</li>
+      <li><b>The LLM-based DS2D is close to real on ProcTHOR but weak on RPLAN.</b> On ProcTHOR its FID is 3.3–4.7, against a real-data floor of 2.1, and it gets room adjacency right (F1 0.91–0.94). On RPLAN its FID is 32–41, rooms overlap by 3–8%, and the 5-room model almost always draws 8 rooms.</li>
+      <li><b>ChatHouseDiffusion (text input) is at the image-realism noise floor</b> (FID 2.3, real-data floor 2.9). It produces twice the real share of too-narrow rooms (14% vs 6%).</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="col">
+      <h2>Rules and realism on RPLAN</h2>
+      <p>Left: share of plans that break at least one rule from the floorplan rules (overlap, holes, disconnected rooms, minimum area and width, aspect ratio). Right: image FID against the GT plans for the same inputs. Lower is better in both. All methods use the shared 1,000 test plans except DiffPlanner (all 12k), DS2D (its own 500-plan subset per room count) and GSDiff unconditional (no input).</p>
+    </div>
+    <div class="charts">
+      <div class="chart" id="chart-rules"><h3>Plans breaking at least one rule</h3><p class="sub">Dashed line: real RPLAN plans</p></div>
+      <div class="chart" id="chart-fid"><h3>FID against GT for the same inputs</h3><p class="sub">Rooms-only renders, Inception-v3 features</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <h2>Same input, every method</h2>
+      <p>Three RPLAN test plans. Boundary methods get the outline; bubble methods get the room graph and draw their own outline. MaskPLAN was run on a different 500-plan subset, so it has only two of these inputs.</p>
+    </div>
+    <div class="gallery"><div class="ggrid" id="gallery"></div></div>
+    <div class="legend" id="legend"></div>
+    <div class="pairs" id="pairs"></div>
+  </section>
+
+  <section>
+    <div class="col">
+      <h2>Full results</h2>
+      <p>One tab per reference dataset. The shaded row is the real-data baseline. The best generated value per column is shown in green. A dash means the metric doesn't apply: no boundary input, unknown scale, a raster output for rectilinearity, or too few GT plans.</p>
+    </div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="tabpanel" id="tabpanel"></div>
+  </section>
+
+  <section>
+    <div class="col">
+      <h2>Real datasets as a baseline</h2>
+      <p>The same rule metrics on every ground-truth dataset. Real plans break the default thresholds too, mostly through galley kitchens narrower than 1.5 m and narrow balconies. Generated plans should be compared with the matching row, not with zero.</p>
+    </div>
+    <div class="sheet tablewrap" id="reftable"></div>
+  </section>
+
+  <section class="col">
+    <h2>How the scores are computed</h2>
+    <p>Every method's output and every dataset is first converted to one JSON format (room polygons with a canonical type, optional boundary, doors and room graph). All lengths are in meters. A gap of up to 0.6 m between rooms counts as a wall.</p>
+    <dl class="defs">
+      <dt>Overlap</dt><dd>How much the summed room area exceeds the plan footprint, relative to the footprint.</dd>
+      <dt>Holes</dt><dd>Enclosed space wider than a wall that belongs to no room.</dd>
+      <dt>Boundary covered</dt><dd>Share of the input outline filled by rooms.</dd>
+      <dt>Pieces</dt><dd>Connected components of the room adjacency graph. A plan should be 1 piece.</dd>
+      <dt>Too small / narrow / elongated</dt><dd>Rooms below a minimum area or clear width, or above a maximum aspect ratio, for their room type. For example, bedrooms need at least 5 m² and 2.0 m width.</dd>
+      <dt>Room count / types right</dt><dd>Same number of rooms, or the same multiset of room types, as the GT plan for that input.</dd>
+      <dt>Adjacency F1</dt><dd>Overlap between the sets of touching room-type pairs (e.g. living–bedroom) of the generated and GT plans.</dd>
+      <dt>Type mIoU</dt><dd>Per-type pixel overlap with the GT plan. Only for methods that receive the boundary, since only those share the GT frame.</dd>
+      <dt>FID / KID</dt><dd>Image distance between rooms-only renders of the generated and real sets. "Against own GT" uses the GT plans for the same inputs, so sample size and input distribution match.</dd>
+    </dl>
+  </section>
+
+  <section class="col">
+    <h2>Limits of this round</h2>
+    <ul class="findings">
+      <li><b>Test inputs come from Graph2Plan's copy of RPLAN.</b> The original RPLAN images need a request form. Without them, the papers' own test splits for House-GAN++, HouseDiffusion and GSDiff can't be reproduced. The interior doors that House-GAN++ and HouseDiffusion take as input had to be made up.</li>
+      <li><b>FID depends on sample size.</b> Compare the "against own GT" column within one dataset. KID is more reliable for the 500-plan sets.</li>
+      <li><b>Raster outputs are vectorized.</b> House-GAN, House-GAN++, MaskPLAN and ChatHouseDiffusion produce pixel masks. The current converters cut staircase corners into slanted edges, so their rectilinearity isn't reported.</li>
+      <li><b>Merged room types.</b> GSDiff merges study into bedroom and dining into living room, which lowers its type scores by design.</li>
+      <li><b>Not yet run.</b> Residential Floorplan Diffusion (weights need Google Drive access approval from the authors) and Floor-plan RLVR (a 70B model that needs all four GPUs).</li>
+    </ul>
+  </section>
+
+  <section class="col">
+    <h2>Decisions needed</h2>
+    <ol class="decisions">
+      <li><b>Rule thresholds.</b> The minimum areas, widths and aspect ratios are loose defaults. Should they follow a specific building norm or region?</li>
+      <li><b>Request the original RPLAN data</b> through its form, to reproduce the official test splits.</li>
+      <li><b>Run Floor-plan RLVR (70B)</b>, which needs all four GPUs, or skip it.</li>
+      <li><b>House-GAN's LIFULL data</b> comes with a non-commercial license that forbids redistribution. We use it locally only. Is that acceptable?</li>
+    </ol>
+    <h3>Planned next</h3>
+    <ul class="findings">
+      <li>One pixel-exact converter for all raster outputs, so rectilinearity applies to every method.</li>
+      <li>Door-based metrics: can every room be reached from the entrance.</li>
+      <li>MaskPLAN on the same 1,000 test plans as the other methods.</li>
+    </ul>
+  </section>
+
+  <footer>Generated from <code>results/summary_variants.csv</code> by <code>scripts/report/build_results_page.py</code>. Metric definitions: <code>docs/metrics.md</code>.</footer>
+</div>
+
+<script>
+const D = /*__DATA__*/null;
+const $ = (s) => document.querySelector(s);
+const fmt = (v, d) => (v === null || v === undefined) ? null : v.toFixed(d);
+
+// Facts
+$("#facts").innerHTML = [
+  [D.nMethods, "methods with released weights"], [D.nVariants, "test configurations"],
+  [D.nPlans.toLocaleString("en-US"), "generated plans scored"], [D.nRefs, "real datasets as baselines"],
+].map(([b, s]) => `<div><b>${b}</b><span>${s}</span></div>`).join("");
+
+// Horizontal bar chart with hover tooltip and an optional dashed reference line.
+function barChart(el, rows, { digits, ref, refLabel, max }) {
+  const rowH = 26, labelW = 210, padR = 44, top = 8, w = 560;
+  const h = top + rows.length * rowH + 22;
+  const plotW = w - labelW - padR;
+  const raw = Math.max(...rows.map(r => r.value), ref ?? 0);
+  const xmax = max ?? Math.ceil(raw / 10) * 10;
+  const x = (v) => labelW + (v / xmax) * plotW;
+  const ticks = [0, 0.25, 0.5, 0.75, 1].map(t => t * xmax);
+  let s = `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${el.querySelector("h3").textContent}">`;
+  ticks.forEach(t => {
+    s += `<line x1="${x(t)}" x2="${x(t)}" y1="${top}" y2="${h - 18}" stroke="var(--grid)" stroke-width="1"/>`;
+    s += `<text x="${x(t)}" y="${h - 4}" text-anchor="middle">${digits === 2 ? Math.round(t * 100) + "%" : t.toFixed(0)}</text>`;
+  });
+  rows.forEach((r, i) => {
+    const y = top + i * rowH, bh = 14, by = y + (rowH - bh) / 2;
+    const bw = Math.max(1, x(r.value) - labelW);
+    const label = digits === 2 ? Math.round(r.value * 100) + "%" : r.value.toFixed(1);
+    s += `<g class="bar" data-tip="${r.name}: ${label}">`;
+    s += `<rect x="0" y="${y}" width="${w}" height="${rowH}" fill="transparent"/>`;
+    s += `<text x="${labelW - 8}" y="${y + rowH / 2 + 4}" text-anchor="end">${r.name}</text>`;
+    s += `<path d="M${labelW},${by} h${Math.max(0, bw - 4)} a4,4 0 0 1 4,4 v${bh - 8} a4,4 0 0 1 -4,4 h-${Math.max(0, bw - 4)} z" fill="var(--series-1)"/>`;
+    s += `<text class="val" x="${labelW + bw + 6}" y="${y + rowH / 2 + 4}">${label}</text></g>`;
+  });
+  if (ref !== undefined) {
+    s += `<line x1="${x(ref)}" x2="${x(ref)}" y1="${top - 4}" y2="${h - 18}" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+    s += `<text x="${x(ref) + 4}" y="${top + 2}" style="fill:var(--ink)">${refLabel}</text>`;
+  }
+  s += `</svg>`;
+  el.insertAdjacentHTML("beforeend", s);
+  const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; el.appendChild(tip);
+  el.querySelectorAll("g.bar").forEach(g => {
+    g.addEventListener("mousemove", (e) => {
+      const b = el.getBoundingClientRect();
+      tip.textContent = g.dataset.tip; tip.hidden = false;
+      tip.style.left = (e.clientX - b.left) + "px"; tip.style.top = (e.clientY - b.top) + "px";
+    });
+    g.addEventListener("mouseleave", () => { tip.hidden = true; });
+  });
+}
+barChart($("#chart-rules"), D.chartRules, { digits: 2, ref: D.rplanBaseline, refLabel: "real " + Math.round(D.rplanBaseline * 100) + "%", max: 1 });
+barChart($("#chart-fid"), D.chartFid, { digits: 1 });
+
+// Gallery
+const g = $("#gallery");
+const cols = D.gallery[0].cells.map(c => c.label);
+g.innerHTML = `<div></div>` + cols.map((c, i) => `<div class="hd${i === 0 ? " gt" : ""}">${i === 0 ? "Real (GT)" : c}</div>`).join("") +
+  D.gallery.map(row => `<div class="rid">#${row.id}</div>` + row.cells.map(c =>
+    c.img ? `<img src="${c.img}" alt="${c.label}, input ${row.id}" width="104" height="104">`
+          : `<div class="empty">not run on this input</div>`).join("")).join("");
+const shown = ["living_room", "bedroom", "kitchen", "bathroom", "balcony", "study", "storage", "dining_room", "entrance", "corridor", "closet", "other"];
+$("#legend").innerHTML = shown.map(t => `<span><i style="background:${D.palette[t]}"></i>${t.replace("_", " ")}</span>`).join("");
+$("#pairs").innerHTML = D.pairs.map(p => `<div class="pair"><h4>${p.label}</h4><div class="imgs"><img src="${p.gt}" alt="real plan"><img src="${p.gen}" alt="generated plan"></div><div class="cap"><span>Real</span><span>Generated</span></div></div>`).join("");
+
+// Tables
+function table(cols, better, decs, rows, baseline) {
+  const best = cols.map((_, j) => {
+    if (better[j] === null) return null;
+    const vals = rows.map(r => r.cells[j]).filter(v => v !== null);
+    if (!vals.length) return null;
+    const b = better[j] ? Math.min(...vals) : Math.max(...vals);
+    return vals.filter(v => v === b).length <= 2 ? b : null;  // ties across many rows aren't informative
+  });
+  const cell = (v, j, isBase) => v === null ? `<td class="na">–</td>`
+    : `<td class="${!isBase && rows.length > 1 && v === best[j] ? "best" : ""}">${v.toLocaleString("en-US", { minimumFractionDigits: decs[j], maximumFractionDigits: decs[j] })}</td>`;
+  let h = `<table><thead><tr><th>Method · input</th>${cols.map(c => `<th>${c}</th>`).join("")}</tr></thead><tbody>`;
+  if (baseline) h += `<tr class="baseline"><td>Real plans<span class="cond">${baseline.name}</span></td>${baseline.cells.map((v, j) => cell(v, j, true)).join("")}</tr>`;
+  rows.forEach(r => { h += `<tr><td>${r.name}<span class="cond">${r.cond}</span></td>${r.cells.map((v, j) => cell(v, j, false)).join("")}</tr>`; });
+  return h + `</tbody></table>`;
+}
+function showGroup(i) {
+  const gr = D.groups[i];
+  document.querySelectorAll("#tabs button").forEach((b, j) => b.setAttribute("aria-selected", String(j === i)));
+  $("#tabpanel").innerHTML = `<p class="blurb">${gr.blurb}</p>
+    <h3>Rules</h3><div class="tablewrap">${table(D.ruleCols, D.ruleBetter, D.ruleDec, gr.rules, gr.baseline)}</div>
+    <h3>Against the GT plan for the same input</h3><div class="tablewrap">${table(D.pairedCols, D.pairedBetter, D.pairedDec, gr.paired)}</div>
+    <h3>Distribution</h3><div class="tablewrap">${table(D.distCols, D.distBetter, D.distDec, gr.dist)}</div>`;
+  try { localStorage.setItem("fpb-tab", String(i)); } catch (e) {}
+}
+$("#tabs").innerHTML = D.groups.map((gr, i) => `<button role="tab" id="tab-${i}" aria-selected="false">${gr.short} <span style="color:var(--muted);font-weight:400">${gr.rules.length}</span></button>`).join("");
+document.querySelectorAll("#tabs button").forEach((b, i) => b.addEventListener("click", () => showGroup(i)));
+let start = 0; try { start = Number(localStorage.getItem("fpb-tab")) || 0; } catch (e) {}
+showGroup(Math.min(start, D.groups.length - 1));
+$("#reftable").innerHTML = table(D.ruleCols, D.ruleBetter.map(() => null), D.ruleDec, D.refs);
+</script>
