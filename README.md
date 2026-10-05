@@ -10,11 +10,12 @@ Every method's output and every ground-truth dataset is converted to one shared 
 external/methods/     # generation methods as git submodules (pinned commits); see external/README.md
 external/data_tools/  # RPLAN data readers
 external/datasets/    # dataset parser repos (CubiCasa5k, ResPlan)
-fpeval/               # shared Python package: common format, renderer
+fpeval/               # shared Python package: common format, renderer, metrics, evaluation
 fpeval/datasets/      # GT dataset -> common format converters
 scripts/<method>/     # setup_env.sh, download.sh, run.sh, convert.py, NOTES.md per method
 scripts/datasets/     # GT dataset download scripts
-docs/                 # floorplan_format.md (format spec), datasets.md (GT sources)
+docs/                 # floorplan_format.md (format spec), datasets.md (GT sources), metrics.md
+results/              # evaluation summary tables (summary.md, CSVs)
 ```
 
 These paths are gitignored and live on disk only:
@@ -84,6 +85,23 @@ Render any sample directory with `python -m fpeval.render <dir>`.
 "RPLAN test subset" is a fixed set of 1000 plans (seed 0) drawn from the Graph2Plan RPLAN test split, listed in `data/method_inputs/common_rplan_test/ids_test_1000.txt`. The boundary methods are all compared on it. The Graph2Plan data has no interior doors, so for House-GAN++ and HouseDiffusion they are made up (one per non-living room, on the wall shared with the living room or a neighbour). This means neither run reproduces the papers' own test set.
 
 Methods without pretrained weights (Graph2Plan, Tell2Design, FloorplanGAN, MSD baselines, …) are included as submodules but not run. See [external/README.md](external/README.md).
+
+## Evaluation
+
+```bash
+export PYTHONPATH=. OMP_NUM_THREADS=1
+conda run -n fpe python -m fpeval.evaluate refs       # metrics on GT reference sets
+conda run -n fpe python -m fpeval.evaluate variants   # metrics on all generated variants (uses 1 GPU for FID)
+conda run -n fpe python -m fpeval.evaluate report     # -> results/summary.md
+```
+
+The metrics fall into four groups:
+- rules from the PI's notes (overlap, holes, boundary coverage, connectivity, rectilinearity, minimum area and width, aspect ratio)
+- paired comparison with each sample's GT (room count and types, adjacency F1, per-type IoU)
+- distribution distances to a GT reference set (FID/KID on rooms-only renders, room-count/type/area distributions)
+- the same rule metrics on every GT dataset, as a baseline
+
+The latest results are in [results/summary.md](results/summary.md) and the definitions in [docs/metrics.md](docs/metrics.md). Each variant is configured in `fpeval/eval_config.py`: scale, condition, reference set, and whether the output was vectorized from a raster.
 
 ## Ground-truth datasets
 

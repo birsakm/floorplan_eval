@@ -16,9 +16,10 @@ PALETTE = {
 assert set(PALETTE) == set(ROOM_TYPES)
 
 
-def render(sample, size=512, margin=16):
+def render(sample, size=512, margin=16, rooms_only=False):
+    """Render a sample. rooms_only=True skips boundary/doors/windows (used for FID)."""
     pts = [p for r in sample["rooms"] for p in r["polygon"]]
-    if sample.get("boundary"):
+    if sample.get("boundary") and not rooms_only:
         pts += sample["boundary"]
     img = Image.new("RGB", (size, size), (255, 255, 255))
     if not pts:
@@ -32,10 +33,13 @@ def render(sample, size=512, margin=16):
         return [((x - x0) * s + margin, (y - y0) * s + margin) for x, y in poly]
 
     draw = ImageDraw.Draw(img)
-    if sample.get("boundary"):
+    if sample.get("boundary") and not rooms_only:
         draw.polygon(tf(sample["boundary"]), fill=(245, 245, 245), outline=(0, 0, 0))
     for room in sample["rooms"]:
-        draw.polygon(tf(room["polygon"]), fill=PALETTE[room["type"]], outline=(0, 0, 0))
+        if len(room["polygon"]) >= 3:
+            draw.polygon(tf(room["polygon"]), fill=PALETTE[room["type"]], outline=(0, 0, 0))
+    if rooms_only:
+        return img
     for door in sample.get("doors") or []:
         draw.polygon(tf(door["polygon"]), fill=(255, 255, 255), outline=(60, 60, 60))
     for win in sample.get("windows") or []:
