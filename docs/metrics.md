@@ -87,3 +87,26 @@ Pairing is by sample id. For methods that draw several samples per input, the `_
 - **Raster outputs.** House-GAN, House-GAN++, MaskPLAN and ChatHouseDiffusion output rasters. Their converters vectorize them with `cv2.approxPolyDP`, which cuts staircase corners into long slanted edges. The models' pixel grids are rectilinear, but the polygons read as 25–28% non-rectilinear, so `frac_nonrectilinear_rooms` is blanked for these variants (`raster=True` in `eval_config.py`). Tell2Design GT is vectorized the same way. TODO: one shared pixel-edge polygonizer for all raster converters.
 - **Wall gaps.** RPLAN GT polygons from Graph2Plan have no wall gaps. Methods that leave wall-width gaps are handled by the wall tolerance, but wider gaps count as holes.
 - **Made-up doors.** For House-GAN++ and HouseDiffusion on the shared 1000-plan RPLAN test set, the interior doors in the input were made up (Graph2Plan data has none). See `scripts/houseganpp/NOTES.md`.
+
+
+## 4. Building norms of a jurisdiction (`fpeval/norms.py`)
+
+```bash
+PYTHONPATH=. OMP_NUM_THREADS=1 conda run -n fpe python -m fpeval.norms AT-9 --all   # Wien
+```
+
+This checks plans against the cited rule base of one jurisdiction from the floorplan-rules project (checked out next to this repo, or set `FLOORPLAN_RULES=<path>`). Each finding names its rule and paragraph. Only `law` and `model_code` rules count as binding. Output goes to `<dir>/eval/norms_<JUR>.{csv,json}` and `results/norms/<JUR>.md`.
+
+**Measured from the common format:**
+- room area;
+- room width and depth, as the sides of the minimum rotated rectangle;
+- door clear width, as the long side of the door polygon, plus the rooms the door joins;
+- dwelling area, excluding balconies, outdoor areas and garages;
+- the number of habitable rooms.
+
+**Not measured:** ceiling heights and window opening areas, which the format does not contain. The checker also assumes a new building, no funding, and `--accessibility none` by default.
+
+**Caveats:**
+- **Few checkable rules.** Few binding norms can be checked on 2D plans. For Wien it is mainly door width, corridor width (1.00 m inside dwellings) and the 30 m² dwelling minimum. Lower and Upper Austria add minimum room sizes (Wohnraum 10 m², bedroom 8 m²). The "binding rules measured / plan" column shows how much was checked.
+- **Doors.** Several generators draw doors as fixed-size symbols (WallPlan 0.70 m, DiffPlanner 0.84 m). Real-data door polygons give the nominal, not the clear width. Results are therefore also reported without door widths.
+- **Area basis.** The norms measure net (inner) area. Sources whose polygons follow wall centres (e.g. Graph2Plan RPLAN) pass area minimums slightly more easily than sources traced at the inner wall face (e.g. Tell2Design).

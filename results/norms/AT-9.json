@@ -1,0 +1,686 @@
+[
+ {
+  "target": "rplan_graph2plan:test",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 3000,
+  "share_breaking_binding_rule": 0.12066666666666667,
+  "share_breaking_excl_doors": 0.0003333333333333333,
+  "mean_binding_checked": 2.0023333333333335,
+  "mean_binding_not_met": 0.12066666666666667,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.12033333333333333,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   },
+   {
+    "rule": "at-n-btv-2014-anl4-02",
+    "share_of_plans": 0.0003333333333333333,
+    "statement": "A clear passage width of 1.00 m suffices for Hauptgänge (main corridors) in buildings with at most three dwellings, in Reihenhäuser (terraced houses), inside dwellings of buildings that need not be barrier-free, in adaptable dwellings where 1.20 m can be produced when needed, and in the part of multi-level adaptable dwellings that need not be accessible.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.4.1"
+   }
+  ]
+ },
+ {
+  "target": "tell2design:test",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 2308,
+  "share_breaking_binding_rule": 0.07409012131715771,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 2.0,
+  "mean_binding_not_met": 0.07409012131715771,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.07409012131715771,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "procthor10k:test",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 1000,
+  "share_breaking_binding_rule": 0.149,
+  "share_breaking_excl_doors": 0.149,
+  "mean_binding_checked": 4.413,
+  "mean_binding_not_met": 0.149,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.149,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "cubicasa5k:all",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 3000,
+  "share_breaking_binding_rule": 0.9033333333333333,
+  "share_breaking_excl_doors": 0.12866666666666668,
+  "mean_binding_checked": 9.428666666666667,
+  "mean_binding_not_met": 4.106333333333334,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.8756666666666667,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   },
+   {
+    "rule": "at-n-btv-2014-anl4-02",
+    "share_of_plans": 0.077,
+    "statement": "A clear passage width of 1.00 m suffices for Hauptgänge (main corridors) in buildings with at most three dwellings, in Reihenhäuser (terraced houses), inside dwellings of buildings that need not be barrier-free, in adaptable dwellings where 1.20 m can be produced when needed, and in the part of multi-level adaptable dwellings that need not be accessible.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.4.1"
+   },
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.053,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "resplan:all",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 3000,
+  "share_breaking_binding_rule": 0.18733333333333332,
+  "share_breaking_excl_doors": 0.0003333333333333333,
+  "mean_binding_checked": 8.379666666666667,
+  "mean_binding_not_met": 0.33066666666666666,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.18733333333333332,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   },
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.0003333333333333333,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "swiss_dwellings:all",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 3000,
+  "share_breaking_binding_rule": 0.766,
+  "share_breaking_excl_doors": 0.06733333333333333,
+  "mean_binding_checked": 9.802333333333333,
+  "mean_binding_not_met": 2.203333333333333,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.7346666666666667,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   },
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.048666666666666664,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   },
+   {
+    "rule": "at-n-btv-2014-anl4-02",
+    "share_of_plans": 0.020666666666666667,
+    "statement": "A clear passage width of 1.00 m suffices for Hauptgänge (main corridors) in buildings with at most three dwellings, in Reihenhäuser (terraced houses), inside dwellings of buildings that need not be barrier-free, in adaptable dwellings where 1.20 m can be produced when needed, and in the part of multi-level adaptable dwellings that need not be accessible.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.4.1"
+   }
+  ]
+ },
+ {
+  "target": "msd:train",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 3000,
+  "share_breaking_binding_rule": 0.051333333333333335,
+  "share_breaking_excl_doors": 0.051333333333333335,
+  "mean_binding_checked": 5.929666666666667,
+  "mean_binding_not_met": 0.09733333333333333,
+  "top_failed": [
+   {
+    "rule": "at-n-btv-2014-anl4-02",
+    "share_of_plans": 0.051333333333333335,
+    "statement": "A clear passage width of 1.00 m suffices for Hauptgänge (main corridors) in buildings with at most three dwellings, in Reihenhäuser (terraced houses), inside dwellings of buildings that need not be barrier-free, in adaptable dwellings where 1.20 m can be produced when needed, and in the part of multi-level adaptable dwellings that need not be accessible.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.4.1"
+   }
+  ]
+ },
+ {
+  "target": "magicplan:train",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 3000,
+  "share_breaking_binding_rule": 0.701,
+  "share_breaking_excl_doors": 0.18233333333333332,
+  "mean_binding_checked": 12.517666666666667,
+  "mean_binding_not_met": 3.5246666666666666,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.6543333333333333,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   },
+   {
+    "rule": "at-n-btv-2014-anl4-02",
+    "share_of_plans": 0.11566666666666667,
+    "statement": "A clear passage width of 1.00 m suffices for Hauptgänge (main corridors) in buildings with at most three dwellings, in Reihenhäuser (terraced houses), inside dwellings of buildings that need not be barrier-free, in adaptable dwellings where 1.20 m can be produced when needed, and in the part of multi-level adaptable dwellings that need not be accessible.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.4.1"
+   },
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.08,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "houseganpp/rplan-g2p_bubble_test1000_syndoors",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 1000,
+  "share_breaking_binding_rule": 0.536,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 7.108,
+  "mean_binding_not_met": 0.74,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.536,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "houseganpp/rplan_bubble_public",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 700,
+  "share_breaking_binding_rule": 0.45,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 6.464285714285714,
+  "mean_binding_not_met": 0.5971428571428572,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.45,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "house_diffusion/rplan-g2p_bubble_test1000_syndoors",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 997,
+  "share_breaking_binding_rule": 0.6379137412236711,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 7.733199598796389,
+  "mean_binding_not_met": 1.058174523570712,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.6379137412236711,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "house_diffusion/rplan_bubble_public",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 700,
+  "share_breaking_binding_rule": 0.4957142857142857,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 7.138571428571429,
+  "mean_binding_not_met": 0.7785714285714286,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.4957142857142857,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "gsdiff/rplan_uncond",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 3000,
+  "share_breaking_binding_rule": 0.012,
+  "share_breaking_excl_doors": 0.012,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.012,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.012,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "gsdiff/rplan_bubble_test1000",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 1000,
+  "share_breaking_binding_rule": 0.013,
+  "share_breaking_excl_doors": 0.013,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.013,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.013,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "gsdiff/rplan_boundary_test1000",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 1000,
+  "share_breaking_binding_rule": 0.011,
+  "share_breaking_excl_doors": 0.011,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.011,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.011,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "iplan/rplan_boundary_test1000",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 966,
+  "share_breaking_binding_rule": 0.11180124223602485,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 2.0,
+  "mean_binding_not_met": 0.11180124223602485,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.11180124223602485,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "diffplanner/rplan_boundary_test",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 3000,
+  "share_breaking_binding_rule": 0.24766666666666667,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 7.539,
+  "mean_binding_not_met": 0.27066666666666667,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.24766666666666667,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "wallplan/rplan_boundary_test1000",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 992,
+  "share_breaking_binding_rule": 1.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 6.881048387096774,
+  "mean_binding_not_met": 5.240927419354839,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 1.0,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "wallplan/bundled_boundary_test500",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 499,
+  "share_breaking_binding_rule": 1.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 7.006012024048096,
+  "mean_binding_not_met": 5.268537074148297,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 1.0,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "maskplan/rplan_boundary",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 500,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "maskplan/rplan_partial25",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 500,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "chathousediffusion/t2d_test_textgraph",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 2308,
+  "share_breaking_binding_rule": 0.6347487001733102,
+  "share_breaking_excl_doors": 0.01559792027729636,
+  "mean_binding_checked": 8.218804159445407,
+  "mean_binding_not_met": 1.1148180242634316,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.6312824956672444,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   },
+   {
+    "rule": "at-n-btv-2014-anl4-02",
+    "share_of_plans": 0.01559792027729636,
+    "statement": "A clear passage width of 1.00 m suffices for Hauptgänge (main corridors) in buildings with at most three dwellings, in Reihenhäuser (terraced houses), inside dwellings of buildings that need not be barrier-free, in adaptable dwellings where 1.20 m can be produced when needed, and in the part of multi-level adaptable dwellings that need not be accessible.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.4.1"
+   }
+  ]
+ },
+ {
+  "target": "ds2d/rplan5R_bubble_roomarea_test",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 500,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "ds2d/rplan6R_bubble_roomarea_test",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 500,
+  "share_breaking_binding_rule": 0.004,
+  "share_breaking_excl_doors": 0.004,
+  "mean_binding_checked": 1.002,
+  "mean_binding_not_met": 0.004,
+  "top_failed": [
+   {
+    "rule": "at-n-btv-2014-anl4-02",
+    "share_of_plans": 0.002,
+    "statement": "A clear passage width of 1.00 m suffices for Hauptgänge (main corridors) in buildings with at most three dwellings, in Reihenhäuser (terraced houses), inside dwellings of buildings that need not be barrier-free, in adaptable dwellings where 1.20 m can be produced when needed, and in the part of multi-level adaptable dwellings that need not be accessible.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.4.1"
+   },
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.002,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "ds2d/rplan7R_bubble_roomarea_test",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 500,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 1.002,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "ds2d/rplan8R_bubble_roomarea_test",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 500,
+  "share_breaking_binding_rule": 0.002,
+  "share_breaking_excl_doors": 0.002,
+  "mean_binding_checked": 1.008,
+  "mean_binding_not_met": 0.002,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.002,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "ds2d/procthor_bubble_constraints_test_lora-fullprompt",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 1000,
+  "share_breaking_binding_rule": 0.146,
+  "share_breaking_excl_doors": 0.146,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.146,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.146,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "ds2d/procthor_bubble_constraints_test_lora-mask",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 1000,
+  "share_breaking_binding_rule": 0.145,
+  "share_breaking_excl_doors": 0.145,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.145,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.145,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "ds2d/procthor_bubble_constraints_test_lora-presetmask",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 995,
+  "share_breaking_binding_rule": 0.12964824120603016,
+  "share_breaking_excl_doors": 0.12964824120603016,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.12964824120603016,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.12964824120603016,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "ds2d/procthor_constraints_test_lora-fullprompt",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 1000,
+  "share_breaking_binding_rule": 0.143,
+  "share_breaking_excl_doors": 0.143,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.143,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.143,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "ds2d/procthor_constraints_test_lora-mask",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 998,
+  "share_breaking_binding_rule": 0.14428857715430862,
+  "share_breaking_excl_doors": 0.14428857715430862,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.14428857715430862,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.14428857715430862,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ },
+ {
+  "target": "ds2d/procthor_constraints_test_lora-presetmask",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 790,
+  "share_breaking_binding_rule": 0.1291139240506329,
+  "share_breaking_excl_doors": 0.1291139240506329,
+  "mean_binding_checked": 1.0,
+  "mean_binding_not_met": 0.1291139240506329,
+  "top_failed": [
+   {
+    "rule": "at-dw-wien-nutzflaeche-30",
+    "share_of_plans": 0.1291139240506329,
+    "statement": "In Wien the Nutzfläche (usable floor area) of every dwelling must be at least 30 m².",
+    "jurisdiction": "AT-9",
+    "edition": null,
+    "source": "at-w-bo § 119 Abs. 2 Satz 2"
+   }
+  ]
+ }
+]

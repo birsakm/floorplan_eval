@@ -98,6 +98,8 @@ conda run -n fpe python -m fpeval.evaluate report     # -> results/summary.md
 
 Everything is computed from room polygons in meters; there are no image-based metrics.
 
+Building norms: `python -m fpeval.norms <jurisdiction> --all` checks plans against the cited rules of one jurisdiction (e.g. `AT-9` Wien). The rules come from [floorplan-rules](https://github.com/birsakm/floorplan-rules); see [docs/metrics.md](docs/metrics.md) §4 and `results/norms/`.
+
 - **Rules** (`fpeval/rules.py`): no overlap, no holes, one connected plan, and minimum area, minimum clear width and maximum aspect ratio per room type. They are checked on generated plans and on real datasets (as a baseline).
 - **Input adherence:** room count/types, adjacency F1, and exact polygon type IoU against the GT plan for the same input.
 - **Real-dataset statistics:** composition, room-area percentiles (p5/p50/p95) per type, connection matrices (shared wall and door) and average apartment graphs. These are computed from real data only and are meant to be sampled from later.
