@@ -11,7 +11,8 @@ Per method (columns of Table 1):
   dFID, dKID  FID / KID x1000 against RPLAN minus the score of the real layouts of the same inputs
               (fpeval.evaluate fid: eval/fid_rplan_graph2plan_test.json, 'floor')
 The Real row is the real layouts of the 1,000 inputs (outputs/rplan/g2p_test1000_programs/gt_samples, metres);
-its Reach is not reported: RPLAN has no interior doors (the ones in these files were synthesised for the inputs).
+its Reach comes from the original RPLAN masks with their real doors (fpeval/datasets/rplan_kaggle.py): Graph2Plan's
+RPLAN has no interior doors, and its room polygons are simplified boxes, so the door graph between them is not usable.
 Inputs: bubble methods read the bubble diagram from their sample's condition; ProcTHOR / Infinigen read the program
 of scripts/rplan/make_programs.py (same rooms and connections, plus the real rooms' areas).
 """
@@ -35,6 +36,7 @@ from fpeval.geometry import rooms_as_shapes, to_polygon  # noqa: E402
 from fpeval.metrics import door_edges  # noqa: E402
 
 PROGRAMS = ROOT / "outputs" / "rplan" / "g2p_test1000_programs"
+REAL_DOORS = ROOT / "data" / "rplan_kaggle" / "converted" / "samples"  # RPLAN with its real doors
 ROWS = [  # (row, variant key or None for Real, input kind)
     ("Real", None, "-"),
     ("House-GAN++", "houseganpp/rplan-g2p_bubble_test1000_syndoors", "bubble"),
@@ -127,10 +129,16 @@ def evaluate_row(name, key, kind, workers):
     if "area_rel_err" in df:
         out["area_rel_err"] = float(df.area_rel_err.mean())
     if key is None:
-        # RPLAN records no interior doors (only the front door); the ones in these files were synthesised for the
-        # bubble inputs and are often misplaced, so reachability of the real layouts is not measurable.
+        # The doors in these files were synthesised for the bubble inputs (Graph2Plan's RPLAN has no interior doors).
+        # Reach of the real layouts comes from the original RPLAN masks with their real doors instead
+        # (fpeval/datasets/rplan_kaggle.py, condition.mask_reach: front door -> free space and doors -> every room).
         out.pop("reach")
         out.pop("front_door")
+        real = [REAL_DOORS / f"test_{Path(f).stem}.json" for f in files]
+        if all(p.exists() for p in real):
+            m = [json.load(open(p))["condition"]["mask_reach"] for p in real]
+            out["reach"] = float(np.mean([x["all"] for x in m]))
+            out["reach_source"] = "original RPLAN masks (rplan_kaggle mask_reach)"
     if key is None:  # rules of the real layouts, as evaluated alongside House-GAN++ (same 1,000 inputs)
         g = pd.read_csv(ROOT / "outputs" / ROWS[1][1] / "eval" / "gt_per_sample.csv")
         out["valid"] = float(1 - g.any_rule_violation.mean())

@@ -4,6 +4,8 @@
   "variant": null,
   "input": "-",
   "N": 1000,
+  "reach": 0.921,
+  "reach_source": "original RPLAN masks (rplan_kaggle mask_reach)",
   "valid": 0.841,
   "dfid": 0.0,
   "dkid": 0.0
