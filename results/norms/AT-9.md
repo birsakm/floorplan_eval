@@ -32,11 +32,18 @@ Door widths are shown apart: several generators draw doors as fixed-size symbols
 | ds2d/rplan6R_bubble_roomarea_test | 500 | 1.0 | 0.00 | 0.00 | at-n-btv-2014-anl4-02 (0%), at-dw-wien-nutzflaeche-30 (0%) |
 | ds2d/rplan7R_bubble_roomarea_test | 500 | 1.0 | 0.00 | 0.00 | – |
 | ds2d/rplan8R_bubble_roomarea_test | 500 | 1.0 | 0.00 | 0.00 | at-dw-wien-nutzflaeche-30 (0%) |
+| ours/mason_old_apartment_n100_seed0 | 100 | 9.4 | 0.00 | 0.00 | – |
+| ours/mason_old_house_n100_seed0 | 138 | 10.5 | 0.00 | 0.00 | – |
+| infinigen/apartment_program_n100_seed0 | 100 | 9.7 | 0.04 | 0.00 | at-circ-tuer-80 (4%) |
+| infinigen/house_program_n100_seed0 | 138 | 10.8 | 0.06 | 0.00 | at-circ-tuer-80 (6%) |
+| infinigen/apartment_program_freecontour_n100_seed0 | 100 | 9.6 | 0.04 | 0.00 | at-circ-tuer-80 (4%) |
+| infinigen/house_program_freecontour_n100_seed0 | 138 | 10.7 | 0.07 | 0.00 | at-circ-tuer-80 (7%) |
+| procthor/apartment_program_n100_seed0 | 100 | 8.9 | 0.00 | 0.00 | – |
+| procthor/house_program_n100_seed0 | 138 | 10.7 | 0.00 | 0.00 | – |
+| scenesmith/house_published | 31 | 8.0 | 0.10 | 0.10 | at-dw-wien-nutzflaeche-30 (10%) |
 | ds2d/procthor_bubble_constraints_test_lora-fullprompt | 1000 | 1.0 | 0.15 | 0.15 | at-dw-wien-nutzflaeche-30 (15%) |
 | ds2d/procthor_bubble_constraints_test_lora-mask | 1000 | 1.0 | 0.14 | 0.14 | at-dw-wien-nutzflaeche-30 (14%) |
 | ds2d/procthor_bubble_constraints_test_lora-presetmask | 995 | 1.0 | 0.13 | 0.13 | at-dw-wien-nutzflaeche-30 (13%) |
 | ds2d/procthor_constraints_test_lora-fullprompt | 1000 | 1.0 | 0.14 | 0.14 | at-dw-wien-nutzflaeche-30 (14%) |
 | ds2d/procthor_constraints_test_lora-mask | 998 | 1.0 | 0.14 | 0.14 | at-dw-wien-nutzflaeche-30 (14%) |
 | ds2d/procthor_constraints_test_lora-presetmask | 790 | 1.0 | 0.13 | 0.13 | at-dw-wien-nutzflaeche-30 (13%) |
-| ours/mason_old_apartment_n100_seed0 | 100 | 9.4 | 0.00 | 0.00 | – |
-| ours/mason_old_house_n100_seed0 | 138 | 10.5 | 0.00 | 0.00 | – |

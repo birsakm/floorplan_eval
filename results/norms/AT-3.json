@@ -696,6 +696,201 @@
   ]
  },
  {
+  "target": "ours/mason_old_apartment_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 11.14,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "ours/mason_old_house_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.08695652173913043,
+  "share_breaking_excl_doors": 0.08695652173913043,
+  "mean_binding_checked": 12.384057971014492,
+  "mean_binding_not_met": 0.08695652173913043,
+  "top_failed": [
+   {
+    "rule": "at-rd-noe-wohnraum-10",
+    "share_of_plans": 0.08695652173913043,
+    "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
+    "jurisdiction": "AT-3",
+    "edition": null,
+    "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
+   }
+  ]
+ },
+ {
+  "target": "infinigen/apartment_program_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.22,
+  "share_breaking_excl_doors": 0.19,
+  "mean_binding_checked": 11.41,
+  "mean_binding_not_met": 0.48,
+  "top_failed": [
+   {
+    "rule": "at-rd-noe-wohnraum-10",
+    "share_of_plans": 0.19,
+    "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
+    "jurisdiction": "AT-3",
+    "edition": null,
+    "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
+   },
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.04,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "infinigen/house_program_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.5507246376811594,
+  "share_breaking_excl_doors": 0.5144927536231884,
+  "mean_binding_checked": 12.652173913043478,
+  "mean_binding_not_met": 1.036231884057971,
+  "top_failed": [
+   {
+    "rule": "at-rd-noe-wohnraum-10",
+    "share_of_plans": 0.5144927536231884,
+    "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
+    "jurisdiction": "AT-3",
+    "edition": null,
+    "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
+   },
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.057971014492753624,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "infinigen/apartment_program_freecontour_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.04,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 11.33,
+  "mean_binding_not_met": 0.24,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.04,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "infinigen/house_program_freecontour_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.21014492753623187,
+  "share_breaking_excl_doors": 0.15217391304347827,
+  "mean_binding_checked": 12.630434782608695,
+  "mean_binding_not_met": 0.4927536231884058,
+  "top_failed": [
+   {
+    "rule": "at-rd-noe-wohnraum-10",
+    "share_of_plans": 0.15217391304347827,
+    "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
+    "jurisdiction": "AT-3",
+    "edition": null,
+    "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
+   },
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.07246376811594203,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "procthor/apartment_program_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.34,
+  "share_breaking_excl_doors": 0.34,
+  "mean_binding_checked": 10.63,
+  "mean_binding_not_met": 0.4,
+  "top_failed": [
+   {
+    "rule": "at-rd-noe-wohnraum-10",
+    "share_of_plans": 0.34,
+    "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
+    "jurisdiction": "AT-3",
+    "edition": null,
+    "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
+   }
+  ]
+ },
+ {
+  "target": "procthor/house_program_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.5072463768115942,
+  "share_breaking_excl_doors": 0.5072463768115942,
+  "mean_binding_checked": 12.63768115942029,
+  "mean_binding_not_met": 0.6884057971014492,
+  "top_failed": [
+   {
+    "rule": "at-rd-noe-wohnraum-10",
+    "share_of_plans": 0.5072463768115942,
+    "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
+    "jurisdiction": "AT-3",
+    "edition": null,
+    "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
+   }
+  ]
+ },
+ {
+  "target": "scenesmith/house_published",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 31,
+  "share_breaking_binding_rule": 0.0967741935483871,
+  "share_breaking_excl_doors": 0.0967741935483871,
+  "mean_binding_checked": 8.67741935483871,
+  "mean_binding_not_met": 0.22580645161290322,
+  "top_failed": [
+   {
+    "rule": "at-rd-noe-wohnraum-10",
+    "share_of_plans": 0.0967741935483871,
+    "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
+    "jurisdiction": "AT-3",
+    "edition": null,
+    "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
+   }
+  ]
+ },
+ {
   "target": "ds2d/procthor_bubble_constraints_test_lora-fullprompt",
   "jurisdiction": "AT-3",
   "accessibility": "none",
@@ -808,37 +1003,6 @@
    {
     "rule": "at-rd-noe-wohnraum-10",
     "share_of_plans": 0.05949367088607595,
-    "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
-    "jurisdiction": "AT-3",
-    "edition": null,
-    "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
-   }
-  ]
- },
- {
-  "target": "ours/mason_old_apartment_n100_seed0",
-  "jurisdiction": "AT-3",
-  "accessibility": "none",
-  "n_plans": 100,
-  "share_breaking_binding_rule": 0.0,
-  "share_breaking_excl_doors": 0.0,
-  "mean_binding_checked": 11.14,
-  "mean_binding_not_met": 0.0,
-  "top_failed": []
- },
- {
-  "target": "ours/mason_old_house_n100_seed0",
-  "jurisdiction": "AT-3",
-  "accessibility": "none",
-  "n_plans": 138,
-  "share_breaking_binding_rule": 0.08695652173913043,
-  "share_breaking_excl_doors": 0.08695652173913043,
-  "mean_binding_checked": 12.384057971014492,
-  "mean_binding_not_met": 0.08695652173913043,
-  "top_failed": [
-   {
-    "rule": "at-rd-noe-wohnraum-10",
-    "share_of_plans": 0.08695652173913043,
     "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
     "jurisdiction": "AT-3",
     "edition": null,

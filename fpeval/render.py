@@ -54,13 +54,14 @@ def render_layout(sample, size=256, margin=8, wall_px=4, close=0.3, merge=LAYOUT
     """Uniform raster of the room layout for FID/KID, the same for every method and dataset.
 
     House-GAN / GRE-Diff style: white background, rooms filled with their type colour in decreasing area order,
-    black walls of wall_px pixels on every room boundary. Rooms are first grown by `close` (sample units, mitred)
-    so that wall gaps of up to 2 * close look the same whatever wall thickness a source draws. merge maps room
-    types to the type whose colour they get. align rotates the plan so its dominant
-    wall direction (length-weighted, modulo 90°) is axis-parallel, as in RPLAN-style data.
+    black walls of wall_px pixels on every room boundary. Rooms keep their true shape; wall gaps between rooms of
+    up to 2 * close (sample units) are filled, each gap pixel going to the nearest room, so the boundary lies on the
+    wall centreline whatever wall thickness a source draws. merge maps room types to the type whose colour they get.
+    align rotates the plan so its dominant wall direction (length-weighted, modulo 90°) is axis-parallel, as in
+    RPLAN-style data.
     """
     import numpy as np
-    from scipy.ndimage import binary_dilation
+    from scipy.ndimage import binary_dilation, distance_transform_edt
     from shapely import affinity
     from shapely.geometry import Polygon
 
@@ -79,11 +80,9 @@ def render_layout(sample, size=256, margin=8, wall_px=4, close=0.3, merge=LAYOUT
         near = np.abs(d) <= 2
         rot = peak + np.average(d[near], weights=w[near]) if near.any() else 0.0
         polys = [(affinity.rotate(p, -rot, origin=(0, 0)), t) for p, t in polys]
-    rooms = []
-    for p0, t in polys:
-        g = p0.buffer(close, join_style="mitre", mitre_limit=2.0)
-        rooms += [(p, merge.get(t, t)) for p in getattr(g, "geoms", [g]) if not p.is_empty]
+    rooms = [(p, merge.get(t, t)) for p0, t in polys for p in getattr(p0, "geoms", [p0]) if p.area > 0]
     labels = Image.new("I", (size, size), 0)
+    s = 1.0
     if rooms:
         x0, y0, x1, y1 = np.array([p.bounds for p, _ in rooms]).T
         x0, y0 = x0.min(), y0.min()
@@ -92,7 +91,26 @@ def render_layout(sample, size=256, margin=8, wall_px=4, close=0.3, merge=LAYOUT
         rooms.sort(key=lambda r: -r[0].area)
         for k, (p, _) in enumerate(rooms):
             draw.polygon([((x - x0) * s + margin, (y - y0) * s + margin) for x, y in p.exterior.coords], fill=k + 1)
-    lab = np.asarray(labels)
+    lab = np.array(labels)
+    gap_px = 2 * close * s
+    if gap_px > 0 and rooms:
+        # A background pixel is wall gap when it lies between two rooms: their nearest points are less than
+        # gap_px apart in total and in roughly opposite directions (so outer corners are not filled). It takes
+        # the nearest room.
+        pix = np.indices(lab.shape)
+        dist, vec = [], []  # per room: distance to it and vector from its nearest point
+        for k in range(1, len(rooms) + 1):
+            d, i = distance_transform_edt(lab != k, return_indices=True)
+            dist.append(d)
+            vec.append(pix - i)
+        dist, vec = np.stack(dist), np.stack(vec)
+        best = np.argmin(dist, axis=0)
+        d1 = np.take_along_axis(dist, best[None], 0)[0]
+        v1 = np.take_along_axis(vec, best[None, None], 0)[0]
+        cos = (vec * v1).sum(1) / np.maximum(dist * d1, 1e-9)
+        between = (np.arange(len(rooms))[:, None, None] != best) & (dist + d1 <= gap_px) & (cos <= -0.5)
+        gap = (lab == 0) & between.any(0)
+        lab[gap] = best[gap] + 1
     # Pixels on both sides of every label change (rooms and background), then widened to wall_px.
     dv, dh = lab[1:] != lab[:-1], lab[:, 1:] != lab[:, :-1]
     edge = np.zeros(lab.shape, bool)

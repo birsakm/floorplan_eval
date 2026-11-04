@@ -116,7 +116,7 @@ This checks plans against the cited rule base of one jurisdiction from the floor
 Recent papers report FID (House-GAN, House-GAN++, HouseDiffusion, WallPlan, DiffPlanner, GSDiff, GRE-Diff, Floor-plan RLVR) and KID (GSDiff, GRE-Diff). Each uses its own renderer, resolution and sample count, so their numbers cannot be compared across papers (docs/metrics_survey/metrics_floorplan.md §2.4). Here, every set is rendered with `render_layout`:
 
 - 256 × 256, white background, rooms filled with their type colour in decreasing area order (House-GAN), black walls 4 px wide on every room boundary (GRE-Diff). Doors and windows are not drawn.
-- Each room is first grown by 0.3 m (`WALL_GAP_CLOSE_M`), so the different wall gaps of the sources (0.07–0.35 m in Swiss Dwellings, ResPlan, CubiCasa5k, MagicPlan and ours, up to 0.6 m in RPLAN-image sources) all render the same.
+- Rooms keep their true shape. Wall gaps between two rooms of up to 2 × 0.3 m (`WALL_GAP_CLOSE_M`) are filled, each gap pixel going to the nearest room, so the different wall gaps of the sources (0.07–0.35 m in Swiss Dwellings, ResPlan, CubiCasa5k, MagicPlan and ours, up to 0.6 m in RPLAN-image sources) all render the same, with the wall on the gap's centreline. A pixel counts as gap only if the two rooms lie on roughly opposite sides of it, so outer corners stay sharp. (A first version grew every room by 0.3 m and painted smaller rooms on top, which widened small rooms by up to 0.25 m per side; all FID/KID numbers were recomputed.)
 - The plan is rotated so its dominant wall direction is axis-parallel, then fitted to the frame (no absolute scale).
 - Types that the datasets split differently share one colour (`LAYOUT_MERGE`: entrance → corridor, closet → storage, outdoor → balcony).
 

@@ -64,12 +64,12 @@ Inception-V3 features of uniform 256 px layout renders (`fpeval.render.render_la
 
 | reference | CubiCasa5k (n=2622) | MagicPlan (n=2622) |
 |---|---|---|
-| FID, ours (n=138) | 58.6 ± 0.2 | 41.9 ± 0.2 |
-| FID, held-out real of the same dataset (floor) | 17.4 ± 1.1 | 19.7 ± 0.3 |
-| FID, held-out real of the other dataset | 42.9 ± 2.2 | 44.0 ± 3.4 |
-| KID ×1000, ours | 58.4 ± 1.0 | 24.5 ± 0.4 |
-| KID ×1000, held-out real of the same dataset (floor) | -0.1 ± 0.6 | -0.1 ± 0.2 |
-| KID ×1000, held-out real of the other dataset | 33.8 ± 2.8 | 33.4 ± 5.3 |
+| FID, ours (n=138) | 86.8 ± 0.1 | 66.3 ± 0.3 |
+| FID, held-out real of the same dataset (floor) | 24.9 ± 0.9 | 26.9 ± 0.9 |
+| FID, held-out real of the other dataset | 48.6 ± 3.1 | 50.3 ± 3.5 |
+| KID ×1000, ours | 80.0 ± 0.6 | 43.8 ± 0.6 |
+| KID ×1000, held-out real of the same dataset (floor) | -0.1 ± 0.5 | 0.1 ± 0.6 |
+| KID ×1000, held-out real of the other dataset | 29.3 ± 3.2 | 29.5 ± 6.2 |
 
 FID at about 100 samples has a large positive bias (the floor is well above 0) and absolute values are not comparable with numbers in papers, which use other renderers and 1,000–12,000 samples. KID is unbiased.
 

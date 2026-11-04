@@ -66,3 +66,16 @@
 [submodule "external/datasets/resplan"]
 	path = external/datasets/resplan
 	url = https://github.com/m-agour/ResPlan.git
+[submodule "paper"]
+	path = paper
+	url = https://git@git.overleaf.com/6acbec6aae600190743abc5d
+	update = none
+[submodule "external/methods/infinigen"]
+	path = external/methods/infinigen
+	url = https://github.com/princeton-vl/infinigen.git
+[submodule "external/methods/scenesmith"]
+	path = external/methods/scenesmith
+	url = https://github.com/nepfaff/scenesmith.git
+[submodule "external/methods/procthor"]
+	path = external/methods/procthor
+	url = https://github.com/allenai/procthor.git

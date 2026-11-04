@@ -32,11 +32,18 @@ Door widths are shown apart: several generators draw doors as fixed-size symbols
 | ds2d/rplan6R_bubble_roomarea_test | 500 | 3.2 | 0.31 | 0.31 | at-rd-noe-wohnraum-10 (31%), at-n-btv-2014-anl4-02 (0%) |
 | ds2d/rplan7R_bubble_roomarea_test | 500 | 3.6 | 0.55 | 0.55 | at-rd-noe-wohnraum-10 (55%) |
 | ds2d/rplan8R_bubble_roomarea_test | 500 | 3.9 | 0.57 | 0.57 | at-rd-noe-wohnraum-10 (57%) |
+| ours/mason_old_apartment_n100_seed0 | 100 | 11.1 | 0.00 | 0.00 | – |
+| ours/mason_old_house_n100_seed0 | 138 | 12.4 | 0.09 | 0.09 | at-rd-noe-wohnraum-10 (9%) |
+| infinigen/apartment_program_n100_seed0 | 100 | 11.4 | 0.22 | 0.19 | at-rd-noe-wohnraum-10 (19%), at-circ-tuer-80 (4%) |
+| infinigen/house_program_n100_seed0 | 138 | 12.7 | 0.55 | 0.51 | at-rd-noe-wohnraum-10 (51%), at-circ-tuer-80 (6%) |
+| infinigen/apartment_program_freecontour_n100_seed0 | 100 | 11.3 | 0.04 | 0.00 | at-circ-tuer-80 (4%) |
+| infinigen/house_program_freecontour_n100_seed0 | 138 | 12.6 | 0.21 | 0.15 | at-rd-noe-wohnraum-10 (15%), at-circ-tuer-80 (7%) |
+| procthor/apartment_program_n100_seed0 | 100 | 10.6 | 0.34 | 0.34 | at-rd-noe-wohnraum-10 (34%) |
+| procthor/house_program_n100_seed0 | 138 | 12.6 | 0.51 | 0.51 | at-rd-noe-wohnraum-10 (51%) |
+| scenesmith/house_published | 31 | 8.7 | 0.10 | 0.10 | at-rd-noe-wohnraum-10 (10%) |
 | ds2d/procthor_bubble_constraints_test_lora-fullprompt | 1000 | 2.0 | 0.05 | 0.05 | at-rd-noe-wohnraum-10 (5%) |
 | ds2d/procthor_bubble_constraints_test_lora-mask | 1000 | 2.0 | 0.04 | 0.04 | at-rd-noe-wohnraum-10 (4%) |
 | ds2d/procthor_bubble_constraints_test_lora-presetmask | 995 | 2.0 | 0.04 | 0.04 | at-rd-noe-wohnraum-10 (4%) |
 | ds2d/procthor_constraints_test_lora-fullprompt | 1000 | 2.0 | 0.04 | 0.04 | at-rd-noe-wohnraum-10 (4%) |
 | ds2d/procthor_constraints_test_lora-mask | 998 | 2.0 | 0.05 | 0.05 | at-rd-noe-wohnraum-10 (5%) |
 | ds2d/procthor_constraints_test_lora-presetmask | 790 | 1.9 | 0.06 | 0.06 | at-rd-noe-wohnraum-10 (6%) |
-| ours/mason_old_apartment_n100_seed0 | 100 | 11.1 | 0.00 | 0.00 | – |
-| ours/mason_old_house_n100_seed0 | 138 | 12.4 | 0.09 | 0.09 | at-rd-noe-wohnraum-10 (9%) |

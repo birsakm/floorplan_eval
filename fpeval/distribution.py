@@ -7,7 +7,7 @@ from multiprocessing import Pool
 import numpy as np
 
 _INCEPTION = {}
-WALL_GAP_CLOSE_M = 0.3  # rooms are grown by this before rendering: closes wall gaps up to 0.6 m (RPLAN-image sources)
+WALL_GAP_CLOSE_M = 0.3  # wall gaps up to twice this are filled before rendering (RPLAN-image sources: up to 0.6 m)
 
 
 def default_device():

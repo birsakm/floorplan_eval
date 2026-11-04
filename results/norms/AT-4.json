@@ -696,6 +696,183 @@
   ]
  },
  {
+  "target": "ours/mason_old_apartment_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 10.13,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "ours/mason_old_house_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 11.384057971014492,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "infinigen/apartment_program_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.12,
+  "share_breaking_excl_doors": 0.08,
+  "mean_binding_checked": 10.4,
+  "mean_binding_not_met": 0.36,
+  "top_failed": [
+   {
+    "rule": "at-rd-ooe-schlafraum-8",
+    "share_of_plans": 0.08,
+    "statement": "In Oberösterreich every Schlafraum (bedroom) in a dwelling must have a usable floor area (nutzbare Mindestfläche) of at least 8 m².",
+    "jurisdiction": "AT-4",
+    "edition": null,
+    "source": "at-o-btv-2013 § 3 Abs. 3 Satz 1"
+   },
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.04,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "infinigen/house_program_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.2463768115942029,
+  "share_breaking_excl_doors": 0.1956521739130435,
+  "mean_binding_checked": 11.652173913043478,
+  "mean_binding_not_met": 0.5434782608695652,
+  "top_failed": [
+   {
+    "rule": "at-rd-ooe-schlafraum-8",
+    "share_of_plans": 0.1956521739130435,
+    "statement": "In Oberösterreich every Schlafraum (bedroom) in a dwelling must have a usable floor area (nutzbare Mindestfläche) of at least 8 m².",
+    "jurisdiction": "AT-4",
+    "edition": null,
+    "source": "at-o-btv-2013 § 3 Abs. 3 Satz 1"
+   },
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.057971014492753624,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "infinigen/apartment_program_freecontour_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.04,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 10.32,
+  "mean_binding_not_met": 0.24,
+  "top_failed": [
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.04,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "infinigen/house_program_freecontour_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.13768115942028986,
+  "share_breaking_excl_doors": 0.07246376811594203,
+  "mean_binding_checked": 11.630434782608695,
+  "mean_binding_not_met": 0.4057971014492754,
+  "top_failed": [
+   {
+    "rule": "at-rd-ooe-schlafraum-8",
+    "share_of_plans": 0.07246376811594203,
+    "statement": "In Oberösterreich every Schlafraum (bedroom) in a dwelling must have a usable floor area (nutzbare Mindestfläche) of at least 8 m².",
+    "jurisdiction": "AT-4",
+    "edition": null,
+    "source": "at-o-btv-2013 § 3 Abs. 3 Satz 1"
+   },
+   {
+    "rule": "at-circ-tuer-80",
+    "share_of_plans": 0.07246376811594203,
+    "statement": "The usable clear passage width (nutzbare Breite der Durchgangslichte) of doors must be at least 80 cm.",
+    "jurisdiction": "AT:OIB",
+    "edition": "OIB-RL 4 Ausgabe Mai 2023",
+    "source": "at-n-btv-2014-anl4 OIB-RL 4 (Mai 2023), Punkt 2.7.1"
+   }
+  ]
+ },
+ {
+  "target": "procthor/apartment_program_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.09,
+  "share_breaking_excl_doors": 0.09,
+  "mean_binding_checked": 9.62,
+  "mean_binding_not_met": 0.1,
+  "top_failed": [
+   {
+    "rule": "at-rd-ooe-schlafraum-8",
+    "share_of_plans": 0.09,
+    "statement": "In Oberösterreich every Schlafraum (bedroom) in a dwelling must have a usable floor area (nutzbare Mindestfläche) of at least 8 m².",
+    "jurisdiction": "AT-4",
+    "edition": null,
+    "source": "at-o-btv-2013 § 3 Abs. 3 Satz 1"
+   }
+  ]
+ },
+ {
+  "target": "procthor/house_program_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.2536231884057971,
+  "share_breaking_excl_doors": 0.2536231884057971,
+  "mean_binding_checked": 11.63768115942029,
+  "mean_binding_not_met": 0.3188405797101449,
+  "top_failed": [
+   {
+    "rule": "at-rd-ooe-schlafraum-8",
+    "share_of_plans": 0.2536231884057971,
+    "statement": "In Oberösterreich every Schlafraum (bedroom) in a dwelling must have a usable floor area (nutzbare Mindestfläche) of at least 8 m².",
+    "jurisdiction": "AT-4",
+    "edition": null,
+    "source": "at-o-btv-2013 § 3 Abs. 3 Satz 1"
+   }
+  ]
+ },
+ {
+  "target": "scenesmith/house_published",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 31,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 7.709677419354839,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
   "target": "ds2d/procthor_bubble_constraints_test_lora-fullprompt",
   "jurisdiction": "AT-4",
   "accessibility": "none",
@@ -814,27 +991,5 @@
     "source": "at-o-btv-2013 § 3 Abs. 3 Satz 1"
    }
   ]
- },
- {
-  "target": "ours/mason_old_apartment_n100_seed0",
-  "jurisdiction": "AT-4",
-  "accessibility": "none",
-  "n_plans": 100,
-  "share_breaking_binding_rule": 0.0,
-  "share_breaking_excl_doors": 0.0,
-  "mean_binding_checked": 10.13,
-  "mean_binding_not_met": 0.0,
-  "top_failed": []
- },
- {
-  "target": "ours/mason_old_house_n100_seed0",
-  "jurisdiction": "AT-4",
-  "accessibility": "none",
-  "n_plans": 138,
-  "share_breaking_binding_rule": 0.0,
-  "share_breaking_excl_doors": 0.0,
-  "mean_binding_checked": 11.384057971014492,
-  "mean_binding_not_met": 0.0,
-  "top_failed": []
  }
 ]

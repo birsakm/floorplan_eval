@@ -30,6 +30,9 @@ The checkpoint and framework details below were taken from each repo's README (c
 | `what_a_comfortable_world` | What a Comfortable World | EG 2026 short | GPT-2 autoregressive + ergonomic loss | RPLAN | none | PyTorch |
 | `floorplan_llm` | FloorplanLLM (Shim et al., RLVR preprint) | preprint 2026 | room spec + connectivity → tokens | RPLAN | none | PyTorch (branch `new_branch`) |
 | `msd` | MSD baselines (MHD, GNN+U-Net) | ECCV 2024 | structure + graph → multi-apartment layout | MSD | none | PyTorch/PyG (branch `wip-house-diffusion-msd`) |
+| `infinigen` | Infinigen Indoors | CVPR 2024 | room graph + constraints → procedural layout (we inject our programs) | none (procedural) | none needed | Python, bpy 4.2 |
+| `scenesmith` | SceneSmith | ICML 2026 | text → agentic house layout → full scene (GPT-5.2) | none (agentic) | none; needs OpenAI API (not run; published scenes evaluated) | Python, Drake, Blender |
+| `procthor` | ProcTHOR | NeurIPS 2022 | room spec (4 room types, ratios) → procedural house | none (procedural) | none needed (layout stage run on our programs) | Python; AI2-THOR only for later stages |
 
 ## Data tools (`data_tools/`)
 

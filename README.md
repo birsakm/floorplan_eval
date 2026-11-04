@@ -16,6 +16,7 @@ scripts/<method>/     # setup_env.sh, download.sh, run.sh, convert.py, NOTES.md 
 scripts/datasets/     # GT dataset download scripts
 docs/                 # floorplan_format.md (format spec), datasets.md (GT sources), metrics.md
 results/              # evaluation summary tables (summary.md, CSVs)
+paper/                # CVPR 2027 paper: Overleaf git repo as submodule (needs Overleaf access; see Setup)
 ```
 
 These paths are gitignored and live on disk only:
@@ -29,6 +30,13 @@ These paths are gitignored and live on disk only:
 git clone --recursive https://github.com/birsakm/floorplan_eval.git
 # or, in an existing clone:
 git submodule update --init --recursive --depth 1
+```
+
+The paper (`paper/`) is the Overleaf project's git repo and is skipped by the commands above (`update = none`,
+since it needs Overleaf access). With access, check it out with:
+
+```bash
+git submodule update --init --checkout paper
 ```
 
 The shared environment `fpe` (Python 3.11) runs conversion, rendering and evaluation:

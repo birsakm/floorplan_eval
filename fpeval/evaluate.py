@@ -189,7 +189,7 @@ def main():
         for k in args.names or VARIANTS:
             eval_variant(k, args.workers)
     elif args.what == "fid":
-        for k in args.names or [k for k in VARIANTS if not k.startswith("ours/")]:
+        for k in args.names or [k for k in VARIANTS if not k.startswith(("ours/", "infinigen/", "procthor/"))]:
             if any((ROOT / "outputs" / k / "samples").glob("*.json")):
                 eval_fid(k, args.workers, args.ref)
     elif args.what == "stats":
