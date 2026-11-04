@@ -39,6 +39,18 @@ STAT_DATASETS = {
 }
 
 
+# FID/KID reference per evaluation set: a split the generated plans' inputs never come from, so the GT plans of
+# those inputs (the floor) are not in the reference. (split, max samples); LIFULL has no splits, so about 3% of
+# House-GAN's GT plans are expected in its reference.
+FID_N = 1000  # generated plans per variant (random subset of larger variants)
+FID_REFS = {
+    "rplan_graph2plan:test": ("val", 5000),
+    "tell2design:test": ("train", 5000),
+    "procthor10k:test": ("train", 5000),
+    "housegan_lifull:all": (None, 5000),
+    "swiss_dwellings:all": (None, 5000),
+    "cubicasa5k:all": (None, 5000),
+}
 def _v(condition, ref, scale=RPLAN_256, scale_known=True, frame_aligned=False, raster=False):
     return dict(condition=condition, ref=ref, scale=scale, scale_known=scale_known,
                 frame_aligned=frame_aligned, raster=raster)
@@ -61,6 +73,14 @@ VARIANTS = {
     "maskplan/rplan_partial25": _v("boundary+partial", "rplan_graph2plan:test", scale=18 / 128, frame_aligned=True, raster=True),
     "chathousediffusion/t2d_test_textgraph": _v("text+boundary", "tell2design:test", scale=18 / 64, frame_aligned=True, raster=True),
     **{f"ds2d/rplan{n}R_bubble_roomarea_test": _v("bubble+areas", "rplan_graph2plan:test") for n in (5, 6, 7, 8)},
+    # Floor-plan RLVR: polygons in metres in the RPLAN image frame, converted to 256 px (scale 18/256).
+    # Rooms are drawn with wall gaps (like DS2D); no boundary input, so not frame_aligned.
+    "floorplan_rlvr/rplan-g2p_bubble_areas_test1000_syndoors": _v("bubble+areas", "rplan_graph2plan:test"),
+    "floorplan_rlvr/rplan-g2p_bubble_areas_test1000_syndoors_sft": _v("bubble+areas", "rplan_graph2plan:test"),
+    # Ours (Mason's old program, data/ours): metric polygons, input is a brief (net area + room counts).
+    "ours/mason_old_apartment_n100_seed0": _v("brief", "swiss_dwellings:all", scale=1.0),
+    # Houses: one sample per storey (<home>_s<k>); rooms the State replay rejected are restored (scripts/ours/convert.py).
+    "ours/mason_old_house_n100_seed0": _v("brief", "cubicasa5k:all", scale=1.0),
     **{f"ds2d/procthor_{c}_test_lora-{l}": _v("constraints", "procthor10k:test", scale=1.0)
        for c in ("bubble_constraints", "constraints") for l in ("fullprompt", "mask", "presetmask")},
 }

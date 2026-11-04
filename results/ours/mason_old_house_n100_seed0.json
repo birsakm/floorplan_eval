@@ -1,0 +1,453 @@
+{
+ "variant": "ours/mason_old_house_n100_seed0",
+ "kind": "house",
+ "n_homes": 100,
+ "n_plans": 138,
+ "homes": {
+  "all": {
+   "room_counts_match": 1.0,
+   "room_count_abs_err": 0.0,
+   "net_area_rel_err": 0.0010593432683333338,
+   "net_area_incl_stairs_rel_err": 0.045254172368333324,
+   "program_door_recall": 1.0,
+   "program_door_precision": 1.0,
+   "program_wall_adjacent": 1.0,
+   "compatibility_ged": 0.0,
+   "all_reachable": 1.0,
+   "frac_reachable": 1.0,
+   "n_habitable_via_bedroom": 0.0,
+   "frac_habitable_window_ge_1_8": 1.0,
+   "frac_habitable_window_ge_1_10": 1.0,
+   "n": 100,
+   "net_area_rel_err_max": 0.006926891666666535,
+   "frac_ged_zero": 1.0,
+   "plans_all_habitable_ge_1_8": 1.0,
+   "stair_area_m2": 5.529381067199999
+  },
+  "1 storeys": {
+   "room_counts_match": 1.0,
+   "room_count_abs_err": 0.0,
+   "net_area_rel_err": 2.7999408602042464e-06,
+   "net_area_incl_stairs_rel_err": 2.7999408602042464e-06,
+   "program_door_recall": 1.0,
+   "program_door_precision": 1.0,
+   "program_wall_adjacent": 1.0,
+   "compatibility_ged": 0.0,
+   "all_reachable": 1.0,
+   "frac_reachable": 1.0,
+   "n_habitable_via_bedroom": 0.0,
+   "frac_habitable_window_ge_1_8": 1.0,
+   "frac_habitable_window_ge_1_10": 1.0,
+   "n": 62,
+   "net_area_rel_err_max": 9.13350000004698e-06,
+   "frac_ged_zero": 1.0,
+   "plans_all_habitable_ge_1_8": 1.0,
+   "stair_area_m2": 0.0
+  },
+  "2 storeys": {
+   "room_counts_match": 1.0,
+   "room_count_abs_err": 0.0,
+   "net_area_rel_err": 0.0027831771184210715,
+   "net_area_incl_stairs_rel_err": 0.1190853589605263,
+   "program_door_recall": 1.0,
+   "program_door_precision": 1.0,
+   "program_wall_adjacent": 1.0,
+   "compatibility_ged": 0.0,
+   "all_reachable": 1.0,
+   "frac_reachable": 1.0,
+   "n_habitable_via_bedroom": 0.0,
+   "frac_habitable_window_ge_1_8": 1.0,
+   "frac_habitable_window_ge_1_10": 1.0,
+   "n": 38,
+   "net_area_rel_err_max": 0.006926891666666535,
+   "frac_ged_zero": 1.0,
+   "plans_all_habitable_ge_1_8": 1.0,
+   "stair_area_m2": 14.551002808421051
+  }
+ },
+ "plans": {
+  "ours": {
+   "outline_rectangularity": 0.8448815547714903,
+   "outline_corners": 6.420289855072464,
+   "frac_rect_rooms": 0.9417518874040613,
+   "mean_room_aspect": 2.1486994604355965,
+   "mean_adjacency_degree": 2.9706526967396534,
+   "frac_habitable_with_window": 1.0,
+   "n_rooms": 8.03623188405797,
+   "total_area_m2": 93.27783432507246,
+   "n_living_room": 0.7246376811594203,
+   "n_kitchen": 0.7246376811594203,
+   "n_bedroom": 1.8985507246376812,
+   "n_bathroom": 1.6014492753623188,
+   "n_hallway": 1.0,
+   "n_storage": 0.7971014492753623,
+   "n_study": 0.2318840579710145,
+   "n_laundry": 0.17391304347826086,
+   "n_outdoor": 0.2898550724637681
+  },
+  "CubiCasa5k": {
+   "outline_rectangularity": 0.827094496900704,
+   "outline_corners": 12.88210922787194,
+   "frac_rect_rooms": 0.6380724359371204,
+   "mean_room_aspect": 1.6862196852601954,
+   "mean_adjacency_degree": 3.3578089098602892,
+   "frac_habitable_with_window": 0.9365372755414249,
+   "n_rooms": 11.367391304347827,
+   "total_area_m2": 99.68522457956047,
+   "n_living_room": 0.8369565217391305,
+   "n_kitchen": 0.8315217391304348,
+   "n_bedroom": 1.8985507246376812,
+   "n_bathroom": 1.6014492753623188,
+   "n_hallway": 1.1666666666666667,
+   "n_storage": 1.1731884057971014,
+   "n_study": 0.043115942028985506,
+   "n_laundry": 0.26159420289855073,
+   "n_outdoor": 1.4398550724637682,
+   "n_matched_plans": 2760,
+   "unmatched_generated": 0
+  },
+  "MagicPlan": {
+   "outline_rectangularity": 0.8493385822368636,
+   "outline_corners": 11.524953789279113,
+   "frac_rect_rooms": 0.681830860363469,
+   "mean_room_aspect": 1.6834566551859889,
+   "mean_adjacency_degree": 2.858298539222452,
+   "frac_habitable_with_window": 0.5816851181605279,
+   "n_rooms": 7.081159420289855,
+   "total_area_m2": 86.07418802985237,
+   "n_living_room": 0.5760869565217391,
+   "n_kitchen": 0.5159420289855072,
+   "n_bedroom": 1.8985507246376812,
+   "n_bathroom": 1.6014492753623188,
+   "n_hallway": 0.9514492753623188,
+   "n_storage": 0.3615942028985507,
+   "n_study": 0.11775362318840579,
+   "n_laundry": 0.10108695652173913,
+   "n_outdoor": 0.3264492753623188,
+   "n_matched_plans": 2760,
+   "unmatched_generated": 0
+  }
+ },
+ "areas": {
+  "living_room": {
+   "ours_median": 23.688399314999998,
+   "ours_n": 100,
+   "CubiCasa5k": {
+    "median": 19.64428096,
+    "p5": 9.77137329,
+    "p95": 34.2354708079999,
+    "ours_within_p5_p95": 0.83,
+    "w1_area_m2": 5.537119563537808,
+    "w1_aspect": 0.3234865258717248
+   },
+   "MagicPlan": {
+    "median": 21.708953067499998,
+    "p5": 9.220109549999998,
+    "p95": 55.11819005674985,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 5.912680471699879,
+    "w1_aspect": 0.15243289648591993
+   }
+  },
+  "kitchen": {
+   "ours_median": 12.57448257,
+   "ours_n": 100,
+   "CubiCasa5k": {
+    "median": 10.94158882,
+    "p5": 4.4862808680000015,
+    "p95": 21.89577449899997,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 2.8896050197490046,
+    "w1_aspect": 0.2281898477047021
+   },
+   "MagicPlan": {
+    "median": 10.044459880000002,
+    "p5": 3.962215276499999,
+    "p95": 32.089146021249995,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 5.458083511628854,
+    "w1_aspect": 0.2669082166359398
+   }
+  },
+  "bedroom": {
+   "ours_median": 14.249840680000002,
+   "ours_n": 262,
+   "CubiCasa5k": {
+    "median": 11.33886574,
+    "p5": 7.560339604999998,
+    "p95": 17.235460807500004,
+    "ours_within_p5_p95": 0.8129770992366412,
+    "w1_area_m2": 3.420445168850622,
+    "w1_aspect": 0.10508722693833032
+   },
+   "MagicPlan": {
+    "median": 12.409092835,
+    "p5": 6.4359019029999995,
+    "p95": 22.415174365750012,
+    "ours_within_p5_p95": 0.9885496183206107,
+    "w1_area_m2": 3.373424115676618,
+    "w1_aspect": 0.03931569806747951
+   }
+  },
+  "bathroom": {
+   "ours_median": 5.549999999999999,
+   "ours_n": 221,
+   "CubiCasa5k": {
+    "median": 3.0726709349999997,
+    "p5": 1.361926869999999,
+    "p95": 6.850468727999998,
+    "ours_within_p5_p95": 0.8778280542986425,
+    "w1_area_m2": 2.381955865908209,
+    "w1_aspect": 0.6217560938902578
+   },
+   "MagicPlan": {
+    "median": 3.71618075,
+    "p5": 1.366676799999997,
+    "p95": 9.473395623999997,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 2.594337507680472,
+    "w1_aspect": 0.4296704399767737
+   }
+  },
+  "hallway": {
+   "ours_median": 10.573219999999997,
+   "ours_n": 138,
+   "CubiCasa5k": {
+    "median": 6.20268991,
+    "p5": 1.271499326999996,
+    "p95": 16.728281425499997,
+    "ours_within_p5_p95": 0.8695652173913043,
+    "w1_area_m2": 5.085792916070399,
+    "w1_aspect": 4.054235259255227
+   },
+   "MagicPlan": {
+    "median": 6.694091459999999,
+    "p5": 1.4984669999999998,
+    "p95": 58.489486162500015,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 8.804302573475995,
+    "w1_aspect": 3.5397849309106735
+   }
+  },
+  "storage": {
+   "ours_median": 5.6921195199999985,
+   "ours_n": 110,
+   "CubiCasa5k": {
+    "median": 2.9972656500000006,
+    "p5": 1.3792738110000005,
+    "p95": 11.387801700000004,
+    "ours_within_p5_p95": 0.9,
+    "w1_area_m2": 3.5113185467195267,
+    "w1_aspect": 0.384229664624889
+   },
+   "MagicPlan": {
+    "median": 1.6401535050000007,
+    "p5": 0.39240407025,
+    "p95": 12.502694942249997,
+    "ours_within_p5_p95": 0.9454545454545454,
+    "w1_area_m2": 7.045399321579716,
+    "w1_aspect": 0.38174092068397253
+   }
+  },
+  "study": {
+   "ours_median": 10.39769778,
+   "ours_n": 32,
+   "CubiCasa5k": {
+    "median": 9.636042459999997,
+    "p5": 3.9379153940000013,
+    "p95": 21.393826920999974,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 2.0917857833442786,
+    "w1_aspect": 0.07003546284663037
+   },
+   "MagicPlan": {
+    "median": 11.212880800000002,
+    "p5": 4.481540744,
+    "p95": 36.728126929000005,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 5.978993786449751,
+    "w1_aspect": 0.11406897260716699
+   }
+  },
+  "laundry": {
+   "ours_median": 5.649710795000001,
+   "ours_n": 24,
+   "CubiCasa5k": {
+    "median": 6.815880249999998,
+    "p5": 2.775558899999998,
+    "p95": 12.357620695499996,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 2.0447181269053485,
+    "w1_aspect": 0.5033392136046188
+   },
+   "MagicPlan": {
+    "median": 4.204243655,
+    "p5": 1.1496328415000001,
+    "p95": 14.041100689999997,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 3.0653734165597015,
+    "w1_aspect": 0.4739761417473075
+   }
+  },
+  "outdoor": {
+   "ours_median": 7.979828229999997,
+   "ours_n": 40,
+   "CubiCasa5k": {
+    "median": 6.254638764999999,
+    "p5": 1.0754682120000003,
+    "p95": 26.755295975499987,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 3.606197602605969,
+    "w1_aspect": 0.6086226317684356
+   },
+   "MagicPlan": {
+    "median": 4.701453479999999,
+    "p5": 1.3898440800000003,
+    "p95": 31.98520134,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 4.328980825706965,
+    "w1_aspect": 1.2709873866017205
+   }
+  }
+ },
+ "realism": {
+  "CubiCasa5k": {
+   "c2st_1nn_acc": 0.939855072463768,
+   "largest_differences": {
+    "frac_rect_rooms": {
+     "d": 2.1789020365224094,
+     "ours": 0.9417518874040613,
+     "real": 0.6380724359371204
+    },
+    "mean_room_aspect": {
+     "d": 1.469988228039959,
+     "ours": 2.1486994604355965,
+     "real": 1.6862196852601954
+    },
+    "n_outdoor": {
+     "d": -1.4683021817114696,
+     "ours": 0.2898550724637681,
+     "real": 1.4398550724637682
+    },
+    "outline_corners": {
+     "d": -1.3654728140377845,
+     "ours": 6.420289855072464,
+     "real": 12.392028985507247
+    },
+    "share_outdoor": {
+     "d": -1.1479254629666533,
+     "ours": 0.023589664880774516,
+     "real": 0.1458128231678196
+    },
+    "n_rooms": {
+     "d": -0.9846047821926647,
+     "ours": 8.03623188405797,
+     "real": 11.367391304347827
+    },
+    "mean_adjacency_degree": {
+     "d": -0.8678818255511197,
+     "ours": 2.9706526967396534,
+     "real": 3.3578089098602892
+    },
+    "mean_room_convexity": {
+     "d": 0.8559200165240477,
+     "ours": 0.9884235856810508,
+     "real": 0.9723772654029768
+    }
+   },
+   "c2st_real_vs_real": 0.48478260869565215
+  },
+  "MagicPlan": {
+   "c2st_1nn_acc": 0.9079710144927537,
+   "largest_differences": {
+    "mean_room_aspect": {
+     "d": 1.6612446713926134,
+     "ours": 2.1486994604355965,
+     "real": 1.6834566551859889
+    },
+    "frac_rect_rooms": {
+     "d": 1.4735952478111969,
+     "ours": 0.9417518874040613,
+     "real": 0.681830860363469
+    },
+    "outline_corners": {
+     "d": -0.9927296259313261,
+     "ours": 6.420289855072464,
+     "real": 11.295289855072463
+    },
+    "mean_room_convexity": {
+     "d": 0.8681717844829014,
+     "ours": 0.9884235856810508,
+     "real": 0.9695618366751142
+    },
+    "n_storage": {
+     "d": 0.6840421119573616,
+     "ours": 0.7971014492753623,
+     "real": 0.3615942028985507
+    },
+    "share_storage": {
+     "d": 0.632204747082201,
+     "ours": 0.0703567536402006,
+     "real": 0.022027681828948275
+    },
+    "n_rooms": {
+     "d": 0.49710060993886424,
+     "ours": 8.03623188405797,
+     "real": 7.081159420289855
+    },
+    "n_kitchen": {
+     "d": 0.4207550590544898,
+     "ours": 0.7246376811594203,
+     "real": 0.5159420289855072
+    }
+   },
+   "c2st_real_vs_real": 0.5036231884057971
+  },
+  "MagicPlan vs CubiCasa5k": {
+   "c2st_1nn_acc": 0.9061594202898551
+  }
+ },
+ "diversity": {
+  "CubiCasa5k": 0.9858695652173914,
+  "MagicPlan": 0.975,
+  "ours": 0.7463768115942029
+ },
+ "fid": {
+  "CubiCasa5k": {
+   "fid": 58.5541154323544,
+   "fid_std": 0.2053557645829737,
+   "kid_x1000": 58.38235739271467,
+   "kid_x1000_std": 1.0043767893334443,
+   "fid_real_vs_real": 17.419270019365683,
+   "fid_real_vs_real_std": 1.096494446189101,
+   "kid_real_vs_real_x1000": -0.11749426893806536,
+   "kid_real_vs_real_x1000_std": 0.5903591979661513,
+   "fid_other_real": 42.867618632063724,
+   "fid_other_real_std": 2.2081932614818602,
+   "kid_other_real_x1000": 33.82449153204696,
+   "kid_other_real_x1000_std": 2.797809458742258,
+   "n_ours": 138,
+   "n_ref": 2622,
+   "n_held_out": 138,
+   "other_real": "MagicPlan"
+  },
+  "MagicPlan": {
+   "fid": 41.86424485510893,
+   "fid_std": 0.15382688395488975,
+   "kid_x1000": 24.466337262106997,
+   "kid_x1000_std": 0.41222636099309795,
+   "fid_real_vs_real": 19.749239282901137,
+   "fid_real_vs_real_std": 0.28102689355063265,
+   "kid_real_vs_real_x1000": -0.12243725668017902,
+   "kid_real_vs_real_x1000_std": 0.1764390638981048,
+   "fid_other_real": 43.99484783089038,
+   "fid_other_real_std": 3.4128493395904798,
+   "kid_other_real_x1000": 33.38005406949221,
+   "kid_other_real_x1000_std": 5.321171396511086,
+   "n_ours": 138,
+   "n_ref": 2622,
+   "n_held_out": 138,
+   "other_real": "CubiCasa5k"
+  }
+ }
+}

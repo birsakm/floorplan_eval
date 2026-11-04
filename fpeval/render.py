@@ -15,6 +15,9 @@ PALETTE = {
 }
 assert set(PALETTE) == set(ROOM_TYPES)
 
+# Types drawn in one colour by render_layout: the datasets split these differently.
+LAYOUT_MERGE = {"entrance": "corridor", "closet": "storage", "outdoor": "balcony"}
+
 
 def render(sample, size=512, margin=16, rooms_only=False):
     """Render a sample. rooms_only=True skips boundary/doors/windows."""
@@ -45,6 +48,64 @@ def render(sample, size=512, margin=16, rooms_only=False):
     for win in sample.get("windows") or []:
         draw.polygon(tf(win["polygon"]), fill=(150, 220, 255), outline=(0, 0, 255))
     return img
+
+
+def render_layout(sample, size=256, margin=8, wall_px=4, close=0.3, merge=LAYOUT_MERGE, align=True):
+    """Uniform raster of the room layout for FID/KID, the same for every method and dataset.
+
+    House-GAN / GRE-Diff style: white background, rooms filled with their type colour in decreasing area order,
+    black walls of wall_px pixels on every room boundary. Rooms are first grown by `close` (sample units, mitred)
+    so that wall gaps of up to 2 * close look the same whatever wall thickness a source draws. merge maps room
+    types to the type whose colour they get. align rotates the plan so its dominant
+    wall direction (length-weighted, modulo 90°) is axis-parallel, as in RPLAN-style data.
+    """
+    import numpy as np
+    from scipy.ndimage import binary_dilation
+    from shapely import affinity
+    from shapely.geometry import Polygon
+
+    merge = merge or {}
+    polys = [(Polygon(r["polygon"]).buffer(0), r["type"]) for r in sample["rooms"] if len(r["polygon"]) >= 3]
+    edges = [np.diff(np.asarray(p.exterior.coords), axis=0) for p, _ in polys
+             if p.geom_type == "Polygon" and not p.is_empty]
+    if align and edges:
+        # Wall direction (modulo 90°) with the most edge length; plans with walls in several directions keep
+        # the main one axis-parallel instead of averaging between them.
+        e = np.concatenate(edges)
+        w, th = np.hypot(*e.T), np.degrees(np.arctan2(e[:, 1], e[:, 0])) % 90
+        hist = np.bincount(np.round(th).astype(int) % 90, weights=w, minlength=90)
+        peak = np.argmax(hist + np.roll(hist, 1) + np.roll(hist, -1))
+        d = (th - peak + 45) % 90 - 45  # offset from the peak in (-45, 45]
+        near = np.abs(d) <= 2
+        rot = peak + np.average(d[near], weights=w[near]) if near.any() else 0.0
+        polys = [(affinity.rotate(p, -rot, origin=(0, 0)), t) for p, t in polys]
+    rooms = []
+    for p0, t in polys:
+        g = p0.buffer(close, join_style="mitre", mitre_limit=2.0)
+        rooms += [(p, merge.get(t, t)) for p in getattr(g, "geoms", [g]) if not p.is_empty]
+    labels = Image.new("I", (size, size), 0)
+    if rooms:
+        x0, y0, x1, y1 = np.array([p.bounds for p, _ in rooms]).T
+        x0, y0 = x0.min(), y0.min()
+        s = (size - 2 * margin) / max(x1.max() - x0, y1.max() - y0, 1e-9)
+        draw = ImageDraw.Draw(labels)
+        rooms.sort(key=lambda r: -r[0].area)
+        for k, (p, _) in enumerate(rooms):
+            draw.polygon([((x - x0) * s + margin, (y - y0) * s + margin) for x, y in p.exterior.coords], fill=k + 1)
+    lab = np.asarray(labels)
+    # Pixels on both sides of every label change (rooms and background), then widened to wall_px.
+    dv, dh = lab[1:] != lab[:-1], lab[:, 1:] != lab[:, :-1]
+    edge = np.zeros(lab.shape, bool)
+    edge[1:] |= dv
+    edge[:-1] |= dv
+    edge[:, 1:] |= dh
+    edge[:, :-1] |= dh
+    if wall_px > 2:
+        edge = binary_dilation(edge, np.ones((wall_px - 1, wall_px - 1), bool))
+    colours = np.array([(255, 255, 255)] + [PALETTE[t] for _, t in rooms], np.uint8)
+    rgb = colours[lab]
+    rgb[edge] = 0
+    return Image.fromarray(rgb)
 
 
 def main():

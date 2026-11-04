@@ -2,7 +2,7 @@
 
 Code: `fpeval/metrics.py` (per-sample and paired), `fpeval/stats.py` (dataset statistics), `fpeval/rules.py` (thresholds), `fpeval/eval_config.py` (per-variant scale, condition, reference set).
 
-All metrics are computed from room polygons in meters. There are no image-based metrics (FID/KID were removed in round 2).
+All metrics are computed from room polygons in meters, except FID/KID (§5). FID/KID were removed in round 2 and brought back for comparability with recent papers, on one shared renderer.
 
 ```bash
 export PYTHONPATH=. OMP_NUM_THREADS=1
@@ -110,3 +110,18 @@ This checks plans against the cited rule base of one jurisdiction from the floor
 - **Few checkable rules.** Few binding norms can be checked on 2D plans. For Wien it is mainly door width, corridor width (1.00 m inside dwellings) and the 30 m² dwelling minimum. Lower and Upper Austria add minimum room sizes (Wohnraum 10 m², bedroom 8 m²). The "binding rules measured / plan" column shows how much was checked.
 - **Doors.** Several generators draw doors as fixed-size symbols (WallPlan 0.70 m, DiffPlanner 0.84 m). Real-data door polygons give the nominal, not the clear width. Results are therefore also reported without door widths.
 - **Area basis.** The norms measure net (inner) area. Sources whose polygons follow wall centres (e.g. Graph2Plan RPLAN) pass area minimums slightly more easily than sources traced at the inner wall face (e.g. Tell2Design).
+
+## 5. FID / KID on rendered layouts (`fpeval/distribution.py`, `fpeval/render.py`)
+
+Recent papers report FID (House-GAN, House-GAN++, HouseDiffusion, WallPlan, DiffPlanner, GSDiff, GRE-Diff, Floor-plan RLVR) and KID (GSDiff, GRE-Diff). Each uses its own renderer, resolution and sample count, so their numbers cannot be compared across papers (docs/metrics_survey/metrics_floorplan.md §2.4). Here, every set is rendered with `render_layout`:
+
+- 256 × 256, white background, rooms filled with their type colour in decreasing area order (House-GAN), black walls 4 px wide on every room boundary (GRE-Diff). Doors and windows are not drawn.
+- Each room is first grown by 0.3 m (`WALL_GAP_CLOSE_M`), so the different wall gaps of the sources (0.07–0.35 m in Swiss Dwellings, ResPlan, CubiCasa5k, MagicPlan and ours, up to 0.6 m in RPLAN-image sources) all render the same.
+- The plan is rotated so its dominant wall direction is axis-parallel, then fitted to the frame (no absolute scale).
+- Types that the datasets split differently share one colour (`LAYOUT_MERGE`: entrance → corridor, closet → storage, outdoor → balcony).
+
+Features: Inception-V3 pool3 (pytorch-fid weights). KID is the unbiased polynomial-kernel MMD, ×1000.
+
+Baselines (`python -m fpeval.evaluate fid`, → `outputs/<variant>/eval/fid_<ref>.json`): up to 1,000 random generated plans per variant, scored against 5,000 real plans from a split the inputs never come from (`FID_REFS`: RPLAN val; Tell2Design and ProcTHOR train; LIFULL all, about 3% overlap). The floor is the GT plans of the same inputs when the variant is paired, otherwise random real plans of the evaluation set. `scripts/report/compare_methods.py` puts all methods into `results/comparison.md`.
+
+Evaluation of our plans (`scripts/ours/evaluate_ours.py`): the reference is the composition-matched real set (20 real plans per generated plan). With only 100–140 generated plans, FID has a large positive bias, so each of 5 rounds holds out one matched real plan per generated plan and scores both ours and that held-out set against the remaining reference. The held-out score is the floor for a perfect generator at this sample size; the held-out plans of the other real dataset give a cross-dataset value on the same footing. KID is unbiased and is the more reliable of the two at this size.

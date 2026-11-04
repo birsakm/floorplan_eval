@@ -93,10 +93,12 @@ export PYTHONPATH=. OMP_NUM_THREADS=1
 conda run -n fpe python -m fpeval.evaluate refs       # metrics on GT reference sets
 conda run -n fpe python -m fpeval.evaluate stats      # real-dataset statistics -> results/datasets/
 conda run -n fpe python -m fpeval.evaluate variants   # rule checks on all generated variants
+conda run -n fpe python -m fpeval.evaluate fid        # FID/KID of all variants (CPU, ~1 min per variant)
 conda run -n fpe python -m fpeval.evaluate report     # -> results/summary.md
+conda run -n fpe python scripts/report/compare_methods.py   # -> results/comparison.md (all methods side by side)
 ```
 
-Everything is computed from room polygons in meters; there are no image-based metrics.
+Everything is computed from room polygons in meters, except FID/KID, which use one shared renderer for all sources (`fpeval.render.render_layout`; docs/metrics.md §5).
 
 Building norms: `python -m fpeval.norms <jurisdiction> --all` checks plans against the cited rules of one jurisdiction (e.g. `AT-9` Wien). The rules come from [floorplan-rules](https://github.com/birsakm/floorplan-rules); see [docs/metrics.md](docs/metrics.md) §4 and `results/norms/`.
 

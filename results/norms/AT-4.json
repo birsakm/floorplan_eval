@@ -814,5 +814,27 @@
     "source": "at-o-btv-2013 § 3 Abs. 3 Satz 1"
    }
   ]
+ },
+ {
+  "target": "ours/mason_old_apartment_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 10.13,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "ours/mason_old_house_n100_seed0",
+  "jurisdiction": "AT-4",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 11.384057971014492,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
  }
 ]

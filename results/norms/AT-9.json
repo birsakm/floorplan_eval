@@ -682,5 +682,27 @@
     "source": "at-w-bo § 119 Abs. 2 Satz 2"
    }
   ]
+ },
+ {
+  "target": "ours/mason_old_apartment_n100_seed0",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 9.42,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "ours/mason_old_house_n100_seed0",
+  "jurisdiction": "AT-9",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 10.485507246376812,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
  }
 ]

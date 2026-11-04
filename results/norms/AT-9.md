@@ -38,3 +38,5 @@ Door widths are shown apart: several generators draw doors as fixed-size symbols
 | ds2d/procthor_constraints_test_lora-fullprompt | 1000 | 1.0 | 0.14 | 0.14 | at-dw-wien-nutzflaeche-30 (14%) |
 | ds2d/procthor_constraints_test_lora-mask | 998 | 1.0 | 0.14 | 0.14 | at-dw-wien-nutzflaeche-30 (14%) |
 | ds2d/procthor_constraints_test_lora-presetmask | 790 | 1.0 | 0.13 | 0.13 | at-dw-wien-nutzflaeche-30 (13%) |
+| ours/mason_old_apartment_n100_seed0 | 100 | 9.4 | 0.00 | 0.00 | – |
+| ours/mason_old_house_n100_seed0 | 138 | 10.5 | 0.00 | 0.00 | – |

@@ -3,6 +3,7 @@
     python -m fpeval.evaluate refs  [names...]   # GT reference sets (run first)
     python -m fpeval.evaluate variants [method/variant ...]
     python -m fpeval.evaluate stats              # dataset statistics -> results/datasets/
+    python -m fpeval.evaluate fid [method/variant ...] [--ref NAME]   # FID/KID -> <variant>/eval/fid_<ref>.json
     python -m fpeval.evaluate report             # results/summary.{csv,md}
 
 Writes per-sample / per-room (/ per-edge for references) CSVs and summary.json into <dir>/eval/.
@@ -18,7 +19,7 @@ import numpy as np
 import pandas as pd
 
 from . import rules
-from .eval_config import REFERENCES, VARIANTS
+from .eval_config import FID_N, FID_REFS, REFERENCES, VARIANTS
 from .format import load_sample
 from .metrics import door_edges, paired_metrics, sample_metrics
 
@@ -124,11 +125,62 @@ def eval_variant(key, workers):
     print(f"[var] {key}: {len(rows)} samples, {summary['any_rule_violation']:.2f} break a rule")
 
 
+def _split_files(name, split, max_n, seed=0):
+    d = ROOT / REFERENCES[name][0]
+    if split is None:
+        ids = sorted(p.stem for p in (d / "samples").glob("*.json"))
+    else:
+        ids = sorted(json.load(open(d / "splits.json"))["splits"][split])
+    if len(ids) > max_n:
+        ids = sorted(np.random.default_rng(seed).choice(ids, max_n, replace=False))
+    return [d / "samples" / f"{i}.json" for i in ids]
+
+
+def eval_fid(key, workers, ref=None):
+    """FID/KID of a variant (up to FID_N random plans) against real plans, with a floor at the same size.
+
+    Floor: the GT plans of the same inputs when the variant has them (what reproducing the GT would score),
+    otherwise the same number of random plans from the evaluation set. The reference comes from FID_REFS.
+    """
+    from .distribution import fid, kid, layout_features
+    cfg = VARIANTS[key]
+    ref = ref or cfg["ref"]
+    vdir = ROOT / "outputs" / key
+    files = sorted((vdir / "samples").glob("*.json"))
+    if len(files) > FID_N:
+        files = sorted(np.random.default_rng(0).choice(files, FID_N, replace=False))
+    gt_dir = vdir / "gt_samples"
+    gt_ids = {p.stem for p in gt_dir.glob("*.json")} if gt_dir.is_dir() and ref == cfg["ref"] else set()
+    gts = sorted({g for g in (_gt_id(f.stem, gt_ids) for f in files) if g is not None})
+    if len(gts) >= 0.9 * len(files):
+        floor, floor_kind, floor_scale = [gt_dir / f"{g}.json" for g in gts], "GT of the same inputs", cfg["scale"]
+    else:
+        floor = list(np.random.default_rng(1).permutation(ref_files(ref)))[:len(files)]
+        floor_kind, floor_scale = "random real plans", REFERENCES[ref][2]
+    split, max_n = FID_REFS[ref]
+    rfiles = _split_files(ref, split, max_n)
+    rset = set(map(str, rfiles))
+    floor = [f for f in floor if str(f) not in rset]
+    rcache = ref_dir(ref) / f"fid_features_{split or 'all'}.npz"
+    R = layout_features(rfiles, rcache, REFERENCES[ref][2], workers)
+    G = layout_features(files, vdir / "eval" / "fid_features.npz", cfg["scale"], workers)
+    Fl = layout_features(floor, (vdir / "eval" if floor_kind.startswith("GT") else ref_dir(ref)) / "fid_features_floor.npz",
+                         floor_scale, workers)
+    out = {"variant": key, "ref": ref, "ref_split": split, "n": len(G), "n_ref": len(R), "n_floor": len(Fl),
+           "floor": floor_kind, "fid": fid(G, R), "fid_floor": fid(Fl, R)}
+    out["kid_x1000"], out["kid_x1000_std"] = (1000 * v for v in kid(G, R))
+    out["kid_floor_x1000"], out["kid_floor_x1000_std"] = (1000 * v for v in kid(Fl, R))
+    json.dump(out, open(vdir / "eval" / f"fid_{ref.replace(':', '_')}.json", "w"), indent=1)
+    print(f"[fid] {key} vs {ref}: FID {out['fid']:.1f} (floor {out['fid_floor']:.1f}), "
+          f"KID {out['kid_x1000']:.1f} (floor {out['kid_floor_x1000']:.1f})")
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("what", choices=["refs", "variants", "stats", "report"])
+    ap.add_argument("what", choices=["refs", "variants", "stats", "fid", "report"])
     ap.add_argument("names", nargs="*")
     ap.add_argument("--workers", type=int, default=16)
+    ap.add_argument("--ref", default=None, help="fid: reference set instead of the variant's own")
     args = ap.parse_args()
     if args.what == "refs":
         for n in args.names or REFERENCES:
@@ -136,6 +188,10 @@ def main():
     elif args.what == "variants":
         for k in args.names or VARIANTS:
             eval_variant(k, args.workers)
+    elif args.what == "fid":
+        for k in args.names or [k for k in VARIANTS if not k.startswith("ours/")]:
+            if any((ROOT / "outputs" / k / "samples").glob("*.json")):
+                eval_fid(k, args.workers, args.ref)
     elif args.what == "stats":
         from .stats import write_stats
         write_stats()

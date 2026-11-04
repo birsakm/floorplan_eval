@@ -814,5 +814,36 @@
     "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
    }
   ]
+ },
+ {
+  "target": "ours/mason_old_apartment_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 100,
+  "share_breaking_binding_rule": 0.0,
+  "share_breaking_excl_doors": 0.0,
+  "mean_binding_checked": 11.14,
+  "mean_binding_not_met": 0.0,
+  "top_failed": []
+ },
+ {
+  "target": "ours/mason_old_house_n100_seed0",
+  "jurisdiction": "AT-3",
+  "accessibility": "none",
+  "n_plans": 138,
+  "share_breaking_binding_rule": 0.08695652173913043,
+  "share_breaking_excl_doors": 0.08695652173913043,
+  "mean_binding_checked": 12.384057971014492,
+  "mean_binding_not_met": 0.08695652173913043,
+  "top_failed": [
+   {
+    "rule": "at-rd-noe-wohnraum-10",
+    "share_of_plans": 0.08695652173913043,
+    "statement": "In Niederösterreich every Wohnraum (habitable room of a dwelling) must have a Netto-Grundfläche (net floor area) of at least 10 m²; floor areas with a clear height below 1.5 m are not counted.",
+    "jurisdiction": "AT-3",
+    "edition": null,
+    "source": "at-n-bo-2014 § 47 Abs. 2 Satz 1"
+   }
+  ]
  }
 ]

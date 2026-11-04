@@ -168,6 +168,34 @@ Computed by `python -m fpeval.evaluate stats`. Full tables, including connection
 |---|---|---|---|---|
 | chathousediffusion/t2d_test_textgraph (text+boundary) | 0.62 | 0.40 | 0.78 | 0.51 |
 
+## Generated plans with inputs from swiss_dwellings:all
+
+### Rules
+
+| variant (condition) | N | yield | rooms | overlap | holes | bnd cov | outside | pieces | non-rect | < min area | < min width | > max aspect | plans breaking a rule |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| ours/mason_old_apartment_n100_seed0 (brief) | 100 | – | 6.4 | 0.000 | 0.000 | 0.974 | 0.000 | 1.00 | 0.000 | 0.000 | 0.000 | 0.000 | 0.00 |
+
+### Following the input (against the GT plan for the same input)
+
+| variant (condition) | room count right | room types right | adjacency F1 | type IoU |
+|---|---|---|---|---|
+| ours/mason_old_apartment_n100_seed0 (brief) | – | – | – | – |
+
+## Generated plans with inputs from cubicasa5k:all
+
+### Rules
+
+| variant (condition) | N | yield | rooms | overlap | holes | bnd cov | outside | pieces | non-rect | < min area | < min width | > max aspect | plans breaking a rule |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| ours/mason_old_house_n100_seed0 (brief) | 138 | – | 8.0 | -0.000 | 0.000 | – | – | 1.00 | 0.000 | 0.000 | 0.000 | 0.000 | 0.00 |
+
+### Following the input (against the GT plan for the same input)
+
+| variant (condition) | room count right | room types right | adjacency F1 | type IoU |
+|---|---|---|---|---|
+| ours/mason_old_house_n100_seed0 (brief) | – | – | – | – |
+
 ## Generated plans with inputs from procthor10k:test
 
 ### Rules
