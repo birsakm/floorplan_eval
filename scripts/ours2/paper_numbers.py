@@ -39,6 +39,43 @@ def measure(key, ref_label):
             "NRef": f["n_ref"]}
 
 
+# Table 1 block (a): results/rplan/block_a.json (scripts/rplan/block_a.py); macros \RA<row><metric>
+A_ROWS = {"Real": "real", "House-GAN++": "hgpp", "HouseDiffusion": "hd", "WallPlan": "wallplan",
+          "ProcTHOR": "procthor", "Infinigen": "infinigen"}
+A_METRICS = {"Valid": ("valid", True, 100, "{:.1f}"), "Reach": ("reach", True, 100, "{:.1f}"),
+             "Types": ("types", True, 100, "{:.1f}"), "Graph": ("graph", True, 100, "{:.1f}"),
+             "Area": ("area_rel_err", False, 100, "{:.1f}\\%"), "DFID": ("dfid", False, 1, "{:.1f}"),
+             "DKID": ("dkid", False, 1, "{:.1f}")}
+
+
+def block_a():
+    f = ROOT / "results" / "rplan" / "block_a.json"
+    rows = {r["method"]: r for r in json.load(open(f))} if f.exists() else {}
+    L = ["% Table 1 block (a), from results/rplan/block_a.json"]
+    for name, tag in A_ROWS.items():
+        r = rows.get(name)
+        n = str(r["N"]) if r else "\\tbd"
+        L.append(f"\\def\\RA{tag}N{{{n}}}")
+    for metric, (k, higher, mult, fmt) in A_METRICS.items():
+        shown = {n: fmt.format(mult * r[k]) for n, r in rows.items() if k in r and n != "Real"}
+        num = {n: float(v.replace("\\%", "")) for n, v in shown.items()}
+        best = (max if higher else min)(num.values()) if len(num) > 1 else None
+        for name, tag in A_ROWS.items():
+            r = rows.get(name)
+            if name == "Real" and metric in ("DFID", "DKID"):
+                v = "0"
+            elif r is None:
+                v = "\\tbd"
+            elif k not in r:
+                v = "\\na"
+            elif name == "Real":
+                v = fmt.format(mult * r[k])
+            else:
+                v = shown[name] if num[name] != best else "\\textbf{" + shown[name] + "}"
+            L.append(f"\\def\\RA{tag}{metric}{{{v}}}")
+    return L
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--version", default=None)
@@ -73,6 +110,7 @@ def main():
     for m in keys:
         n = str(vals[m]["N"]) if m in vals else "\\tbd"
         L.append(f"\\def\\RB{m}N{{{n}}}")
+    L += block_a()
     Path(ap.parse_args().out).write_text("\n".join(L) + "\n")
     print(f"wrote {ap.parse_args().out} for {version}" + (f"; missing: {missing}" if missing else ""))
 

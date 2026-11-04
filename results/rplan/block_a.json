@@ -1,0 +1,81 @@
+[
+ {
+  "method": "Real",
+  "variant": null,
+  "input": "-",
+  "N": 1000,
+  "valid": 0.841,
+  "dfid": 0.0,
+  "dkid": 0.0
+ },
+ {
+  "method": "House-GAN++",
+  "variant": "houseganpp/rplan-g2p_bubble_test1000_syndoors",
+  "input": "bubble",
+  "N": 1000,
+  "reach": 0.331,
+  "front_door": 0.815,
+  "types": 0.478,
+  "graph": 0.229,
+  "valid": 0.45999999999999996,
+  "dfid": 21.173681903368553,
+  "dkid": 19.93393117344376,
+  "fid_floor_is": "GT of the same inputs"
+ },
+ {
+  "method": "HouseDiffusion",
+  "variant": "house_diffusion/rplan-g2p_bubble_test1000_syndoors",
+  "input": "bubble",
+  "N": 997,
+  "reach": 0.8124373119358074,
+  "front_door": 0.995987963891675,
+  "types": 1.0,
+  "graph": 0.6920762286860582,
+  "valid": 0.6198595787362087,
+  "dfid": 4.604025725244623,
+  "dkid": 3.3363411082299255,
+  "fid_floor_is": "GT of the same inputs"
+ },
+ {
+  "method": "WallPlan",
+  "variant": "wallplan/rplan_boundary_test1000",
+  "input": "boundary",
+  "N": 992,
+  "reach": 0.5493951612903226,
+  "front_door": 0.9939516129032258,
+  "valid": 0.877016129032258,
+  "dfid": 1.7103674111314575,
+  "dkid": 1.3879958752198807,
+  "fid_floor_is": "GT of the same inputs"
+ },
+ {
+  "method": "ProcTHOR",
+  "variant": "procthor/rplan-g2p_program_test1000",
+  "input": "bubble+areas",
+  "N": 1000,
+  "reach": 0.923,
+  "front_door": 1.0,
+  "types": 1.0,
+  "graph": 0.033,
+  "area_rel_err": 0.03872088784905804,
+  "valid": 0.378,
+  "dfid": 15.072550697790929,
+  "dkid": 17.859575170935564,
+  "fid_floor_is": "GT of the same inputs"
+ },
+ {
+  "method": "Infinigen",
+  "variant": "infinigen/rplan-g2p_program_test1000",
+  "input": "bubble+areas",
+  "N": 999,
+  "reach": 0.993993993993994,
+  "front_door": 1.0,
+  "types": 1.0,
+  "graph": 0.5375375375375375,
+  "area_rel_err": 0.06336904931454561,
+  "valid": 0.7667667667667668,
+  "dfid": 21.0561003955661,
+  "dkid": 26.180968723669153,
+  "fid_floor_is": "GT of the same inputs"
+ }
+]

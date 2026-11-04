@@ -92,6 +92,10 @@ VARIANTS = {
     # ProcTHOR layout stage given our programs (scripts/procthor/generate.py): same ids and conditions as ours.
     "procthor/apartment_program_n100_seed0": _v("brief+program", "swiss_dwellings:all", scale=1.0),
     "procthor/house_program_n100_seed0": _v("brief+program", "cubicasa5k:all", scale=1.0),
+    # Table 1(a): both baselines on the RPLAN bubble diagrams of the 1,000 Graph2Plan test inputs, with the real rooms'
+    # areas as targets (scripts/rplan/make_programs.py, --source rplan/g2p_test1000_programs).
+    "procthor/rplan-g2p_program_test1000": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
+    "infinigen/rplan-g2p_program_test1000": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
     # SceneSmith's 31 published house-level scenes (scripts/scenesmith/convert.py): text prompts, only 7 of them homes.
     "scenesmith/house_published": _v("text", "cubicasa5k:all", scale=1.0),
     **{f"ds2d/procthor_{c}_test_lora-{l}": _v("constraints", "procthor10k:test", scale=1.0)
