@@ -1,0 +1,344 @@
+{
+ "variant": "ours/mason2_next-living-bay-ad5110bb7b58",
+ "kind": "apartment",
+ "n_homes": 1003,
+ "n_plans": 1003,
+ "homes": {
+  "all": {
+   "room_counts_match": 1.0,
+   "room_count_abs_err": 0.0,
+   "net_area_rel_err": 0.0003521167593253047,
+   "net_area_incl_stairs_rel_err": 0.0003521167593253047,
+   "program_door_recall": 0.9868505594328127,
+   "program_door_precision": 0.9922593331117757,
+   "program_wall_adjacent": NaN,
+   "compatibility_ged": 0.12063808574277168,
+   "all_reachable": 0.9690927218344965,
+   "frac_reachable": 0.9954149456392727,
+   "n_habitable_via_bedroom": 0.02193419740777667,
+   "frac_habitable_window_ge_1_8": 0.461881023595879,
+   "frac_habitable_window_ge_1_10": 0.6506812894649385,
+   "n": 1003,
+   "net_area_rel_err_max": 0.000998353142720456,
+   "frac_ged_zero": 0.9242273180458624,
+   "plans_all_habitable_ge_1_8": 0.06879361914257229,
+   "stair_area_m2": 0.0
+  }
+ },
+ "plans": {
+  "ours": {
+   "outline_rectangularity": 0.814127190922179,
+   "outline_corners": 10.148554336989033,
+   "frac_rect_rooms": 0.6468633338523667,
+   "mean_room_aspect": 1.9712734655491189,
+   "mean_adjacency_degree": 2.927678342483926,
+   "frac_habitable_with_window": 1.0,
+   "n_rooms": 7.244267198404786,
+   "total_area_m2": 78.67649290836489,
+   "n_living_room": 1.0,
+   "n_kitchen": 1.0,
+   "n_bedroom": 1.8364905284147557,
+   "n_bathroom": 1.317048853439681,
+   "n_balcony": 0.8444666001994018,
+   "n_hallway": 1.0
+  },
+  "Swiss Dwellings": {
+   "outline_rectangularity": 0.814057789528392,
+   "outline_corners": 15.043086978381096,
+   "frac_rect_rooms": 0.4956804164184211,
+   "mean_room_aspect": 1.7167038776404488,
+   "mean_adjacency_degree": 2.895640583979773,
+   "frac_habitable_with_window": 0.8408398613682762,
+   "n_rooms": 7.289082751744766,
+   "total_area_m2": 79.23985551803514,
+   "n_living_room": 0.760518444666002,
+   "n_kitchen": 0.9635094715852442,
+   "n_bedroom": 1.8364905284147557,
+   "n_bathroom": 1.317048853439681,
+   "n_balcony": 0.9991026919242273,
+   "n_hallway": 1.1023429710867398,
+   "n_matched_plans": 20060,
+   "unmatched_generated": 0
+  },
+  "ResPlan": {
+   "outline_rectangularity": 0.8164563875151222,
+   "outline_corners": 13.247752456617185,
+   "frac_rect_rooms": 0.5052514599685864,
+   "mean_room_aspect": 1.6850767901235186,
+   "mean_adjacency_degree": 2.733527541034863,
+   "frac_habitable_with_window": 0.8764018880251344,
+   "n_rooms": 6.666461127382971,
+   "total_area_m2": 120.3408661254058,
+   "n_living_room": 1.005549560659781,
+   "n_kitchen": 0.9649555521299008,
+   "n_bedroom": 1.7904013154514156,
+   "n_bathroom": 1.3206412825651304,
+   "n_balcony": 1.078927084939109,
+   "n_hallway": 0.0,
+   "n_matched_plans": 19461,
+   "unmatched_generated": 4
+  }
+ },
+ "areas": {
+  "living_room": {
+   "ours_median": 22.920976,
+   "ours_n": 1003,
+   "Swiss Dwellings": {
+    "median": 25.316610729999994,
+    "p5": 16.00617620125,
+    "p95": 39.568066381250006,
+    "ours_within_p5_p95": 0.9900299102691924,
+    "w1_area_m2": 2.4819495238876867,
+    "w1_aspect": 0.19854377543723534
+   },
+   "ResPlan": {
+    "median": 34.396887899999996,
+    "p5": 17.92952082,
+    "p95": 146.576245,
+    "ours_within_p5_p95": 0.8614157527417746,
+    "w1_area_m2": 21.138862299867885,
+    "w1_aspect": 0.22940048925827014
+   }
+  },
+  "kitchen": {
+   "ours_median": 9.121994999999998,
+   "ours_n": 1003,
+   "Swiss Dwellings": {
+    "median": 7.5772645225,
+    "p5": 4.26979312,
+    "p95": 13.916967835000001,
+    "ours_within_p5_p95": 0.9970089730807578,
+    "w1_area_m2": 1.6511565228241294,
+    "w1_aspect": 0.2720631948055483
+   },
+   "ResPlan": {
+    "median": 9.33143345040761,
+    "p5": 4.066355800000001,
+    "p95": 30.324772349999993,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 2.7663847027132222,
+    "w1_aspect": 0.35432227343769807
+   }
+  },
+  "bedroom": {
+   "ours_median": 13.52700815,
+   "ours_n": 1842,
+   "Swiss Dwellings": {
+    "median": 14.534754572499999,
+    "p5": 10.141549209999999,
+    "p95": 21.86717712,
+    "ours_within_p5_p95": 0.9788273615635179,
+    "w1_area_m2": 1.5914830247180352,
+    "w1_aspect": 0.14963482346338217
+   },
+   "ResPlan": {
+    "median": 17.68120886,
+    "p5": 11.25247359,
+    "p95": 40.7036293,
+    "ours_within_p5_p95": 0.8148751357220413,
+    "w1_area_m2": 6.761359362684818,
+    "w1_aspect": 0.3276599502137683
+   }
+  },
+  "bathroom": {
+   "ours_median": 4.016205,
+   "ours_n": 1321,
+   "Swiss Dwellings": {
+    "median": 3.89519374,
+    "p5": 1.6311903404999997,
+    "p95": 6.41309355,
+    "ours_within_p5_p95": 0.979560938682816,
+    "w1_area_m2": 0.42328730416057186,
+    "w1_aspect": 0.27117841279624
+   },
+   "ResPlan": {
+    "median": 5.855578559999997,
+    "p5": 2.71968375,
+    "p95": 20.20964833,
+    "ours_within_p5_p95": 0.8402725208175624,
+    "w1_area_m2": 4.159002699219953,
+    "w1_aspect": 0.5648586606485522
+   }
+  },
+  "balcony": {
+   "ours_median": 5.958629999999999,
+   "ours_n": 847,
+   "Swiss Dwellings": {
+    "median": 7.2380277175000005,
+    "p5": 2.1740047800000006,
+    "p95": 20.736134479749992,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 3.808559127147633,
+    "w1_aspect": 0.43473179356798497
+   },
+   "ResPlan": {
+    "median": 4.96525302,
+    "p5": 2.248095040000001,
+    "p95": 20.044759780000003,
+    "ours_within_p5_p95": 1.0,
+    "w1_area_m2": 2.7740916031507457,
+    "w1_aspect": 0.3621327424457715
+   }
+  },
+  "hallway": {
+   "ours_median": 7.366372000000001,
+   "ours_n": 1003,
+   "Swiss Dwellings": {
+    "median": 6.758976879999999,
+    "p5": 2.1748948299999995,
+    "p95": 16.149876549999973,
+    "ours_within_p5_p95": 0.9471585244267199,
+    "w1_area_m2": 0.9096934799999994,
+    "w1_aspect": 2.1265772985198614
+   },
+   "ResPlan": {
+    "median": null,
+    "p5": NaN,
+    "p95": NaN,
+    "ours_within_p5_p95": null,
+    "w1_area_m2": NaN,
+    "w1_aspect": NaN
+   }
+  }
+ },
+ "realism": {
+  "Swiss Dwellings": {
+   "c2st_1nn_acc": 0.936640079760718,
+   "largest_differences": {
+    "outline_corners": {
+     "d": -1.0268666627083254,
+     "ours": 10.148554336989033,
+     "real": 14.915603190428714
+    },
+    "frac_rect_rooms": {
+     "d": 0.8576513898241492,
+     "ours": 0.6468633338523667,
+     "real": 0.4956804164184211
+    },
+    "mean_room_aspect": {
+     "d": 0.832352495025936,
+     "ours": 1.9712734655491189,
+     "real": 1.7167038776404488
+    },
+    "n_living_room": {
+     "d": 0.7880020155304218,
+     "ours": 1.0,
+     "real": 0.760518444666002
+    },
+    "share_living_room": {
+     "d": 0.6382138679192159,
+     "ours": 0.3157665333187783,
+     "real": 0.24124641026315202
+    },
+    "mean_room_convexity": {
+     "d": 0.5358673730011625,
+     "ours": 0.9745963182811435,
+     "real": 0.9634651753348143
+    },
+    "share_balcony": {
+     "d": -0.5206043827995842,
+     "ours": 0.07255256996341579,
+     "real": 0.1079282387793003
+    },
+    "share_kitchen": {
+     "d": 0.4639199428362885,
+     "ours": 0.12485381473818749,
+     "real": 0.10589297992592436
+    }
+   },
+   "c2st_real_vs_real": 0.49531904287138573
+  },
+  "ResPlan": {
+   "c2st_1nn_acc": 1.0,
+   "largest_differences": {
+    "n_hallway": {
+     "d": 999999999.9999999,
+     "ours": 1.0,
+     "real": 0.0
+    },
+    "share_hallway": {
+     "d": 3.1223234070524573,
+     "ours": 0.10657845935349626,
+     "real": 0.0
+    },
+    "mean_room_convexity": {
+     "d": 1.52584402322302,
+     "ours": 0.9745963182811435,
+     "real": 0.9383408962936817
+    },
+    "share_bathroom": {
+     "d": -1.0919336890853577,
+     "ours": 0.06692249580160142,
+     "real": 0.09430818962433454
+    },
+    "share_living_room": {
+     "d": -0.9423956759744241,
+     "ours": 0.3157665333187783,
+     "real": 0.39246671818752715
+    },
+    "mean_room_aspect": {
+     "d": 0.9390294616896109,
+     "ours": 1.9712734655491189,
+     "real": 1.6850767901235186
+    },
+    "frac_rect_rooms": {
+     "d": 0.8709854966031517,
+     "ours": 0.6468633338523667,
+     "real": 0.5052514599685864
+    },
+    "total_area_m2": {
+     "d": -0.6298128474224461,
+     "ours": 78.67649290836489,
+     "real": 120.3408661254058
+    }
+   },
+   "c2st_real_vs_real": 0.5003802672147997
+  },
+  "ResPlan vs Swiss Dwellings": {
+   "c2st_1nn_acc": 0.9990082729561689
+  }
+ },
+ "diversity": {
+  "Swiss Dwellings": 0.7478564307078763,
+  "ResPlan": 0.3861415752741775,
+  "ours": 0.2053838484546361
+ },
+ "fid": {
+  "Swiss Dwellings": {
+   "fid": 57.149611735988934,
+   "fid_std": 0.10775286951757111,
+   "kid_x1000": 45.45897298657469,
+   "kid_x1000_std": 0.2235870164356633,
+   "fid_real_vs_real": 7.823054794451354,
+   "fid_real_vs_real_std": 0.15548894597779123,
+   "kid_real_vs_real_x1000": -0.04610703612007505,
+   "kid_real_vs_real_x1000_std": 0.019702055300665777,
+   "fid_other_real": 44.762516259464824,
+   "fid_other_real_std": 0.8439749718629544,
+   "kid_other_real_x1000": 26.006768228972675,
+   "kid_other_real_x1000_std": 1.0486621750360352,
+   "n_ours": 1003,
+   "n_ref": 19057,
+   "n_held_out": 1003,
+   "other_real": "ResPlan"
+  },
+  "ResPlan": {
+   "fid": 28.78491713830176,
+   "fid_std": 0.01152076306655624,
+   "kid_x1000": 16.08528178303231,
+   "kid_x1000_std": 0.15163997769303855,
+   "fid_real_vs_real": 2.7531951956390506,
+   "fid_real_vs_real_std": 0.18543087520392534,
+   "kid_real_vs_real_x1000": 0.012088226827508208,
+   "kid_real_vs_real_x1000_std": 0.08964892937849148,
+   "fid_other_real": 42.693117736488794,
+   "fid_other_real_std": 1.4061335456149666,
+   "kid_other_real_x1000": 25.312715264795965,
+   "kid_other_real_x1000_std": 1.4309317701471493,
+   "n_ours": 1003,
+   "n_ref": 18462,
+   "n_held_out": 999,
+   "other_real": "Swiss Dwellings"
+  }
+ }
+}

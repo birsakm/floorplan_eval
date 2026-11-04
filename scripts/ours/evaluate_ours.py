@@ -7,7 +7,7 @@ computed per home, with the stair rooms of consecutive storeys connected; realis
 against real floors (CubiCasa5k, MagicPlan) with the same numbers of bedrooms and bathrooms.
 
 Needs scripts/ours/convert.py (samples) and `python -m fpeval.evaluate refs` (reference per-sample CSVs).
-Writes results/ours/<variant name>.json and .md.
+Writes results/<method>/<variant name>.json (--variant <method>/<name>, default ours).
 
 Metric groups (paper lineage in brackets):
   brief adherence     room counts and net area vs the brief          [DS2D prompt consistency, RLVR area error]
@@ -16,7 +16,7 @@ Metric groups (paper lineage in brackets):
                                                                      [House-GAN compatibility, DS2D self-consistency]
   reachability        all rooms reachable from the front door through doors; rooms only reachable through a
                       bedroom                                       [GRE-Diff reachability]
-  daylight            habitable rooms with a window; window area / floor area (ours only: needs sill/head)
+  daylight            habitable rooms with a window; window area / floor area (needs sill/head)
   realism             per-type area / aspect distributions vs composition-matched real apartments, and a
                       1-NN classifier two-sample test on plan features (0.5 = indistinguishable)
                                                                      [replaces FID/KID, which need renders]
@@ -119,8 +119,9 @@ def plan_features(path):
     # Windows: habitable rooms touched by a window polygon.
     wins = [to_polygon(w["polygon"])[0].buffer(tol) for w in s.get("windows") or []]
     hab = [k for k in range(n) if types[k] in HABITABLE]
+    # ProcTHOR's layout stage places no windows: not measured (NaN) instead of 0.
     f["frac_habitable_with_window"] = (np.mean([any(w.intersects(shapes[k][1]) for w in wins) for k in hab])
-                                       if hab and wins else (0.0 if hab else np.nan))
+                                       if hab and wins else (0.0 if hab and s["source"] != "procthor" else np.nan))
     f["has_windows"] = float(bool(wins))
     # Typed room-adjacency topology (shared walls, Weisfeiler-Lehman hash) for diversity. Shared walls,
     # not doors: the real datasets draw no door for open connections, so their door graphs are incomplete.
@@ -211,21 +212,31 @@ def home_extra(paths):
     else:
         e["all_reachable"] = e["frac_reachable"] = e["n_habitable_via_bedroom"] = np.nan
 
-    # Window area / floor area per habitable room (needs sill and head from the State).
-    st = json.load(open(ROOT / "data" / "ours" / "state" / home / "roomplan" / "openings.json"))
-    room_of = {r["id"]: r.get("program_room") for r in st["rooms"]}
+    # Window area / floor area per habitable room (needs sill and head: from the State for ours, otherwise from
+    # windows that carry width_m, sill_m, head_m and the index of their room, e.g. scripts/infinigen/convert.py).
     win = Counter()
-    for line in open(ROOT / "data" / "ours" / "state" / home / "replay.jsonl"):  # restored rooms' windows
-        d = json.loads(line)
-        if d.get("verdict") == "rejected" and d["command"]["op"] == "AddRoom":
-            room_of[d["command"]["value"]["id"]] = d["command"]["value"].get("program_room")
-        if d.get("verdict") == "rejected" and d["command"]["op"] == "AddOpening" and d["command"]["value"]["kind"] == "window":
-            o = d["command"]["value"]
-            win[room_of.get(o["room_a"])] += o["width"] * ((o.get("head_m") or 0) - (o.get("sill_m") or 0))
-    for o in st["openings"]:
-        if o["kind"] == "window":
-            win[room_of.get(o["room_a"])] += o["width"] * ((o.get("head_m") or 0) - (o.get("sill_m") or 0))
-    ratios = [win.get(r["program_room"], 0.0) / Polygon(r["polygon"]).area for r in rooms if _t(r["type"]) in HABITABLE]
+    if per[0][4]["source"] == "ours" and cond.get("pipeline") != "mason2":  # mason_old: windows from its State
+        st = json.load(open(ROOT / "data" / "ours" / "state" / home / "roomplan" / "openings.json"))
+        room_of = {r["id"]: r.get("program_room") for r in st["rooms"]}
+        for line in open(ROOT / "data" / "ours" / "state" / home / "replay.jsonl"):  # restored rooms' windows
+            d = json.loads(line)
+            if d.get("verdict") == "rejected" and d["command"]["op"] == "AddRoom":
+                room_of[d["command"]["value"]["id"]] = d["command"]["value"].get("program_room")
+            if d.get("verdict") == "rejected" and d["command"]["op"] == "AddOpening" and d["command"]["value"]["kind"] == "window":
+                o = d["command"]["value"]
+                win[room_of.get(o["room_a"])] += o["width"] * ((o.get("head_m") or 0) - (o.get("sill_m") or 0))
+        for o in st["openings"]:
+            if o["kind"] == "window":
+                win[room_of.get(o["room_a"])] += o["width"] * ((o.get("head_m") or 0) - (o.get("sill_m") or 0))
+    else:
+        for *_, s in per:
+            for w in s.get("windows") or []:
+                if w.get("room") is not None and "head_m" in w:
+                    win[s["rooms"][w["room"]].get("program_room")] += w["width_m"] * (w["head_m"] - w["sill_m"])
+    # A method that places no windows at all (ProcTHOR's layout stage) is not measured, rather than scored 0.
+    no_windows = per[0][4]["source"] != "ours" and not any(s.get("windows") for *_, s in per)
+    ratios = [] if no_windows else [win.get(r["program_room"], 0.0) / Polygon(r["polygon"]).area
+                                    for r in rooms if _t(r["type"]) in HABITABLE]
     e["min_window_floor_ratio"] = min(ratios) if ratios else np.nan
     e["frac_habitable_window_ge_1_8"] = np.mean([x >= 1 / 8 for x in ratios]) if ratios else np.nan
     e["frac_habitable_window_ge_1_10"] = np.mean([x >= 1 / 10 for x in ratios]) if ratios else np.nan
@@ -257,9 +268,12 @@ def c2st_1nn(A, B, seed=0):
     X = np.vstack([A, B])
     y = np.r_[np.zeros(m), np.ones(m)]
     X = (X - X.mean(0)) / (X.std(0) + 1e-9)
-    d = ((X[:, None, :] - X[None, :, :]) ** 2).sum(-1)
-    np.fill_diagonal(d, np.inf)
-    return float((y[d.argmin(1)] == y).mean())
+    # Nearest other point via a k-d tree: O(n) memory. (A dense n x n x features difference array needs ~280 GB for
+    # the 2 x 20k matched real plans of 1,000 generated homes.) Exact duplicates count as each other's neighbour.
+    from scipy.spatial import cKDTree
+    _, idx = cKDTree(X).query(X, k=2)
+    nn = np.where(idx[:, 0] == np.arange(len(X)), idx[:, 1], idx[:, 0])
+    return float((y[nn] == y).mean())
 
 
 def feat_matrix(df):
@@ -433,7 +447,7 @@ def main():
         out["fid"][lab] = fid_block(ours_feats, RF, feats[lab], other=(refs[o][0], feats[o]))
         out["fid"][lab]["other_real"] = o
 
-    res_dir = ROOT / "results" / "ours"
+    res_dir = ROOT / "results" / variant.split("/")[0]
     res_dir.mkdir(parents=True, exist_ok=True)
     stem = variant.split("/")[-1]
     json.dump(out, open(res_dir / f"{stem}.json", "w"), indent=1, default=float)

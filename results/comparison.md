@@ -6,30 +6,39 @@ How to read FID/KID: each row is scored against real plans of its own dataset, a
 
 Columns: N generated plans scored (random subset of at most 1,000); rule = plans breaking a basic rule (overlap, holes, pieces, minimum area/width, maximum aspect); types = plans whose room types and counts equal the input (paired methods: the GT plan; ours: the brief).
 
+## On the same programs (Mason2 `next-living-bay-ad5110bb7b58`, 1,003 apartments)
+
+ProcTHOR and Infinigen get our program (room types, target net areas, room-room connections) as input. area = mean relative net-area error; doors = program connections realised (recall); GED 0 = layouts whose connection graph equals the program; reach = all rooms reachable from the front door; win ≥ 1/8 = layouts where every habitable room has window area ≥ 1/8 of its floor area (– = method places no windows); C2ST = leave-one-out 1-NN accuracy telling layouts from composition-matched Swiss Dwellings layouts (50% = indistinguishable); div = diversity relative scale (Swiss Dwellings itself 0.75); ΔKID = KID − KID of held-out matched real layouts (×1000).
+
+| method | N | rule | types | area | doors | GED 0 | reach | win ≥ 1/8 | C2ST | div | ΔKID Swiss | ΔKID ResPlan |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **Ours** | 1003 | 7% | 100% | 0.0% | 99% | 92% | 97% | 7% | 94% | 0.21 | 45.5 | 16.1 |
+| ProcTHOR | 1003 | 72% | 100% | 3.4% | 46% | 1% | 97% | – | 98% | 0.95 | 85.5 | 39.1 |
+| Infinigen Indoors | 1003 | 31% | 100% | 6.9% | 100% | 65% | 100% | 77% | 99% | 0.67 | 85.0 | 42.3 |
+
 ## Against RPLAN
 
 Reference: 5,000 real plans (val split).
 
 | method | variant | condition | N | rule | types | FID | floor | FID − floor | KID | floor | KID − floor | floor is |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| House-GAN++ | rplan-g2p_bubble_test1000_syndoors | bubble | 1000 | 54% | 48% | 14.5 | 2.1 | **12.4** | 13.3 | -0.0 | **13.3** | GT of the same inputs |
-| House-GAN++ | rplan_bubble_public | bubble | 700 | 26% | 54% | 16.6 | 2.8 | **13.8** | 15.9 | -0.0 | **15.9** | random real plans |
-| HouseDiffusion | rplan-g2p_bubble_test1000_syndoors | bubble | 997 | 38% | 100% | 5.2 | 2.1 | **3.1** | 2.4 | -0.0 | **2.4** | GT of the same inputs |
-| HouseDiffusion | rplan_bubble_public | bubble | 700 | 8% | 100% | 7.0 | 2.8 | **4.2** | 4.3 | -0.0 | **4.3** | random real plans |
-| GSDiff | rplan_uncond | unconditional | 1000 | 26% | – | 7.8 | 2.1 | **5.7** | 3.8 | -0.0 | **3.8** | random real plans |
-| GSDiff | rplan_bubble_test1000 | bubble | 1000 | 21% | 72% | 14.8 | 2.1 | **12.7** | 10.6 | 0.0 | **10.6** | GT of the same inputs |
-| GSDiff | rplan_boundary_test1000 | boundary | 1000 | 24% | 23% | 14.1 | 2.1 | **12.0** | 10.6 | 0.0 | **10.6** | GT of the same inputs |
-| iPLAN | rplan_boundary_test1000 | boundary | 966 | 22% | 19% | 4.4 | 2.1 | **2.3** | 2.0 | -0.0 | **2.1** | GT of the same inputs |
-| DiffPlanner | rplan_boundary_test | boundary | 1000 | 46% | 18% | 2.8 | 2.1 | **0.7** | 0.8 | 0.1 | **0.7** | GT of the same inputs |
-| WallPlan | rplan_boundary_test1000 | boundary | 992 | 12% | 16% | 3.4 | 2.1 | **1.4** | 1.1 | -0.0 | **1.1** | GT of the same inputs |
-| WallPlan | bundled_boundary_test500 | boundary | 499 | 7% | – | 6.2 | 3.7 | **2.5** | 3.1 | -0.0 | **3.2** | random real plans |
-| MaskPLAN | rplan_boundary | boundary | 500 | 57% | 8% | 37.9 | 3.7 | **34.3** | 36.9 | -0.0 | **36.9** | GT of the same inputs |
-| MaskPLAN | rplan_partial25 | boundary+partial | 500 | 63% | 12% | 32.0 | 3.7 | **28.3** | 29.4 | -0.0 | **29.5** | GT of the same inputs |
-| DS2D | rplan5R_bubble_roomarea_test | bubble+areas | 500 | 84% | 1% | 12.0 | 13.7 | **-1.7** | 10.3 | 14.8 | **-4.5** | GT of the same inputs |
-| DS2D | rplan6R_bubble_roomarea_test | bubble+areas | 500 | 51% | 97% | 12.8 | 6.6 | **6.2** | 11.0 | 3.7 | **7.3** | GT of the same inputs |
-| DS2D | rplan7R_bubble_roomarea_test | bubble+areas | 500 | 73% | 59% | 8.7 | 4.0 | **4.7** | 5.3 | 0.3 | **5.0** | GT of the same inputs |
-| DS2D | rplan8R_bubble_roomarea_test | bubble+areas | 500 | 81% | 96% | 10.5 | 7.5 | **3.0** | 8.0 | 5.5 | **2.5** | GT of the same inputs |
-| **Ours** | mason_old_apartment_n100_seed0 | brief | 100 | 0% | 100% | 40.8 | 10.7 | **30.0** | 42.3 | -0.1 | **42.4** | random real plans |
+| House-GAN++ | rplan-g2p_bubble_test1000_syndoors | bubble | 1000 | 54% | 48% | 23.5 | 2.3 | **21.2** | 19.9 | -0.0 | **19.9** | GT of the same inputs |
+| House-GAN++ | rplan_bubble_public | bubble | 700 | 26% | 54% | 22.4 | 3.1 | **19.2** | 20.8 | -0.0 | **20.8** | random real plans |
+| HouseDiffusion | rplan-g2p_bubble_test1000_syndoors | bubble | 997 | 38% | 100% | 6.9 | 2.3 | **4.6** | 3.3 | -0.0 | **3.3** | GT of the same inputs |
+| HouseDiffusion | rplan_bubble_public | bubble | 700 | 8% | 100% | 8.8 | 3.1 | **5.7** | 5.2 | -0.0 | **5.2** | random real plans |
+| GSDiff | rplan_uncond | unconditional | 1000 | 26% | – | 7.4 | 2.3 | **5.0** | 3.0 | -0.0 | **3.0** | random real plans |
+| GSDiff | rplan_bubble_test1000 | bubble | 1000 | 21% | 72% | 11.3 | 2.3 | **9.0** | 7.5 | 0.0 | **7.5** | GT of the same inputs |
+| GSDiff | rplan_boundary_test1000 | boundary | 1000 | 24% | 23% | 11.2 | 2.3 | **8.8** | 7.6 | 0.0 | **7.6** | GT of the same inputs |
+| iPLAN | rplan_boundary_test1000 | boundary | 966 | 22% | 19% | 11.3 | 2.4 | **8.9** | 9.9 | 0.0 | **9.9** | GT of the same inputs |
+| DiffPlanner | rplan_boundary_test | boundary | 1000 | 46% | 18% | 3.5 | 2.3 | **1.2** | 0.8 | -0.0 | **0.8** | GT of the same inputs |
+| WallPlan | rplan_boundary_test1000 | boundary | 992 | 12% | 16% | 4.0 | 2.3 | **1.7** | 1.4 | -0.0 | **1.4** | GT of the same inputs |
+| WallPlan | bundled_boundary_test500 | boundary | 499 | 7% | – | 7.6 | 4.1 | **3.5** | 4.2 | 0.0 | **4.2** | random real plans |
+| MaskPLAN | rplan_boundary | boundary | 500 | 57% | 8% | 51.8 | 4.1 | **47.6** | 56.6 | -0.0 | **56.6** | GT of the same inputs |
+| MaskPLAN | rplan_partial25 | boundary+partial | 500 | 63% | 12% | 51.9 | 4.1 | **47.8** | 54.4 | -0.0 | **54.4** | GT of the same inputs |
+| DS2D | rplan5R_bubble_roomarea_test | bubble+areas | 500 | 84% | 1% | 38.3 | 13.1 | **25.1** | 36.0 | 13.4 | **22.6** | GT of the same inputs |
+| DS2D | rplan6R_bubble_roomarea_test | bubble+areas | 500 | 51% | 97% | 41.2 | 6.4 | **34.9** | 36.4 | 3.3 | **33.1** | GT of the same inputs |
+| DS2D | rplan7R_bubble_roomarea_test | bubble+areas | 500 | 73% | 59% | 31.4 | 4.3 | **27.0** | 28.1 | 0.3 | **27.7** | GT of the same inputs |
+| DS2D | rplan8R_bubble_roomarea_test | bubble+areas | 500 | 81% | 96% | 34.1 | 8.5 | **25.7** | 29.0 | 6.5 | **22.5** | GT of the same inputs |
 
 ## Against LIFULL
 
@@ -37,7 +46,7 @@ Reference: 5,000 real plans (all split).
 
 | method | variant | condition | N | rule | types | FID | floor | FID − floor | KID | floor | KID − floor | floor is |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| House-GAN | lifull_bubble_testD | bubble | 1000 | 100% | 22% | 25.8 | 21.0 | **4.9** | 24.7 | 16.5 | **8.2** | GT of the same inputs |
+| House-GAN | lifull_bubble_testD | bubble | 1000 | 100% | 22% | 26.1 | 20.0 | **6.1** | 23.6 | 15.7 | **7.9** | GT of the same inputs |
 
 ## Against Tell2Design
 
@@ -45,7 +54,7 @@ Reference: 5,000 real plans (train split).
 
 | method | variant | condition | N | rule | types | FID | floor | FID − floor | KID | floor | KID − floor | floor is |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| ChatHouseDiffusion | t2d_test_textgraph | text+boundary | 1000 | 63% | 40% | 3.9 | 3.0 | **0.9** | 1.1 | 0.4 | **0.7** | GT of the same inputs |
+| ChatHouseDiffusion | t2d_test_textgraph | text+boundary | 1000 | 63% | 40% | 26.6 | 26.7 | **-0.0** | 21.8 | 21.5 | **0.2** | GT of the same inputs |
 
 ## Against ProcTHOR-10K
 
@@ -53,43 +62,31 @@ Reference: 5,000 real plans (train split).
 
 | method | variant | condition | N | rule | types | FID | floor | FID − floor | KID | floor | KID − floor | floor is |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| DS2D | procthor_bubble_constraints_test_lora-fullprompt | constraints | 1000 | 28% | 100% | 2.7 | 2.2 | **0.5** | 0.5 | 0.4 | **0.1** | GT of the same inputs |
-| DS2D | procthor_bubble_constraints_test_lora-mask | constraints | 1000 | 25% | 100% | 3.0 | 2.2 | **0.9** | 0.7 | 0.4 | **0.4** | GT of the same inputs |
-| DS2D | procthor_bubble_constraints_test_lora-presetmask | constraints | 995 | 25% | 100% | 4.1 | 2.1 | **2.0** | 1.6 | 0.4 | **1.1** | GT of the same inputs |
-| DS2D | procthor_constraints_test_lora-fullprompt | constraints | 1000 | 24% | 100% | 5.3 | 2.2 | **3.2** | 0.9 | 0.4 | **0.6** | GT of the same inputs |
-| DS2D | procthor_constraints_test_lora-mask | constraints | 998 | 26% | 100% | 2.9 | 2.2 | **0.7** | 0.7 | 0.4 | **0.4** | GT of the same inputs |
-| DS2D | procthor_constraints_test_lora-presetmask | constraints | 790 | 26% | 100% | 4.4 | 5.4 | **-1.0** | 0.7 | 1.6 | **-0.9** | GT of the same inputs |
+| DS2D | procthor_bubble_constraints_test_lora-fullprompt | constraints | 1000 | 28% | 100% | 3.1 | 2.2 | **0.9** | 0.5 | 0.4 | **0.1** | GT of the same inputs |
+| DS2D | procthor_bubble_constraints_test_lora-mask | constraints | 1000 | 25% | 100% | 3.7 | 2.2 | **1.5** | 0.7 | 0.4 | **0.4** | GT of the same inputs |
+| DS2D | procthor_bubble_constraints_test_lora-presetmask | constraints | 995 | 25% | 100% | 4.7 | 2.2 | **2.6** | 1.7 | 0.4 | **1.3** | GT of the same inputs |
+| DS2D | procthor_constraints_test_lora-fullprompt | constraints | 1000 | 24% | 100% | 5.3 | 2.2 | **3.1** | 0.9 | 0.4 | **0.5** | GT of the same inputs |
+| DS2D | procthor_constraints_test_lora-mask | constraints | 998 | 26% | 100% | 3.5 | 2.2 | **1.3** | 0.7 | 0.4 | **0.3** | GT of the same inputs |
+| DS2D | procthor_constraints_test_lora-presetmask | constraints | 790 | 26% | 100% | 4.3 | 4.9 | **-0.6** | 0.6 | 1.5 | **-0.8** | GT of the same inputs |
 
 ## Against Swiss Dwellings (composition-matched to our plans)
 
-Reference: 1,900 real plans (composition-matched).
+Reference: 19,057 real plans (composition-matched).
 
 | method | variant | condition | N | rule | types | FID | floor | FID − floor | KID | floor | KID − floor | floor is |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Ours** | mason_old_apartment_n100_seed0 | brief | 100 | 0% | 100% | 65.4 | 28.9 | **36.6** | 47.5 | -0.1 | **47.7** | held-out matched real |
+| **Ours** | mason2_next-living-bay-ad5110bb7b58 | brief | 1003 | 7% | 100% | 57.1 | 7.8 | **49.3** | 45.5 | -0.0 | **45.5** | held-out matched real |
+| ProcTHOR | apartment_mason2-livingbay_seed0 | brief+program | 1003 | 72% | 100% | 91.6 | 7.8 | **83.8** | 85.4 | -0.0 | **85.5** | held-out matched real |
+| Infinigen Indoors | apartment_mason2-livingbay_seed0 | brief+program | 1003 | 31% | 100% | 82.7 | 7.8 | **74.9** | 85.0 | -0.0 | **85.0** | held-out matched real |
 
 ## Against ResPlan (composition-matched to our plans)
 
-Reference: 1,882 real plans (composition-matched).
+Reference: 18,462 real plans (composition-matched).
 
 | method | variant | condition | N | rule | types | FID | floor | FID − floor | KID | floor | KID − floor | floor is |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Ours** | mason_old_apartment_n100_seed0 | brief | 100 | 0% | 100% | 42.6 | 12.3 | **30.3** | 34.3 | -0.1 | **34.4** | held-out matched real |
-
-## Against CubiCasa5k (composition-matched to our plans)
-
-Reference: 2,622 real plans (composition-matched).
-
-| method | variant | condition | N | rule | types | FID | floor | FID − floor | KID | floor | KID − floor | floor is |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Ours** | mason_old_house_n100_seed0 | brief | 138 | 0% | 100% | 58.6 | 17.4 | **41.1** | 58.4 | -0.1 | **58.5** | held-out matched real |
-
-## Against MagicPlan (composition-matched to our plans)
-
-Reference: 2,622 real plans (composition-matched).
-
-| method | variant | condition | N | rule | types | FID | floor | FID − floor | KID | floor | KID − floor | floor is |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Ours** | mason_old_house_n100_seed0 | brief | 138 | 0% | 100% | 41.9 | 19.7 | **22.1** | 24.5 | -0.1 | **24.6** | held-out matched real |
+| **Ours** | mason2_next-living-bay-ad5110bb7b58 | brief | 1003 | 7% | 100% | 28.8 | 2.8 | **26.0** | 16.1 | 0.0 | **16.1** | held-out matched real |
+| ProcTHOR | apartment_mason2-livingbay_seed0 | brief+program | 1003 | 72% | 100% | 46.1 | 2.8 | **43.3** | 39.1 | 0.0 | **39.1** | held-out matched real |
+| Infinigen Indoors | apartment_mason2-livingbay_seed0 | brief+program | 1003 | 31% | 100% | 43.8 | 2.8 | **41.0** | 42.3 | 0.0 | **42.3** | held-out matched real |
 
 Our apartments against RPLAN are scored against a reference they were not composed to match (0.3% of RPLAN plans have a separate hallway; all of ours do), the same way as the RPLAN-trained baselines; their composition-matched scores are in the Swiss Dwellings and ResPlan sections. Floor-plan RLVR has not been run yet.

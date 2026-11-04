@@ -81,6 +81,49 @@ VARIANTS = {
     "ours/mason_old_apartment_n100_seed0": _v("brief", "swiss_dwellings:all", scale=1.0),
     # Houses: one sample per storey (<home>_s<k>); rooms the State replay rejected are restored (scripts/ours/convert.py).
     "ours/mason_old_house_n100_seed0": _v("brief", "cubicasa5k:all", scale=1.0),
+    # Mason2 (current pipeline): registered automatically per generator version, see mason2_variants() below.
+    # Infinigen Indoors floor plan solver given our programs (scripts/infinigen/generate.py): same ids and conditions
+    # as ours, so it is evaluated like ours (scripts/ours/evaluate_ours.py --variant infinigen/...).
+    "infinigen/apartment_program_n100_seed0": _v("brief+program", "swiss_dwellings:all", scale=1.0),
+    "infinigen/house_program_n100_seed0": _v("brief+program", "cubicasa5k:all", scale=1.0),
+    # Infinigen's default home setting (free outline): the annealing grows homes to ~2.3x the brief's area.
+    "infinigen/apartment_program_freecontour_n100_seed0": _v("brief+program", "swiss_dwellings:all", scale=1.0),
+    "infinigen/house_program_freecontour_n100_seed0": _v("brief+program", "cubicasa5k:all", scale=1.0),
+    # ProcTHOR layout stage given our programs (scripts/procthor/generate.py): same ids and conditions as ours.
+    "procthor/apartment_program_n100_seed0": _v("brief+program", "swiss_dwellings:all", scale=1.0),
+    "procthor/house_program_n100_seed0": _v("brief+program", "cubicasa5k:all", scale=1.0),
+    # SceneSmith's 31 published house-level scenes (scripts/scenesmith/convert.py): text prompts, only 7 of them homes.
+    "scenesmith/house_published": _v("text", "cubicasa5k:all", scale=1.0),
     **{f"ds2d/procthor_{c}_test_lora-{l}": _v("constraints", "procthor10k:test", scale=1.0)
        for c in ("bubble_constraints", "constraints") for l in ("fullprompt", "mask", "presetmask")},
 }
+
+
+# --- Mason2 generator versions (scripts/ours2/run_all.py) -----------------------------------------------------------
+# Every converted version (outputs/ours/mason2_<version>/) is registered with both baselines run on its programs.
+# The reference set is the version's run_info.json "reference" (default: all Swiss Dwellings).
+MASON2_DEFAULT_REF = "swiss_dwellings:all"
+_MASON2_LEGACY = {"next-living-bay-ad5110bb7b58": "apartment_mason2-livingbay_seed0"}  # first run, old naming
+
+
+def mason2_variants(version):
+    """Variant keys of one Mason2 generator version: ours and the two baselines on the same programs."""
+    base = _MASON2_LEGACY.get(version, f"apartment_mason2-{version}_seed0")
+    return {"ours": f"ours/mason2_{version}", "procthor": f"procthor/{base}", "infinigen": f"infinigen/{base}"}
+
+
+def _register_mason2():
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    for d in sorted((root / "outputs" / "ours").glob("mason2_*")):
+        version = d.name[len("mason2_"):]
+        try:
+            ref = json.load(open(d / "run_info.json")).get("reference", MASON2_DEFAULT_REF)
+        except (OSError, ValueError):
+            ref = MASON2_DEFAULT_REF
+        for m, key in mason2_variants(version).items():
+            VARIANTS.setdefault(key, _v("brief" if m == "ours" else "brief+program", ref, scale=1.0))
+
+
+_register_mason2()
