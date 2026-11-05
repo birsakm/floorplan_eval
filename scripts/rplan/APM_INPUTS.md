@@ -56,3 +56,31 @@ circulation hub. Mason2 living-room nodes already carry a `circulation` attribut
 
 Real RPLAN: Valid 84.1, Reach 92.1. Full table: `results/rplan/block_a.md`. The `-retry10` versions (best of up to 10
 seeds) are not in the table: every other method gets one sample per input.
+
+## Why APM fails (from Fedor's export, `noface:/data/mason/fedor/rplan-apm/`, checked 2026-11-05)
+
+Fedor's `{bubble,bubble-areas}/homes.jsonl` record every input with its failure reason. By stage (his `SUMMARY.md`):
+
+| input | failures | program | roomplan | furniture |
+|---|---|---|---|---|
+| bubble | 212 | 0 | 97 | 115 |
+| bubble+areas | 337 | 55 | 86 | 196 |
+
+- **Furniture** (the room layout exists; only furnishing failed): bathroom fixture group not found (109 / 120),
+  kitchen run of sink, counter, stove and fridge does not fit (6 / 71). RPLAN rooms are small: kitchen median
+  5.9 m² (p10 4.2), bathroom 4.2 m² (p10 2.7); total indoor area median 77 m², so this is not a scale error.
+- **Program** (bubble+areas only): the given bathroom area is below APM's fixture envelope (55).
+- **Roomplan**: graph outside the centre/path-bank/exterior-leaf grammar (42 / 39; e.g. a balcony with doors to two
+  rooms, 25-30 cases), or geometric search exhausted (49 / 26); wet rooms opening into each other (6 / 4).
+
+Table 1 is a room-layout benchmark and no other method furnishes its layouts. Counting the furniture-stage
+failures as missing layouts lowers APM's N by 115 (bubble) and 196 (bubble+areas) for reasons outside the layout.
+If APM exported its roomplan-stage layout for these inputs, N would be about 885 / 859.
+
+**Cross-check of the conversion:** Fedor's common-format export (`outputs/apm/rplan_bubble*/`) and floorplan_eval's
+own conversion of the same homes (`scripts/ours2/convert.py`) agree: same ids (788 / 663), same rooms, areas and
+doors in every home; 3 homes differ only in the name of RPLAN's rare "Entrance" room.
+
+**Retry10:** seed 0, then seeds 1..9 until the first success. It recovers 153 inputs for bubble (941) but 1 for
+bubble+areas (664): with fixed areas the failures are deterministic. Not used in the table (one sample per input for
+every method).
