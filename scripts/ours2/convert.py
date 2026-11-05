@@ -17,6 +17,12 @@ Geometry (Mason2 state v2.3):
 - The `landing` (stair landing outside the flat, outdoor) is not part of the dwelling: it is dropped, and the
   door to it is the front door, as in Swiss Dwellings. Balconies stay (native type `outdoor`, canonical balcony).
 
+Benchmark runs (--benchmark rplan_g2p_test1000): the version was generated from the programs of
+scripts/rplan/export_mason_programs.py (Table 1 block (a)). Each home is matched to its input by `input_id`
+("rplan:<id>"), saved as samples/<rplan id>.json with the INPUT program as its condition (so Types / Graph / Area are
+scored against what the method was given; the home's own program is kept in condition.mason), and the real layout
+of that input goes to gt_samples/ (FID floor = GT of the same inputs).
+
 Condition: the generator draws its own brief (household, rooms, net areas) from Swiss priors; there is no external
 brief. `brief` holds the program's room counts and summed indoor target net area, `program` its room-room edges
 (door / open), so scripts/ours/evaluate_ours.py measures program adherence.
@@ -25,6 +31,8 @@ import argparse
 import gzip
 import json
 import math
+import re
+import shutil
 import sys
 from collections import Counter
 from datetime import datetime
@@ -182,12 +190,42 @@ def convert(d, variant):
     return sample
 
 
+BENCHMARKS = {"rplan_g2p_test1000": ROOT / "outputs" / "rplan" / "g2p_test1000_realdoors_programs"}
+INPUT_ID = re.compile(r'"(rplan:[0-9]+)"')
+
+
+def input_id(d):
+    """The benchmark input a generated home was made from ("rplan:<id>"): an explicit field if present, else the one
+    "rplan:<id>" string in the record."""
+    for holder in (d, d.get("state") or {}, d.get("params") or {}, d.get("profile") if isinstance(d.get("profile"), dict) else {},
+                   (d.get("state") or {}).get("program") or {}):
+        if isinstance(holder.get("input_id"), str):
+            return holder["input_id"]
+    found = set(INPUT_ID.findall(json.dumps(d)))
+    if len(found) != 1:
+        raise ValueError(f"no unique input_id in the home record (found {sorted(found)[:3]})")
+    return found.pop()
+
+
+def as_benchmark(smp, d, bench):
+    """Re-key a converted home by its benchmark input and give it the input's program as condition."""
+    rid = input_id(d).split(":", 1)[1]
+    src = BENCHMARKS[bench] / "samples" / f"{rid}.json"
+    inp = json.load(open(src))["condition"]
+    inp = dict(inp, mason={"seed": smp["id"], "key": d.get("key"), "version": d.get("version"),
+                           "program": smp["condition"]["program"]})
+    smp.update(id=rid, condition=inp)
+    return smp, BENCHMARKS[bench] / "gt_samples" / f"{rid}.json"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--version", required=True)
     ap.add_argument("--variant", default=None)
     ap.add_argument("--reference", default="swiss_dwellings:all",
                     help="reference set the version is evaluated against (fpeval.eval_config.REFERENCES / STAT_DATASETS)")
+    ap.add_argument("--benchmark", choices=sorted(BENCHMARKS), default=None,
+                    help="the version was generated from these benchmark programs (Table 1 block (a))")
     a = ap.parse_args()
     variant = a.variant or f"mason2_{a.version}"
     src = ROOT / "data" / "ours2" / a.version / "homes"
@@ -200,6 +238,12 @@ def main():
         try:
             d = json.load(gzip.open(f, "rt"))
             smp = convert(d, variant)
+            if a.benchmark:
+                smp, gt = as_benchmark(smp, d, a.benchmark)
+                if (out / "samples" / f"{smp['id']}.json").exists():
+                    raise ValueError(f"second home for input {smp['id']}")
+                (out / "gt_samples").mkdir(exist_ok=True)
+                shutil.copy(gt, out / "gt_samples" / gt.name)
             save_sample(smp, out / "samples" / f"{smp['id']}.json")
             json.dump(objects_record(d), open(out / "objects" / f"{smp['id']}.json", "w"))
             types.update(r["type_native"] for r in smp["rooms"])
@@ -207,6 +251,7 @@ def main():
         except Exception as e:  # noqa: BLE001  keep going; failures are recorded
             failed[f.name] = repr(e)
     info = {"source": f"noface Mason2 API, generator version {a.version}", "reference": a.reference,
+            "benchmark": a.benchmark,
             "n_homes": len(files),
             "n_converted": done, "native_room_types": dict(types), "failures": failed,
             "date": datetime.now().isoformat(timespec="seconds")}

@@ -41,7 +41,8 @@ def measure(key, ref_label):
 
 # Table 1 block (a): results/rplan/block_a.json (scripts/rplan/block_a.py); macros \RA<row><metric>
 A_ROWS = {"Real": "real", "House-GAN++": "hgpp", "HouseDiffusion": "hd", "WallPlan": "wallplan",
-          "ProcTHOR": "procthor", "Infinigen": "infinigen"}
+          "ProcTHOR": "procthor", "Infinigen": "infinigen",
+          "Holodeck (Qwen3.8-27B)": "holoqwen", "Holodeck (Gemma-4-31B)": "hologemma", "APM (ours)": "apm"}
 A_METRICS = {"Valid": ("valid", True, 100, "{:.1f}"), "Reach": ("reach", True, 100, "{:.1f}"),
              "Types": ("types", True, 100, "{:.1f}"), "Graph": ("graph", True, 100, "{:.1f}"),
              "Area": ("area_rel_err", False, 100, "{:.1f}\\%"), "DFID": ("dfid", False, 1, "{:.1f}"),

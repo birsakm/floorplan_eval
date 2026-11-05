@@ -55,3 +55,13 @@ therefore the program's room counts and summed indoor target area, and the adher
 layout follows the program. For the baselines, the program is written in the old vocabulary (`circulation`,
 `living`, `dining`, ...). It has no daylight flag, so living, bedrooms, kitchen, dining and balconies are marked
 `needs_exterior` (used by Infinigen).
+
+## Table 1(a): APM on the RPLAN programs
+
+- Input for Christian / Fedor: `scripts/rplan/export_mason_programs.py --push` writes the 1,000 RPLAN programs in
+  Mason2's program format to `noface:/data/mason/michael/benchmark_inputs/rplan_g2p_test1000/` (README.md there says
+  what we need: program stage bypassed, one home per input, every home carries its `input_id`).
+- Once their version exists: `python scripts/ours2/run_all.py <version> --benchmark rplan` (fetch, convert with homes
+  matched by `input_id`, evaluation + FID against RPLAN, `block_a.py --apm <version>`, paper macros `\RAapm...`).
+- Tested end to end on 30 fake homes (real Mason2 homes tagged with RPLAN input ids); the converter finds the id in
+  an `input_id` field (top level, state, params, profile or program) or as the one "rplan:<id>" string in the record.

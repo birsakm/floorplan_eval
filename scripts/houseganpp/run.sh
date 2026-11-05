@@ -25,8 +25,13 @@ rm -rf "$OUT"; mkdir -p "$OUT/raw"
 CMD="python scripts/houseganpp/infer.py --checkpoint $CKPT --list $INPUT_LIST --out $OUT/raw --n_per_graph $N_PER_GRAPH --seed $SEED --save_png"
 echo "$CMD"
 T0=$(date +%s)
-(cd "$HG" && CUDA_VISIBLE_DEVICES=$GPU HG_DIR="$HG" conda run --no-capture-output -n fpe-houseganpp \
-   python "$ROOT/scripts/houseganpp/infer.py" --checkpoint "$CKPT" --list "$INPUT_LIST" --out "$OUT/raw" \
+# METHOD_PY: another interpreter for inference, e.g. a venv with a newer torch for Blackwell GPUs
+# (/datawaha/cggroup/birsakm/venvs/fpe-houseganpp-cu128/bin/python: the conda env + torch 2.7.1+cu128). The new
+# torchvision bundles its own libjpeg, which breaks pygraphviz's libtiff; preload the env's libjpeg:
+#   METHOD_PY="env LD_PRELOAD=<conda env>/lib/libjpeg.so.8 <venv>/bin/python"
+RUNPY=${METHOD_PY:-conda run --no-capture-output -n fpe-houseganpp python}
+(cd "$HG" && CUDA_VISIBLE_DEVICES=$GPU HG_DIR="$HG" $RUNPY \
+   "$ROOT/scripts/houseganpp/infer.py" --checkpoint "$CKPT" --list "$INPUT_LIST" --out "$OUT/raw" \
    --n_per_graph "$N_PER_GRAPH" --seed "$SEED" --save_png)
 T1=$(date +%s)
 
@@ -36,7 +41,7 @@ conda run -n fpe python -m fpeval.render "$OUT"
 conda run -n fpe python scripts/common/render_gt.py "$OUT"
 conda run -n fpe python scripts/common/write_run_info.py "$OUT" --method houseganpp --submodule "$HG" \
   --checkpoint "checkpoints/houseganpp/pretrained.pth (= repo checkpoints/pretrained.pth)" \
-  --command "$CMD" --ids "$INPUT_LIST" --infer_seconds $((T1-T0)) --env fpe-houseganpp \
+  --command "$CMD" --ids "$INPUT_LIST" --infer_seconds $((T1-T0)) --env "${METHOD_PY:-fpe-houseganpp}" \
   --conditioning "bubble diagram (HG++ JSON: rooms + door nodes, wall/door adjacency) from RPLAN; ${N_PER_GRAPH} samples per input graph, seed ${SEED}" \
   --notes "${RUN_NOTES:-Only the 7 publicly bundled RPLAN graphs are available (RPLAN is form-gated); see scripts/houseganpp/NOTES.md}" \
-  --extra "{\"gpu\": \"1x A100-40GB (CUDA_VISIBLE_DEVICES=$GPU)\", \"n_per_graph\": $N_PER_GRAPH, \"seed\": $SEED, \"torch\": \"2.4.1+cu121 (repo pins 1.8.1)\"}"
+  --extra "{\"gpu\": \"$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1) (CUDA_VISIBLE_DEVICES=$GPU)\", \"n_per_graph\": $N_PER_GRAPH, \"seed\": $SEED, \"torch\": \"${TORCH_NOTE:-2.4.1+cu121} (repo pins 1.8.1)\"}"

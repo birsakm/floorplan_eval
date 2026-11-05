@@ -6,6 +6,8 @@ comparison table and the paper's Table 1 block (b) numbers.
   python scripts/ours2/run_all.py <version> --redo procthor    # re-run a step and everything after it
   python scripts/ours2/run_all.py <version> --status           # which steps are done
   python scripts/ours2/run_all.py <version> --no-paper         # leave paper/sec/results_auto.tex alone
+  python scripts/ours2/run_all.py <version> --benchmark rplan   # a version generated from the Table 1(a) RPLAN
+                                                                # programs (scripts/rplan/export_mason_programs.py)
 
 Run it with the fpe python (any python with the repo's requirements):
   PYTHONPATH=. /datawaha/cggroup/birsakm/miniconda3/envs/fpe/bin/python scripts/ours2/run_all.py <version>
@@ -22,6 +24,11 @@ Steps (two lanes run in parallel after convert; only one metric evaluation runs 
   infinigen  Infinigen on our programs (nice 10), convert, the two evaluations (lane B)
   report     scripts/report/compare_methods.py --version + scripts/ours2/paper_numbers.py --version
 The paper itself is not committed or pushed.
+
+--benchmark rplan (Table 1 block (a), APM row): fetch, convert (homes matched to their RPLAN input by input_id; the
+real layouts of the same inputs as FID floor), ours (fpeval.evaluate variants + fid against RPLAN), report
+(scripts/rplan/block_a.py --apm <version> + paper_numbers.py). No baseline lanes: ProcTHOR and Infinigen already ran
+on these programs.
 """
 import argparse
 import json
@@ -47,6 +54,7 @@ PORT = 13021
 STEPS = ["fetch", "convert", "ours", "procthor", "infinigen", "report"]
 AFTER = {"fetch": ["convert"], "convert": ["ours", "procthor", "infinigen"], "ours": ["report"],
          "procthor": ["report"], "infinigen": ["report"], "report": []}  # steps that use a step's output
+BENCH = {"rplan": ("rplan_g2p_test1000", "rplan_graph2plan:test")}  # --benchmark -> (programs, FID reference)
 EVAL_LOCK = threading.Lock()  # one metric evaluation at a time (each uses --workers processes)
 
 
@@ -104,8 +112,11 @@ def cmd_list(min_homes):
 
 # --- steps ----------------------------------------------------------------------------------------------------------
 class Run:
-    def __init__(self, version, workers, reference, paper=True):
+    def __init__(self, version, workers, reference, paper=True, benchmark=None):
         self.v, self.workers, self.reference, self.paper = version, workers, reference, paper
+        self.bench = BENCH[benchmark][0] if benchmark else None
+        if benchmark:
+            self.reference = BENCH[benchmark][1]
         self.keys = variants(version)
         self.pdir = ROOT / "outputs" / "ours" / f"mason2_{version}" / "pipeline"
         self.ldir = ROOT / "logs" / "mason2" / version
@@ -152,7 +163,8 @@ class Run:
         log(f"fetch: {got} homes")
 
     def convert(self):
-        self.sh("convert", [FPE_PY, "scripts/ours2/convert.py", "--version", self.v, "--reference", self.reference])
+        self.sh("convert", [FPE_PY, "scripts/ours2/convert.py", "--version", self.v, "--reference", self.reference]
+                + (["--benchmark", self.bench] if self.bench else []))
         info = json.load(open(ROOT / "outputs" / "ours" / f"mason2_{self.v}" / "run_info.json"))
         log(f"convert: {info['n_converted']}/{info['n_homes']} converted; room types {info['native_room_types']}")
         if info["failures"]:
@@ -161,6 +173,11 @@ class Run:
             raise RuntimeError("convert: fewer than 95% of the homes converted (format change?), see run_info.json")
 
     def ours(self):
+        if self.bench:  # rule metrics + FID against RPLAN with the real layouts of the same inputs as floor
+            key = self.keys["ours"]
+            self.sh("ours", [FPE_PY, "-m", "fpeval.evaluate", "variants", key, "--workers", self.workers])
+            self.sh("ours", [FPE_PY, "-m", "fpeval.evaluate", "fid", key, "--workers", self.workers])
+            return
         self.evaluate("ours", self.keys["ours"])
 
     def procthor(self):
@@ -180,6 +197,12 @@ class Run:
         self.evaluate("infinigen", self.keys["infinigen"])
 
     def report(self):
+        if self.bench:
+            self.sh("report", [FPE_PY, "scripts/rplan/block_a.py", "--apm", self.v, "--workers", self.workers])
+            if self.paper:
+                self.sh("report", [FPE_PY, "scripts/ours2/paper_numbers.py"])
+            print((ROOT / "results" / "rplan" / "block_a.md").read_text(), flush=True)
+            return
         self.sh("report", [FPE_PY, "scripts/report/compare_methods.py", "--version", self.v])
         if self.paper:
             self.sh("report", [FPE_PY, "scripts/ours2/paper_numbers.py", "--version", self.v])
@@ -220,6 +243,12 @@ class Run:
     def all(self):
         self.step("fetch")
         self.step("convert")
+        if self.bench:
+            self.step("ours")
+            self.step("report")
+            log("all done. Results: results/rplan/block_a.md; paper numbers: paper/sec/results_auto.tex "
+                "(compile, then commit and push the paper submodule by hand)")
+            return
         errors = []
 
         def lane(*names):
@@ -251,10 +280,12 @@ def main():
     ap.add_argument("--redo", choices=STEPS, help="re-run this step and all later ones")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--no-paper", action="store_true", help="do not rewrite paper/sec/results_auto.tex (test runs)")
+    ap.add_argument("--benchmark", choices=sorted(BENCH), default=None,
+                    help="the version was generated from the Table 1(a) programs (APM row)")
     a = ap.parse_args()
     if a.version == "list":
         return cmd_list(a.min_homes)
-    r = Run(a.version, a.workers, a.reference, paper=not a.no_paper)
+    r = Run(a.version, a.workers, a.reference, paper=not a.no_paper, benchmark=a.benchmark)
     if a.status:
         return r.status()
     if a.redo:

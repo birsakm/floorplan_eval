@@ -79,3 +79,6 @@
 [submodule "external/methods/procthor"]
 	path = external/methods/procthor
 	url = https://github.com/allenai/procthor.git
+[submodule "external/methods/holodeck"]
+	path = external/methods/holodeck
+	url = https://github.com/allenai/Holodeck.git

@@ -34,7 +34,10 @@ rm -rf "$OUT"; mkdir -p "$OUT/raw"
 CMD="python scripts/house_diffusion/infer.py --dataset rplan --set_name eval --target_set 8 --model_path $CKPT --list $INPUT_LIST --cndist $CNDIST --out $OUT/raw --n_per_graph $N_PER_GRAPH --batch_size $BATCH --seed $SEED"
 echo "$CMD"
 T0=$(date +%s)
-CUDA_VISIBLE_DEVICES=$GPU PYTHONPATH="$HD" conda run --no-capture-output -n fpe-house_diffusion $CMD 2>&1 | grep -v "it/s\]"
+# METHOD_PY: another interpreter for inference (e.g. /datawaha/cggroup/birsakm/venvs/fpe-house_diffusion-cu128/bin/python
+# = the conda env + torch 2.7.1+cu128, for Blackwell GPUs)
+RUNPY=${METHOD_PY:-conda run --no-capture-output -n fpe-house_diffusion python}
+CUDA_VISIBLE_DEVICES=$GPU PYTHONPATH="$HD" $RUNPY ${CMD#python } 2>&1 | grep -v "it/s\]"
 T1=$(date +%s)
 
 export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
@@ -43,7 +46,7 @@ conda run -n fpe python -m fpeval.render "$OUT"
 conda run -n fpe python scripts/common/render_gt.py "$OUT"
 conda run -n fpe python scripts/common/write_run_info.py "$OUT" --method house_diffusion --submodule "$HD" \
   --checkpoint "checkpoints/house_diffusion/model250000.pt (README 'temporary model', gdrive 16zKmtxwY5lF6JE-CJGkRf3-OFoD1TrdR)" \
-  --command "$CMD" --ids "$INPUT_LIST" --infer_seconds $((T1-T0)) --env fpe-house_diffusion \
+  --command "$CMD" --ids "$INPUT_LIST" --infer_seconds $((T1-T0)) --env "${METHOD_PY:-fpe-house_diffusion}" \
   --conditioning "bubble diagram (rooms + door nodes, HG++ JSON adjacency) from RPLAN, 'syn' conditions: corner counts sampled from $(basename "$CNDIST"); 1000 DDPM steps; ${N_PER_GRAPH} samples per graph, seed ${SEED}" \
   --notes "${RUN_NOTES:-Only the 7 publicly bundled RPLAN graphs are available (RPLAN is form-gated); they have 5-7 rooms (sizes seen in training, the checkpoint holds out 8-room plans) and may be training plans. See scripts/house_diffusion/NOTES.md}" \
-  --extra "{\"gpu\": \"1x A100-40GB (CUDA_VISIBLE_DEVICES=$GPU)\", \"n_per_graph\": $N_PER_GRAPH, \"seed\": $SEED, \"torch\": \"2.4.1+cu121 (repo pins 2.0.0.dev20221212)\"}"
+  --extra "{\"gpu\": \"$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1) (CUDA_VISIBLE_DEVICES=$GPU)\", \"n_per_graph\": $N_PER_GRAPH, \"seed\": $SEED, \"torch\": \"${TORCH_NOTE:-2.4.1+cu121} (repo pins 2.0.0.dev20221212)\"}"

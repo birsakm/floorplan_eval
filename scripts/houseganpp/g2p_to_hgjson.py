@@ -13,11 +13,16 @@ APPROXIMATIONS (Graph2Plan data has no interior doors and no wall gaps):
     if they share a wall, otherwise to the neighbour with the longest shared wall (preference
     living > dining > entrance > any). Gives #doors = #rooms-1, as in the bundled RPLAN samples.
     The door is a 2 x min(12, shared-2) px rectangle centred on the shared wall.
+  * --real-doors (Table 1(a) since 2026-11-04): interior doors are RPLAN's REAL doors instead (original RPLAN
+    masks, data/rplan_kaggle; scripts/rplan/rplan_doors.py): one door per real door, at its real position (2 px
+    thick, real length), between the rooms on its two sides. Rooms left unconnected (mostly balconies without a
+    drawn door) get an inferred door on the wall they share longest with the connected part.
 Output: <out_dir>/<rplan_name>.json (+ list.txt). Run in the `fpe` env.
 """
 import argparse
 import json
 import os
+import sys
 
 import numpy as np
 import scipy.io as sio
@@ -89,7 +94,32 @@ def rect_edges(b):
             (np.array([x1, y1]), np.array([x1, y0])), (np.array([x1, y0]), np.array([x0, y0]))]
 
 
-def convert(p):
+def real_door_rects(p, polys, shared):
+    """[(rect, [a, b], 17)] from RPLAN's real doors (+ inferred ones), see rplan_doors.door_graph."""
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "rplan"))
+    from rplan_doors import door_graph
+    from shapely.ops import nearest_points
+    g = door_graph(str(p.name))
+    out = []
+    for a, b, box in g["doors"]:
+        (x0, y0), (x1, y1) = box[0], box[2]
+        cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+        if x1 - x0 >= y1 - y0:
+            rect = [x0, cy - 1.0, x1, cy + 1.0]
+        else:
+            rect = [cx - 1.0, y0, cx + 1.0, y1]
+        out.append(([float(v) for v in rect], [a, b], 17))
+    for a, b in g["inferred"]:
+        ln = shared.get((a, b))
+        if ln is None:  # the Graph2Plan boxes do not touch: a short door between their nearest points
+            q0, q1 = nearest_points(Polygon(polys[a]), Polygon(polys[b]))
+            ln = LineString([(q0.x - 6, q0.y), (q0.x + 6, q0.y)]) if abs(q1.y - q0.y) >= abs(q1.x - q0.x) \
+                else LineString([(q0.x, q0.y - 6), (q0.x, q0.y + 6)])
+        out.append((door_rect(ln), [a, b], 17))
+    return out, g
+
+
+def convert(p, real_doors=False):
     rtypes, polys = plan_rooms(p)
     types = [RPLAN_TO_HG.get(t, 16) for t in rtypes]
     n = len(types)
@@ -102,7 +132,10 @@ def convert(p):
     # synthesized interior doors
     living = [i for i, t in enumerate(types) if t == 1]
     doors = []  # (rect, [room_a, room_b], type)
-    for r in range(n):
+    info = None
+    if real_doors:
+        doors, info = real_door_rects(p, polys, shared)
+    for r in ([] if real_doors else range(n)):
         if types[r] == 1:
             continue
         nbs = [(j, shared[tuple(sorted((r, j)))]) for j in range(n) if j != r and tuple(sorted((r, j))) in shared]
@@ -148,8 +181,12 @@ def convert(p):
             edges.append([float(a[0]), float(a[1]), float(c[0]), float(c[1]), t, types[rm] if rm is not None else 0])
             ed_rm.append([d, rm] if rm is not None else [d])
         boxes.append([float(x) for x in rect])
-    return {"room_type": all_types, "boxes": boxes, "edges": edges, "ed_rm": ed_rm,
-            "source": "graph2plan_rplan (synthesized interior doors)", "rplan_name": str(p.name)}
+    out = {"room_type": all_types, "boxes": boxes, "edges": edges, "ed_rm": ed_rm,
+           "source": "graph2plan_rplan (synthesized interior doors)", "rplan_name": str(p.name)}
+    if real_doors:
+        out["source"] = "graph2plan_rplan rooms + real RPLAN interior doors (inferred where a room has none)"
+        out["inferred_doors"] = [list(e) for e in info["inferred"]]
+    return out
 
 
 def main():
@@ -158,6 +195,7 @@ def main():
     ap.add_argument("--ids", default=None, help="file of RPLAN names to keep (default: all valid)")
     ap.add_argument("--n_random", type=int, default=None, help="random subset size (seed 0) if no --ids")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--real-doors", action="store_true", help="RPLAN's real interior doors instead of synthesised ones")
     a = ap.parse_args()
     data = sio.loadmat(os.path.join(G2P_DIR, f"data_{a.split}.mat"), squeeze_me=True, struct_as_record=False)["data"]
     by_name = {str(p.name): p for p in data}
@@ -175,7 +213,7 @@ def main():
             skipped.append(nm)
             continue
         try:
-            js = convert(p)
+            js = convert(p, a.real_doors)
         except Exception as e:  # noqa: BLE001
             skipped.append(nm)
             print("skip", nm, e)

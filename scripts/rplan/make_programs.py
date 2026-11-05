@@ -1,6 +1,10 @@
 """Programs for the procedural baselines from the RPLAN bubble diagrams of Table 1 block (a).
 
-  PYTHONPATH=. python scripts/rplan/make_programs.py
+  PYTHONPATH=. python scripts/rplan/make_programs.py [--doors real|syn]
+
+--doors real (default since 2026-11-04): from the House-GAN++ run on the inputs with RPLAN's real interior doors
+(outputs/houseganpp/rplan-g2p_bubble_test1000_realdoors) -> outputs/rplan/g2p_test1000_realdoors_programs.
+--doors syn: the old inputs with synthesised doors -> outputs/rplan/g2p_test1000_programs.
 
 Input: the 1,000 Graph2Plan test inputs as given to House-GAN++ / HouseDiffusion
 (outputs/houseganpp/rplan-g2p_bubble_test1000_syndoors: condition = bubble diagram, gt_samples = the real layouts).
@@ -19,8 +23,9 @@ from pathlib import Path
 from shapely.geometry import Polygon
 
 ROOT = Path(__file__).resolve().parents[2]
-SRC = ROOT / "outputs" / "houseganpp" / "rplan-g2p_bubble_test1000_syndoors"
-OUT = ROOT / "outputs" / "rplan" / "g2p_test1000_programs"
+VERSIONS = {"real": ("rplan-g2p_bubble_test1000_realdoors", "g2p_test1000_realdoors_programs"),
+            "syn": ("rplan-g2p_bubble_test1000_syndoors", "g2p_test1000_programs")}
+SRC = OUT = None
 SCALE = 18 / 256  # m per px
 NATIVE = {"living_room": "living", "bedroom": "bedroom", "kitchen": "kitchen", "bathroom": "bathroom",
           "balcony": "outdoor", "study room": "office", "storage": "storage", "dining room": "dining",
@@ -46,7 +51,7 @@ def metres(sample):
     return s
 
 
-def program(cond, gt):
+def program(cond, gt, inferred=()):
     nodes = cond["nodes"]
     rooms_idx = [i for i, t in enumerate(nodes) if t not in DOOR_TYPES]
     area = {r["node"]: Polygon(r["polygon"]).buffer(0).area * SCALE ** 2 for r in gt["rooms"] if "node" in r}
@@ -61,11 +66,15 @@ def program(cond, gt):
         for x, y in ((a, b), (b, a)):
             if nodes[x] == "interior_door" and y in rooms_idx:
                 by_door.setdefault(x, []).append(y)
-    edges = []
+    edges, seen = [], set()
     for d, rs in by_door.items():
         rs = sorted(set(rs))
-        if len(rs) == 2:
-            edges.append({"room_a": f"r{rs[0]}", "room_b": f"r{rs[1]}", "kind": "door"})
+        if len(rs) == 2 and tuple(rs) not in seen:  # two doors between the same rooms: one connection
+            seen.add(tuple(rs))
+            e = {"room_a": f"r{rs[0]}", "room_b": f"r{rs[1]}", "kind": "door"}
+            if tuple(rs) in inferred:  # no door in RPLAN: the room had none (scripts/rplan/rplan_doors.py)
+                e["inferred"] = True
+            edges.append(e)
     front = cond.get("front_door_rooms") or []
     entrance = f"r{front[0]}" if front else None
     counts = Counter(r["type"] for r in rooms)
@@ -76,6 +85,13 @@ def program(cond, gt):
 
 
 def main():
+    import argparse
+    global SRC, OUT
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--doors", choices=sorted(VERSIONS), default="real")
+    a = ap.parse_args()
+    SRC = ROOT / "outputs" / "houseganpp" / VERSIONS[a.doors][0]
+    OUT = ROOT / "outputs" / "rplan" / VERSIONS[a.doors][1]
     (OUT / "samples").mkdir(parents=True, exist_ok=True)
     (OUT / "gt_samples").mkdir(parents=True, exist_ok=True)
     n, skipped = 0, []
@@ -94,7 +110,9 @@ def main():
         gm = metres(gt)
         gm["id"] = gid
         json.dump(gm, open(OUT / "gt_samples" / f"{gid}.json", "w"))
-        rec = dict(gm, source="rplan", variant="g2p_test1000_programs", condition=program(cond, gt))
+        inp = ROOT / "data" / "method_inputs" / "houseganpp" / SRC.name.replace("rplan-g2p_bubble_test1000", "rplan-g2p_test1000") / f"{gid}.json"
+        inferred = {tuple(sorted(e)) for e in json.load(open(inp)).get("inferred_doors", [])} if inp.exists() else set()
+        rec = dict(gm, source="rplan", variant=OUT.name, condition=program(cond, gt, inferred))
         json.dump(rec, open(OUT / "samples" / f"{gid}.json", "w"))
         n += 1
     json.dump({"source": str(SRC.relative_to(ROOT)), "n_programs": n, "skipped": skipped, "scale_m_per_px": SCALE},

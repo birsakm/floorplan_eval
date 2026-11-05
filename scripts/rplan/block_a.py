@@ -10,7 +10,7 @@ Per method (columns of Table 1):
   Area    relative error of the total net room area vs the input's target areas (only for inputs with areas)
   dFID, dKID  FID / KID x1000 against RPLAN minus the score of the real layouts of the same inputs
               (fpeval.evaluate fid: eval/fid_rplan_graph2plan_test.json, 'floor')
-The Real row is the real layouts of the 1,000 inputs (outputs/rplan/g2p_test1000_programs/gt_samples, metres);
+The Real row is the real layouts of the 1,000 inputs (outputs/rplan/g2p_test1000_realdoors_programs/gt_samples, metres);
 its Reach comes from the original RPLAN masks with their real doors (fpeval/datasets/rplan_kaggle.py): Graph2Plan's
 RPLAN has no interior doors, and its room polygons are simplified boxes, so the door graph between them is not usable.
 Inputs: bubble methods read the bubble diagram from their sample's condition; ProcTHOR / Infinigen read the program
@@ -35,16 +35,32 @@ from fpeval.format import canonical_room_type, load_sample  # noqa: E402
 from fpeval.geometry import rooms_as_shapes, to_polygon  # noqa: E402
 from fpeval.metrics import door_edges  # noqa: E402
 
-PROGRAMS = ROOT / "outputs" / "rplan" / "g2p_test1000_programs"
+PROGRAMS = ROOT / "outputs" / "rplan" / "g2p_test1000_realdoors_programs"
 REAL_DOORS = ROOT / "data" / "rplan_kaggle" / "converted" / "samples"  # RPLAN with its real doors
 ROWS = [  # (row, variant key or None for Real, input kind)
     ("Real", None, "-"),
-    ("House-GAN++", "houseganpp/rplan-g2p_bubble_test1000_syndoors", "bubble"),
-    ("HouseDiffusion", "house_diffusion/rplan-g2p_bubble_test1000_syndoors", "bubble"),
+    ("House-GAN++", "houseganpp/rplan-g2p_bubble_test1000_realdoors", "bubble"),
+    ("HouseDiffusion", "house_diffusion/rplan-g2p_bubble_test1000_realdoors", "bubble"),
     ("WallPlan", "wallplan/rplan_boundary_test1000", "boundary"),
-    ("ProcTHOR", "procthor/rplan-g2p_program_test1000", "bubble+areas"),
-    ("Infinigen", "infinigen/rplan-g2p_program_test1000", "bubble+areas"),
+    ("ProcTHOR", "procthor/rplan-g2p_program_test1000_realdoors", "bubble+areas"),
+    ("Infinigen", "infinigen/rplan-g2p_program_test1000_realdoors", "bubble+areas"),
+    ("Holodeck (Qwen3.8-27B)", "holodeck/rplan-g2p_text_test1000_realdoors_qwen3.8-27b", "bubble+areas"),
+    ("Holodeck (Gemma-4-31B)", "holodeck/rplan-g2p_text_test1000_realdoors_gemma-4-31b", "bubble+areas"),
 ]
+# APM (ours): the most recently converted Mason2 version generated from these programs (run_all.py --benchmark rplan)
+
+
+def apm_variant():
+    runs = []
+    for d in (ROOT / "outputs" / "ours").glob("mason2_*"):
+        try:
+            if json.load(open(d / "run_info.json")).get("benchmark") == "rplan_g2p_test1000":
+                runs.append(d)
+        except (OSError, ValueError):
+            pass
+    return f"ours/{max(runs, key=lambda d: (d / 'run_info.json').stat().st_mtime).name}" if runs else None
+
+
 APT_ALIASES = {"circulation": "corridor", "outdoor": "balcony", "office": "study", "small_bathroom": "bathroom"}
 DOOR_NODES = {"interior_door", "front door", "front_door"}
 
@@ -139,8 +155,9 @@ def evaluate_row(name, key, kind, workers):
             m = [json.load(open(p))["condition"]["mask_reach"] for p in real]
             out["reach"] = float(np.mean([x["all"] for x in m]))
             out["reach_source"] = "original RPLAN masks (rplan_kaggle mask_reach)"
-    if key is None:  # rules of the real layouts, as evaluated alongside House-GAN++ (same 1,000 inputs)
-        g = pd.read_csv(ROOT / "outputs" / ROWS[1][1] / "eval" / "gt_per_sample.csv")
+    if key is None:  # rules of the real layouts of the 1,000 inputs (metres), same per-sample evaluation as methods
+        from fpeval.evaluate import _eval_dir
+        g, _, _ = _eval_dir(files, workers, scale=1.0, scale_known=True)
         out["valid"] = float(1 - g.any_rule_violation.mean())
         out["dfid"] = out["dkid"] = 0.0
     else:
@@ -156,9 +173,13 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--workers", type=int, default=12)
+    ap.add_argument("--apm", default=None, help="Mason2 version of the APM row (default: latest rplan benchmark run)")
     a = ap.parse_args()
     rows = []
-    for name, key, kind in ROWS:
+    a_rows = list(ROWS)
+    if a.apm or apm_variant():
+        a_rows.append(("APM (ours)", f"ours/mason2_{a.apm}" if a.apm else apm_variant(), "bubble+areas"))
+    for name, key, kind in a_rows:
         if key is not None and not (ROOT / "outputs" / key / "eval" / "fid_rplan_graph2plan_test.json").exists():
             print(f"{name}: not evaluated yet, skipped")
             continue

@@ -59,8 +59,11 @@ def _v(condition, ref, scale=RPLAN_256, scale_known=True, frame_aligned=False, r
 VARIANTS = {
     "housegan/lifull_bubble_testD": _v("bubble", "housegan_lifull:all", scale_known=False, raster=True),
     "houseganpp/rplan-g2p_bubble_test1000_syndoors": _v("bubble", "rplan_graph2plan:test", raster=True),
+    # Table 1(a) since 2026-11-04: the same inputs with RPLAN's real interior doors (scripts/rplan/rplan_doors.py)
+    "houseganpp/rplan-g2p_bubble_test1000_realdoors": _v("bubble", "rplan_graph2plan:test", raster=True),
     "houseganpp/rplan_bubble_public": _v("bubble", "rplan_graph2plan:test", raster=True),
     "house_diffusion/rplan-g2p_bubble_test1000_syndoors": _v("bubble", "rplan_graph2plan:test"),
+    "house_diffusion/rplan-g2p_bubble_test1000_realdoors": _v("bubble", "rplan_graph2plan:test"),
     "house_diffusion/rplan_bubble_public": _v("bubble", "rplan_graph2plan:test"),
     "gsdiff/rplan_uncond": _v("unconditional", "rplan_graph2plan:test"),
     "gsdiff/rplan_bubble_test1000": _v("bubble", "rplan_graph2plan:test"),
@@ -96,6 +99,12 @@ VARIANTS = {
     # areas as targets (scripts/rplan/make_programs.py, --source rplan/g2p_test1000_programs).
     "procthor/rplan-g2p_program_test1000": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
     "infinigen/rplan-g2p_program_test1000": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
+    # --source rplan/g2p_test1000_realdoors_programs (real RPLAN doors)
+    "procthor/rplan-g2p_program_test1000_realdoors": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
+    "infinigen/rplan-g2p_program_test1000_realdoors": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
+    # Holodeck floor-plan stages with open-weight LLMs on the same programs, written as text (scripts/holodeck/generate.py)
+    "holodeck/rplan-g2p_text_test1000_realdoors_qwen3.8-27b": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
+    "holodeck/rplan-g2p_text_test1000_realdoors_gemma-4-31b": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
     # SceneSmith's 31 published house-level scenes (scripts/scenesmith/convert.py): text prompts, only 7 of them homes.
     "scenesmith/house_published": _v("text", "cubicasa5k:all", scale=1.0),
     **{f"ds2d/procthor_{c}_test_lora-{l}": _v("constraints", "procthor10k:test", scale=1.0)
@@ -123,9 +132,13 @@ def _register_mason2():
     for d in sorted((root / "outputs" / "ours").glob("mason2_*")):
         version = d.name[len("mason2_"):]
         try:
-            ref = json.load(open(d / "run_info.json")).get("reference", MASON2_DEFAULT_REF)
+            info = json.load(open(d / "run_info.json"))
         except (OSError, ValueError):
-            ref = MASON2_DEFAULT_REF
+            info = {}
+        ref = info.get("reference", MASON2_DEFAULT_REF)
+        if info.get("benchmark"):  # generated from Table 1(a) programs (scripts/rplan/export_mason_programs.py)
+            VARIANTS.setdefault(f"ours/mason2_{version}", _v("bubble+areas", ref, scale=1.0))
+            continue
         for m, key in mason2_variants(version).items():
             VARIANTS.setdefault(key, _v("brief" if m == "ours" else "brief+program", ref, scale=1.0))
 

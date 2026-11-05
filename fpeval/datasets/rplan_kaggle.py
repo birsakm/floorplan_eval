@@ -57,14 +57,46 @@ def pickle_index(raw=RAW):
     return {p.stem: p for p in (Path(raw) / "pickle").glob("*/*.pkl")}
 
 
-def door_boxes(mask, min_len=8):
+def door_boxes(mask, walls=None, min_len=8, min_piece=3):
     """One box per door: doors are straight runs of the door mask; two doors meeting at a corner form one connected
-    component, so horizontal and vertical runs are separated first (opening with a 1 x min_len / min_len x 1 line)."""
+    component, so horizontal and vertical runs are separated first (opening with a 1 x min_len / min_len x 1 line).
+    Two doors end to end (e.g. kitchen and bathroom doors side by side off a corridor) form one straight run; with
+    `walls` (wall mask), a run is cut where a wall touches it from the side, i.e. where the rooms beside it change."""
     from scipy import ndimage
     h = ndimage.binary_opening(mask, structure=np.ones((1, min_len), bool))
     v = ndimage.binary_opening(mask, structure=np.ones((min_len, 1), bool))
     both = h & v  # a square door block (rare): keep it once, as horizontal
-    return boxes(h) + boxes(v & ~both)
+    out = boxes(h) + boxes(v & ~both)
+    return out if walls is None else [p for b in out for p in _split(b, walls, min_piece)]
+
+
+def _split(box, walls, min_piece):
+    (x0, y0), (x1, y1) = box[0], box[2]
+    x0, y0, x1, y1 = int(x0), int(y0), int(x1), int(y1)
+    horiz = x1 - x0 >= y1 - y0
+    n = (x1 - x0) if horiz else (y1 - y0)
+    cut = np.zeros(n, bool)
+    for k in range(n):
+        if horiz:
+            px = [(y0 - 1, x0 + k), (y1, x0 + k)]
+        else:
+            px = [(y0 + k, x0 - 1), (y0 + k, x1)]
+        cut[k] = any(0 <= r < 256 and 0 <= c < 256 and walls[r, c] for r, c in px)
+    pieces, start = [], None
+    for k in range(n + 1):
+        if k < n and not cut[k]:
+            start = k if start is None else start
+        elif start is not None:
+            if k - start >= min_piece:
+                pieces.append((start, k))
+            start = None
+    if len(pieces) <= 1:
+        return [box]
+    out = []
+    for a, b in pieces:
+        xa, xb, ya, yb = (x0 + a, x0 + b, y0, y1) if horiz else (x0, x1, y0 + a, y0 + b)
+        out.append([[float(xa), float(ya)], [float(xb), float(ya)], [float(xb), float(yb)], [float(xa), float(yb)]])
+    return out
 
 
 def boxes(mask):
@@ -97,7 +129,7 @@ def convert(args):
     if not front:
         return sid, "no front door"
     s["doors"] = [{"type": "front_door", "polygon": front[0]}] + [{"type": "interior_door", "polygon": b}
-                                                                  for b in door_boxes(p[3] > 0)]
+                                                                  for b in door_boxes(p[3] > 0, (p[2] > 0) | (p[1] == 127))]
     shapes = rooms_as_shapes(s)
     de = sorted({tuple(e) for e in door_edges(s, shapes, rules.WALL_HALF_THICKNESS_M / s["scale_m_per_unit"])})
     adj = [e for e in s["graph"]["edges"] if e[2] != "door"]

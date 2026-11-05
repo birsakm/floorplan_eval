@@ -90,3 +90,14 @@ generator passes on the GPU. Without caps, torch used about 12 cores.
   `cv2.setNumThreads(1)`)
 
 Batching graphs on the GPU was not implemented. The whole public run is only a few minutes.
+
+## Real RPLAN doors (Table 1(a) since 2026-11-04)
+- `rplan-g2p_bubble_test1000_realdoors` (`run_g2p.sh`, default; `SYNDOORS=1` gives the old `_syndoors` variant): the
+  same 1,000 inputs, but the interior doors are RPLAN's real doors from the original RPLAN masks
+  (`g2p_to_hgjson.py --real-doors`, `scripts/rplan/rplan_doors.py`), at their real positions. Rooms RPLAN leaves
+  without a door (78 of 1,000 apartments, mostly balconies) get an inferred door to their longest-wall neighbour
+  (`inferred_doors` in the input JSON). The real graphs equal the synthesised ones in 68% of the inputs
+  (`results/rplan/door_graphs.json`).
+- This machine's GPUs are Blackwell (sm_120); the conda envs' torch 2.4.1+cu121 has no kernels for them. Inference
+  ran with venvs = conda env + torch 2.7.1+cu128 (`/datawaha/cggroup/birsakm/venvs/fpe-{houseganpp,house_diffusion}-cu128`,
+  `METHOD_PY=...`); House-GAN++ also needs `LD_PRELOAD=<env>/lib/libjpeg.so.8` (see run.sh).
