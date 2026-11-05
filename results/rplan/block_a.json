@@ -109,5 +109,35 @@
   "dfid": 24.957923014419958,
   "dkid": 33.60657506000305,
   "fid_floor_is": "random real plans"
+ },
+ {
+  "method": "APM (ours, bubble)",
+  "variant": "ours/mason2_next-rplan-apm-90c2ec68e2e8-bubble",
+  "input": "bubble",
+  "N": 788,
+  "reach": 1.0,
+  "front_door": 1.0,
+  "types": 1.0,
+  "graph": 1.0,
+  "area_rel_err_vs_real": 0.13740222633704627,
+  "valid": 0.868020304568528,
+  "dfid": 27.568929467520825,
+  "dkid": 31.944446060977658,
+  "fid_floor_is": "GT of the same inputs"
+ },
+ {
+  "method": "APM (ours, bubble+areas)",
+  "variant": "ours/mason2_next-rplan-apm-3ab127258fb5-bubble-areas",
+  "input": "bubble+areas",
+  "N": 663,
+  "reach": 1.0,
+  "front_door": 1.0,
+  "types": 1.0,
+  "graph": 1.0,
+  "area_rel_err": 1.792693194183836e-05,
+  "valid": 0.9276018099547512,
+  "dfid": 24.938067801374412,
+  "dkid": 27.322647906258943,
+  "fid_floor_is": "GT of the same inputs"
  }
 ]

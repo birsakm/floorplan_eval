@@ -40,6 +40,34 @@ def load_programs(kind, source=None):
     return {h: (prog, n, i) for i, (h, (prog, n)) in enumerate(sorted(out.items()))}
 
 
+STAIR_M2 = 3.5  # synthetic staircase room (Mason2 stairs: 1 m wide straight flight, ~3.2 m^2 stairwell void)
+
+
+def with_stair_rooms(program, n_storeys):
+    """Infinigen's multi-storey solver needs a StaircaseRoom on every storey. Old Mason programs have stair rooms;
+    Mason2 programs instead put the stair inside a room (program edge kind "stair", e.g. hallway:0 -- hallway:1).
+    Then each such room gets an adjacent synthetic stair room "stairs:auto@<room>", open to it; scripts/infinigen/
+    convert.py merges it back into that room, so the layouts have the program's rooms, like ours."""
+    if n_storeys < 2 or any(r["type"] == "stairs" for r in program["rooms"]):
+        return program
+    rooms = {r["id"]: r for r in program["rooms"]}
+    hosts = {}
+    for e in program["edges"]:
+        if e["kind"] == "stair":
+            for x in (e["room_a"], e["room_b"]):
+                if x in rooms:
+                    hosts.setdefault(rooms[x]["storey"], x)
+    for lvl in range(n_storeys):  # a storey without a stair edge: its largest circulation room, else its largest room
+        if lvl not in hosts:
+            on = [r for r in program["rooms"] if r["storey"] == lvl]
+            hall = [r for r in on if r["type"] == "circulation"] or on
+            hosts[lvl] = max(hall, key=lambda r: r["target_net_area"] or 0)["id"]
+    extra = [{"id": f"stairs:auto@{h}", "type": "stairs", "target_net_area": STAIR_M2, "storey": lvl,
+              "needs_exterior": False} for lvl, h in sorted(hosts.items())]
+    edges = [{"room_a": x["id"], "room_b": x["id"].split("@", 1)[1], "kind": "open"} for x in extra]
+    return dict(program, rooms=program["rooms"] + extra, edges=program["edges"] + edges)
+
+
 def room_graphs(program, n_storeys):
     """One Infinigen RoomGraph per storey, nodes in BFS order from the entrance (exterior node last)."""
     import networkx as nx
@@ -131,6 +159,7 @@ def solve(args):
         from infinigen.core.util.math import FixedSeed
         from infinigen_examples.constraints import home as home_constraints
 
+        program = with_stair_rooms(program, n_storeys)
         graphs, names_of = room_graphs(program, n_storeys)
         storey_area = defaultdict(float)
         for r in program["rooms"]:

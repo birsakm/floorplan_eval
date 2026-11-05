@@ -119,9 +119,9 @@ MASON2_DEFAULT_REF = "swiss_dwellings:all"
 _MASON2_LEGACY = {"next-living-bay-ad5110bb7b58": "apartment_mason2-livingbay_seed0"}  # first run, old naming
 
 
-def mason2_variants(version):
+def mason2_variants(version, kind="apartment"):
     """Variant keys of one Mason2 generator version: ours and the two baselines on the same programs."""
-    base = _MASON2_LEGACY.get(version, f"apartment_mason2-{version}_seed0")
+    base = _MASON2_LEGACY.get(version, f"{kind}_mason2-{version}_seed0")
     return {"ours": f"ours/mason2_{version}", "procthor": f"procthor/{base}", "infinigen": f"infinigen/{base}"}
 
 
@@ -139,7 +139,7 @@ def _register_mason2():
         if info.get("benchmark"):  # generated from Table 1(a) programs (scripts/rplan/export_mason_programs.py)
             VARIANTS.setdefault(f"ours/mason2_{version}", _v("bubble+areas", ref, scale=1.0))
             continue
-        for m, key in mason2_variants(version).items():
+        for m, key in mason2_variants(version, info.get("kind", "apartment")).items():
             VARIANTS.setdefault(key, _v("brief" if m == "ours" else "brief+program", ref, scale=1.0))
 
 

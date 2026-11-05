@@ -47,18 +47,28 @@ ROWS = [  # (row, variant key or None for Real, input kind)
     ("Holodeck (Qwen3.8-27B)", "holodeck/rplan-g2p_text_test1000_realdoors_qwen3.8-27b", "bubble+areas"),
     ("Holodeck (Gemma-4-31B)", "holodeck/rplan-g2p_text_test1000_realdoors_gemma-4-31b", "bubble+areas"),
 ]
-# APM (ours): the most recently converted Mason2 version generated from these programs (run_all.py --benchmark rplan)
+# APM (ours): every converted Mason2 version generated from these programs (run_all.py --benchmark rplan), one row
+# per input setting. Versions named "...-retry<k>" (best of k seeds) deviate from the one-sample protocol and are
+# left out unless named with --apm.
 
 
-def apm_variant():
+def apm_input(version):
+    return "bubble" if version.endswith("-bubble") else "bubble+areas"
+
+
+def apm_versions():
     runs = []
     for d in (ROOT / "outputs" / "ours").glob("mason2_*"):
         try:
-            if json.load(open(d / "run_info.json")).get("benchmark") == "rplan_g2p_test1000":
+            if json.load(open(d / "run_info.json")).get("benchmark") == "rplan_g2p_test1000" and "-retry" not in d.name:
                 runs.append(d)
         except (OSError, ValueError):
             pass
-    return f"ours/{max(runs, key=lambda d: (d / 'run_info.json').stat().st_mtime).name}" if runs else None
+    latest = {}  # newest run per input setting
+    for d in sorted(runs, key=lambda d: (d / "run_info.json").stat().st_mtime):
+        v = d.name[len("mason2_"):]
+        latest[apm_input(v)] = v
+    return [latest[k] for k in ("bubble", "bubble+areas") if k in latest]
 
 
 APT_ALIASES = {"circulation": "corridor", "outdoor": "balcony", "office": "study", "small_bathroom": "bathroom"}
@@ -130,7 +140,9 @@ def one(args):
     return r
 
 
-def evaluate_row(name, key, kind, workers):
+def evaluate_row(name, key, kind, workers, shown=None):
+    """kind = format of the input stored in the samples; shown = the input the method used, if different (APM given
+    the bubble setting still stores the program; its Area is then not adherence to a target and is kept apart)."""
     if key is None:
         files, scale, vdir = sorted((PROGRAMS / "gt_samples").glob("*.json")), 1.0, None
     else:
@@ -138,12 +150,12 @@ def evaluate_row(name, key, kind, workers):
         files, scale = sorted((vdir / "samples").glob("*.json")), VARIANTS[key]["scale"]
     with Pool(workers) as pool:
         df = pd.DataFrame(pool.map(one, [(f, scale, kind) for f in files], chunksize=8))
-    out = {"method": name, "variant": key, "input": kind, "N": len(df),
+    out = {"method": name, "variant": key, "input": shown or kind, "N": len(df),
            "reach": float(df.reach.mean()), "front_door": float(df.has_front_door.mean())}
     if "types" in df:
         out["types"], out["graph"] = float(df.types.mean()), float(df.graph.mean())
     if "area_rel_err" in df:
-        out["area_rel_err"] = float(df.area_rel_err.mean())
+        out["area_rel_err" if (shown or kind) != "bubble" else "area_rel_err_vs_real"] = float(df.area_rel_err.mean())
     if key is None:
         # The doors in these files were synthesised for the bubble inputs (Graph2Plan's RPLAN has no interior doors).
         # Reach of the real layouts comes from the original RPLAN masks with their real doors instead
@@ -173,17 +185,18 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--workers", type=int, default=12)
-    ap.add_argument("--apm", default=None, help="Mason2 version of the APM row (default: latest rplan benchmark run)")
+    ap.add_argument("--apm", nargs="*", default=None,
+                    help="Mason2 versions of the APM rows (default: newest seed-0 rplan benchmark run per input setting)")
     a = ap.parse_args()
     rows = []
     a_rows = list(ROWS)
-    if a.apm or apm_variant():
-        a_rows.append(("APM (ours)", f"ours/mason2_{a.apm}" if a.apm else apm_variant(), "bubble+areas"))
-    for name, key, kind in a_rows:
+    for v in (apm_versions() if a.apm is None else a.apm):
+        a_rows.append((f"APM (ours, {apm_input(v)})", f"ours/mason2_{v}", "bubble+areas", apm_input(v)))
+    for name, key, kind, *shown in a_rows:
         if key is not None and not (ROOT / "outputs" / key / "eval" / "fid_rplan_graph2plan_test.json").exists():
             print(f"{name}: not evaluated yet, skipped")
             continue
-        rows.append(evaluate_row(name, key, kind, a.workers))
+        rows.append(evaluate_row(name, key, kind, a.workers, *shown))
         print(rows[-1], flush=True)
     out = ROOT / "results" / "rplan"
     out.mkdir(parents=True, exist_ok=True)

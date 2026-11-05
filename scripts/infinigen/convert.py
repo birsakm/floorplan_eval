@@ -43,17 +43,39 @@ def ours_samples(kind, source=None):
     return out
 
 
+def merge_stair_rooms(storey):
+    """Merge the synthetic stair room "stairs:auto@<room>" (scripts/infinigen/generate.py with_stair_rooms) into
+    <room>, as Mason2 has its stair inside that room. If the two do not touch, the stair stays a room of its own."""
+    out = [dict(r) for r in storey if not str(r.get("program_room")).startswith("stairs:auto@")]
+    by = {r["program_room"]: r for r in out}
+    for s in storey:
+        pr = str(s.get("program_room"))
+        if not pr.startswith("stairs:auto@"):
+            continue
+        host = by.get(pr.split("@", 1)[1])
+        u = unary_union([Polygon(host["polygon"]).buffer(0), Polygon(s["polygon"]).buffer(0)]) if host else None
+        if u is not None and u.geom_type == "Polygon":
+            host["polygon"] = [list(c) for c in u.exterior.coords[:-1]]
+            host["merged"] = s["name"]
+        else:
+            out.append(dict(s, program_room=None, stair_room=True))
+    return out
+
+
 def convert_storey(raw, k, kind, variant, sample_id, cond):
     wt = raw["wall_thickness"]
     prog = {r["id"]: r for r in cond["program"]["rooms"]}
     rooms, index, centre = [], {}, []
-    for r in raw["storeys"][k]:
+    raw_rooms = merge_stair_rooms(raw["storeys"][k])
+    for r in raw_rooms:
         c = Polygon(r["polygon"]).buffer(0)
         net = c.buffer(-wt / 2, join_style="mitre")
         if net.geom_type != "Polygon" or net.is_empty:
             net = max(getattr(net, "geoms", [c]), key=lambda g: g.area)
-        native = prog[r["program_room"]]["type"]
+        native = "stairs" if r.get("stair_room") else prog[r["program_room"]]["type"]
         index[r["name"]] = len(rooms)
+        if r.get("merged"):  # openings of the merged stair room belong to its host
+            index[r["merged"]] = len(rooms)
         centre.append(c)
         rooms.append({"type": canonical_room_type(native, EXTRA_ALIASES[kind]), "type_native": native,
                       "polygon": ring(net), "program_room": r["program_room"], "infinigen_type": r["infinigen_type"]})
@@ -75,7 +97,7 @@ def convert_storey(raw, k, kind, variant, sample_id, cond):
             continue
         dtype = {"door": "interior_door", "opening": "opening", "front_door": "front_door"}[o["kind"]]
         doors.append({"type": dtype, "polygon": ring(rect), "width_m": round(width, 3)})
-        if len(o["rooms"]) == 2 and all(n in index for n in o["rooms"]):
+        if len(o["rooms"]) == 2 and all(n in index for n in o["rooms"]) and index[o["rooms"][0]] != index[o["rooms"][1]]:
             edges.append([index[o["rooms"][0]], index[o["rooms"][1]], "door" if o["kind"] == "door" else "open"])
     boundary = unary_union(centre)
     cond = dict(cond, type="brief+program")

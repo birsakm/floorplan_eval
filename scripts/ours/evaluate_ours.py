@@ -188,6 +188,10 @@ def home_extra(paths):
     # Program graph vs layout. Rooms map to program rooms by id (State keeps the link).
     idx = {r.get("program_room"): n for n, r in nodes.items()}
     pe = [x for x in prog["edges"] if x["room_a"] in idx and x["room_b"] in idx]
+    # Mason2 houses have no stair rooms: a stair is a program edge between rooms of two storeys (scripts/ours2/
+    # convert.py). The baselines given our program place no stairs either, so every method gets these connections.
+    H.add_edges_from((idx[x["room_a"]], idx[x["room_b"]]) for x in pe
+                     if x["kind"] == "stair" and idx[x["room_a"]][0] != idx[x["room_b"]][0])
     conn = {frozenset((idx[x["room_a"]], idx[x["room_b"]])) for x in pe if x["kind"] in ("door", "open", "stair")}
     walls = [frozenset((idx[x["room_a"]], idx[x["room_b"]])) for x in pe if x["kind"] == "wall"]
     got = {frozenset(x) for x in H.edges}

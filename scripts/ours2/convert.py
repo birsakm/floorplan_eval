@@ -128,66 +128,104 @@ def objects_record(d):
     return out
 
 
+def storey_of(s, keep):
+    """{node id: storey index}: from the node's `storey` id (state.storeys), else from its placement height."""
+    idx = {st["id"]: st.get("index", i) for i, st in enumerate(s.get("storeys") or [])}
+    if all(n.get("storey") in idx for n in keep):
+        return {n["id"]: idx[n["storey"]] for n in keep}
+    levels = sorted({round(n["room"]["placement"]["p"][1], 2) for n in keep})
+    return {n["id"]: levels.index(round(n["room"]["placement"]["p"][1], 2)) for n in keep}
+
+
 def convert(d, variant):
+    """[samples] of one home: one sample (id = seed) for a single storey, else one per storey (<seed>_s<k>), as
+    scripts/ours/convert.py writes houses. Walls are separated by storey (wall_envelopes[].floor = the storey's
+    elevation). Stairs connect rooms of different storeys: program edges of kind "stair" (the program's stair
+    connections; scripts/ours/evaluate_ours.py adds them to the door graph), and condition.stairs lists the stairs the
+    layout actually built (state.stairs[].connects) so a missing stair is visible."""
     s = d["state"]
     nodes = {n["id"]: n for n in s["program"]["nodes"]}
     keep = [n for n in s["program"]["nodes"] if n["type"] not in DROP and n.get("room")]
-    levels = {round(n["room"]["placement"]["p"][1], 2) for n in keep}
-    if len(levels) > 1:  # rooms at several heights: storeys would be flattened onto each other
-        raise NotImplementedError(f"multi-storey home (room heights {sorted(levels)}); converter handles one storey")
-    solids = unary_union([wall_solid(e) for e in d["wall_envelopes"]])
-    rooms, index = [], {}
-    for n in keep:
-        raw = Polygon(world_polygon(n["room"])).buffer(0)
-        net = raw.difference(solids)
-        if net.geom_type == "MultiPolygon":
-            net = max(net.geoms, key=lambda g: g.area)
-        if net.is_empty:
-            continue
-        index[n["id"]] = len(rooms)
-        nt = native(n)
-        rooms.append({"type": canonical_room_type(nt, ALIASES), "type_native": nt, "polygon": ring(net),
-                      "program_room": n["id"], "target_area_m2": n.get("area_m2")})
+    st_of = storey_of(s, keep)
+    storey_idx = {st["id"]: st.get("index", i) for i, st in enumerate(s.get("storeys") or [])}
+    n_storeys = len(set(st_of.values()))
+    elev = {st.get("index", i): st.get("elevation") for i, st in enumerate(s.get("storeys") or [])}
     env = {e["id"]: e for e in d["wall_envelopes"]}
-    doors, windows, edges = [], [], []
-    for w in s["walls"]:
-        ra, rb = (w["rooms"] + [None, None])[:2]
-        for o in w.get("openings", []):
-            poly = opening_poly(w, env[w["id"]], o)
-            if o["kind"] == "window":
-                r = ra if ra in index else rb
-                windows.append({"polygon": poly, "room": index.get(r), "width_m": o["width"],
-                                "sill_m": o.get("sill", 0.0), "head_m": o.get("sill", 0.0) + o.get("height", 0.0)})
-                continue
-            other = {ra, rb} - {None}
-            if o.get("subtype") == "entrance" or any(nodes.get(r, {}).get("type") in DROP for r in other):
-                doors.append({"type": "front_door", "polygon": poly, "width_m": o["width"]})
-                continue
-            kind = "open" if o["kind"] == "passage" else "door"
-            doors.append({"type": "opening" if kind == "open" else "interior_door", "polygon": poly,
-                          "width_m": o["width"]})
-            if ra in index and rb in index:
-                edges.append([index[ra], index[rb], kind])
-    boundary = unary_union([Polygon(world_polygon(n["room"])).buffer(0) for n in keep])
+
+    def wall_storey(w):
+        on = {st_of[r] for r in w["rooms"] if r in st_of}
+        if len(on) == 1:
+            return on.pop()
+        f = env[w["id"]].get("floor")
+        return next((k for k, z in elev.items() if z is not None and f is not None and abs(z - f) < 1e-3), 0)
+
     kept = {n["id"] for n in keep}
     prog_edges = [{"room_a": e["a"], "room_b": e["b"], "kind": "open" if e["kind"] == "passage" else e["kind"]}
                   for e in s["program"]["edges"] if e["a"] in kept and e["b"] in kept]
     entrance = next((x for e in s["program"]["edges"] for x, y in ((e["a"], e["b"]), (e["b"], e["a"]))
                      if x in kept and nodes.get(y, {}).get("type") in DROP), None)
-    prog_rooms = [{"id": n["id"], "type": native(n), "target_net_area": n.get("area_m2"), "storey": 0,
+    prog_rooms = [{"id": n["id"], "type": native(n), "target_net_area": n.get("area_m2"), "storey": st_of[n["id"]],
                    "needs_exterior": native(n) in NEEDS_EXTERIOR} for n in keep]
     counts = Counter(native(n) for n in keep)
     net_target = sum(n.get("area_m2") or 0 for n in keep if not n.get("outdoor"))
-    cond = {"type": "brief+program", "pipeline": "mason2", "home": str(d["seed"]), "storey": None, "n_storeys": 1,
-            "version": d["version"], "key": d["key"],
-            "brief": {"building_type": "apartment", "net_area_m2": net_target, "room_counts": dict(counts)},
-            "program": {"rooms": prog_rooms, "edges": prog_edges, "entrance": entrance},
-            "checks": {c["rule"]: c["status"] for c in d.get("checks", [])}}
-    sample = make_sample("ours", variant, str(d["seed"]), rooms, units="m", scale_m_per_unit=1.0,
-                         boundary=ring(boundary) if boundary.geom_type == "Polygon" else None,
-                         doors=doors, windows=windows, graph={"edges": edges}, condition=cond)
-    validate(sample)
-    return sample
+    built_stairs = [[c["room"] for c in x.get("connects", [])] for x in s.get("stairs") or []]
+    out = []
+    for k in sorted(set(st_of.values())):
+        on = [n for n in keep if st_of[n["id"]] == k]
+        walls = [w for w in s["walls"] if wall_storey(w) == k]
+        solids = unary_union([wall_solid(env[w["id"]]) for w in walls])
+        # stairwell voids in this storey's floor are not net floor area (the program's area_m2 excludes them)
+        voids = [Polygon(ring_) for x in s.get("stairs") or [] for o in x.get("openings", [])
+                 if storey_idx.get(o.get("storey")) == k for ring_ in o.get("footprint", [])]
+        solids = unary_union([solids] + voids) if voids else solids
+        rooms, index = [], {}
+        for n in on:
+            raw = Polygon(world_polygon(n["room"])).buffer(0)
+            net = raw.difference(solids)
+            if net.geom_type == "MultiPolygon":
+                net = max(net.geoms, key=lambda g: g.area)
+            if net.is_empty:
+                continue
+            index[n["id"]] = len(rooms)
+            nt = native(n)
+            rooms.append({"type": canonical_room_type(nt, ALIASES), "type_native": nt, "polygon": ring(net),
+                          "program_room": n["id"], "target_area_m2": n.get("area_m2")})
+        doors, windows, edges = [], [], []
+        for w in walls:
+            ra, rb = (w["rooms"] + [None, None])[:2]
+            for o in w.get("openings", []):
+                poly = opening_poly(w, env[w["id"]], o)
+                if o["kind"] == "window":
+                    r = ra if ra in index else rb
+                    windows.append({"polygon": poly, "room": index.get(r), "width_m": o["width"],
+                                    "sill_m": o.get("sill", 0.0), "head_m": o.get("sill", 0.0) + o.get("height", 0.0)})
+                    continue
+                other = {ra, rb} - {None}
+                if o.get("subtype") == "entrance" or any(nodes.get(r, {}).get("type") in DROP for r in other):
+                    doors.append({"type": "front_door", "polygon": poly, "width_m": o["width"]})
+                    continue
+                kind = "open" if o["kind"] == "passage" else "door"
+                doors.append({"type": "opening" if kind == "open" else "interior_door", "polygon": poly,
+                              "width_m": o["width"]})
+                if ra in index and rb in index:
+                    edges.append([index[ra], index[rb], kind])
+        boundary = unary_union([Polygon(world_polygon(n["room"])).buffer(0) for n in on])
+        multi = n_storeys > 1
+        cond = {"type": "brief+program", "pipeline": "mason2", "home": str(d["seed"]), "storey": k if multi else None,
+                "n_storeys": n_storeys, "version": d["version"], "key": d["key"],
+                "brief": {"building_type": "house" if multi else "apartment", "net_area_m2": net_target,
+                          "room_counts": dict(counts)},
+                "program": {"rooms": prog_rooms, "edges": prog_edges, "entrance": entrance},
+                "checks": {c["rule"]: c["status"] for c in d.get("checks", [])}}
+        if multi:
+            cond["stairs"] = built_stairs
+        sid = f"{d['seed']}_s{k}" if multi else str(d["seed"])
+        sample = make_sample("ours", variant, sid, rooms, units="m", scale_m_per_unit=1.0,
+                             boundary=ring(boundary) if boundary.geom_type == "Polygon" else None,
+                             doors=doors, windows=windows, graph={"edges": edges}, condition=cond)
+        validate(sample)
+        out.append(sample)
+    return out
 
 
 BENCHMARKS = {"rplan_g2p_test1000": ROOT / "outputs" / "rplan" / "g2p_test1000_realdoors_programs"}
@@ -233,30 +271,37 @@ def main():
     (out / "samples").mkdir(parents=True, exist_ok=True)
     (out / "objects").mkdir(parents=True, exist_ok=True)
     files = sorted(src.glob("*.json.gz"), key=lambda p: int(p.name.split(".")[0]))
-    done, failed, types = 0, {}, Counter()
+    done, failed, types, storeys = 0, {}, Counter(), Counter()
     for f in files:
         try:
             d = json.load(gzip.open(f, "rt"))
-            smp = convert(d, variant)
+            smps = convert(d, variant)
+            if a.benchmark and len(smps) > 1:
+                raise NotImplementedError("multi-storey home for a single-storey benchmark input")
+            smp = smps[0]
             if a.benchmark:
                 smp, gt = as_benchmark(smp, d, a.benchmark)
                 if (out / "samples" / f"{smp['id']}.json").exists():
                     raise ValueError(f"second home for input {smp['id']}")
                 (out / "gt_samples").mkdir(exist_ok=True)
                 shutil.copy(gt, out / "gt_samples" / gt.name)
-            save_sample(smp, out / "samples" / f"{smp['id']}.json")
-            json.dump(objects_record(d), open(out / "objects" / f"{smp['id']}.json", "w"))
-            types.update(r["type_native"] for r in smp["rooms"])
+            for smp in smps:
+                save_sample(smp, out / "samples" / f"{smp['id']}.json")
+                types.update(r["type_native"] for r in smp["rooms"])
+            home_id = smps[0]["condition"]["home"] if len(smps) > 1 else smps[0]["id"]
+            json.dump(objects_record(d), open(out / "objects" / f"{home_id}.json", "w"))
+            storeys[len(smps)] += 1
             done += 1
         except Exception as e:  # noqa: BLE001  keep going; failures are recorded
             failed[f.name] = repr(e)
     info = {"source": f"noface Mason2 API, generator version {a.version}", "reference": a.reference,
             "benchmark": a.benchmark,
             "n_homes": len(files),
-            "n_converted": done, "native_room_types": dict(types), "failures": failed,
+            "n_converted": done, "n_storeys": {str(k): v for k, v in sorted(storeys.items())},
+            "kind": "house" if sum(v for k, v in storeys.items() if k > 1) > done / 2 else "apartment", "native_room_types": dict(types), "failures": failed,
             "date": datetime.now().isoformat(timespec="seconds")}
     json.dump(info, open(out / "run_info.json", "w"), indent=1)
-    print(f"{done}/{len(files)} converted -> {out}", failed if failed else "")
+    print(f"{done}/{len(files)} converted (storeys {dict(storeys)}) -> {out}", failed if failed else "")
 
 
 if __name__ == "__main__":

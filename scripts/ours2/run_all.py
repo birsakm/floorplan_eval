@@ -6,6 +6,7 @@ comparison table and the paper's Table 1 block (b) numbers.
   python scripts/ours2/run_all.py <version> --redo procthor    # re-run a step and everything after it
   python scripts/ours2/run_all.py <version> --status           # which steps are done
   python scripts/ours2/run_all.py <version> --no-paper         # leave paper/sec/results_auto.tex alone
+  python scripts/ours2/run_all.py <version> --kind house       # multi-storey version, Table 1 block (c)
   python scripts/ours2/run_all.py <version> --benchmark rplan   # a version generated from the Table 1(a) RPLAN
                                                                 # programs (scripts/rplan/export_mason_programs.py)
 
@@ -18,7 +19,7 @@ command continues where it stopped. Logs: logs/mason2/<version>/<step>.log.
 Steps (two lanes run in parallel after convert; only one metric evaluation runs at a time to bound memory):
   fetch      tunnel to noface (opened if needed) + scripts/ours2/fetch.py (serial API requests, read-only)
   convert    scripts/ours2/convert.py (fails if < 95% of the homes convert, e.g. after a format change;
-             multi-storey homes are rejected, the converter handles one storey)
+             multi-storey homes become one sample per storey, <seed>_s<k>)
   ours       fpeval.evaluate variants + scripts/ours/evaluate_ours.py on our layouts
   procthor   ProcTHOR on our programs, then the same two evaluations          (lane A, after ours)
   infinigen  Infinigen on our programs (nice 10), convert, the two evaluations (lane B)
@@ -54,6 +55,7 @@ PORT = 13021
 STEPS = ["fetch", "convert", "ours", "procthor", "infinigen", "report"]
 AFTER = {"fetch": ["convert"], "convert": ["ours", "procthor", "infinigen"], "ours": ["report"],
          "procthor": ["report"], "infinigen": ["report"], "report": []}  # steps that use a step's output
+KIND_REF = {"apartment": "swiss_dwellings:all", "house": "cubicasa5k:all"}  # --kind -> default reference (blocks b, c)
 BENCH = {"rplan": ("rplan_g2p_test1000", "rplan_graph2plan:test")}  # --benchmark -> (programs, FID reference)
 EVAL_LOCK = threading.Lock()  # one metric evaluation at a time (each uses --workers processes)
 
@@ -62,9 +64,9 @@ def log(msg):
     print(f"[{datetime.now():%H:%M:%S}] {msg}", flush=True)
 
 
-def variants(version):
+def variants(version, kind="apartment"):
     from fpeval.eval_config import mason2_variants
-    return mason2_variants(version)
+    return mason2_variants(version, kind)
 
 
 # --- noface ---------------------------------------------------------------------------------------------------------
@@ -112,12 +114,14 @@ def cmd_list(min_homes):
 
 # --- steps ----------------------------------------------------------------------------------------------------------
 class Run:
-    def __init__(self, version, workers, reference, paper=True, benchmark=None):
-        self.v, self.workers, self.reference, self.paper = version, workers, reference, paper
+    def __init__(self, version, workers, reference, paper=True, benchmark=None, kind="apartment"):
+        self.v, self.workers, self.reference, self.paper, self.kind = version, workers, reference, paper, kind
         self.bench = BENCH[benchmark][0] if benchmark else None
         if benchmark:
             self.reference = BENCH[benchmark][1]
-        self.keys = variants(version)
+        elif reference is None:
+            self.reference = KIND_REF[kind]
+        self.keys = variants(version, kind)
         self.pdir = ROOT / "outputs" / "ours" / f"mason2_{version}" / "pipeline"
         self.ldir = ROOT / "logs" / "mason2" / version
         self.ldir.mkdir(parents=True, exist_ok=True)
@@ -144,7 +148,7 @@ class Run:
         with EVAL_LOCK:
             log(f"{step}: evaluating {key}")
             self.sh(step, [FPE_PY, "-m", "fpeval.evaluate", "variants", key, "--workers", self.workers])
-            self.sh(step, [FPE_PY, "scripts/ours/evaluate_ours.py", "--kind", "apartment", "--variant", key,
+            self.sh(step, [FPE_PY, "scripts/ours/evaluate_ours.py", "--kind", self.kind, "--variant", key,
                            "--workers", self.workers])
 
     def fetch(self):
@@ -183,14 +187,14 @@ class Run:
     def procthor(self):
         name = self.keys["procthor"].split("/", 1)[1]
         log("procthor: generating")
-        self.sh("procthor", [PROCTHOR_PY, "scripts/procthor/generate.py", "--kind", "apartment", "--source",
+        self.sh("procthor", [PROCTHOR_PY, "scripts/procthor/generate.py", "--kind", self.kind, "--source",
                              self.keys["ours"], "--name", name, "--workers", self.workers])
         self.evaluate("procthor", self.keys["procthor"])
 
     def infinigen(self):
         name = self.keys["infinigen"].split("/", 1)[1]
         log("infinigen: generating (the long step)")
-        common = ["--kind", "apartment", "--source", self.keys["ours"], "--name", name]
+        common = ["--kind", self.kind, "--source", self.keys["ours"], "--name", name]
         self.sh("infinigen", [INFINIGEN_PY, "scripts/infinigen/generate.py", *common, "--workers", self.workers],
                 nice=10)
         self.sh("infinigen", [FPE_PY, "scripts/infinigen/convert.py", *common])
@@ -198,10 +202,20 @@ class Run:
 
     def report(self):
         if self.bench:
-            self.sh("report", [FPE_PY, "scripts/rplan/block_a.py", "--apm", self.v, "--workers", self.workers])
+            self.sh("report", [FPE_PY, "scripts/rplan/block_a.py", "--workers", self.workers])  # all APM runs
             if self.paper:
                 self.sh("report", [FPE_PY, "scripts/ours2/paper_numbers.py"])
             print((ROOT / "results" / "rplan" / "block_a.md").read_text(), flush=True)
+            return
+        if self.kind == "house":  # Table 1 block (c): the \\RC... macros
+            if self.paper:
+                self.sh("report", [FPE_PY, "scripts/ours2/paper_numbers.py", "--house-version", self.v])
+            for m, k in self.keys.items():
+                f = ROOT / "results" / f"{k}.json"
+                if f.exists():
+                    h = json.load(open(f))["homes"]["all"]
+                    log(f"report: {m}: reach {h.get('all_reachable')}, types {h.get('room_counts_match')}, "
+                        f"graph {h.get('frac_ged_zero')}, area {h.get('net_area_rel_err')}")
             return
         self.sh("report", [FPE_PY, "scripts/report/compare_methods.py", "--version", self.v])
         if self.paper:
@@ -276,7 +290,9 @@ def main():
     ap.add_argument("version", help="generator version id, or 'list'")
     ap.add_argument("--min-homes", type=int, default=500, help="list: hide versions with fewer homes")
     ap.add_argument("--workers", type=int, default=12)
-    ap.add_argument("--reference", default="swiss_dwellings:all")
+    ap.add_argument("--reference", default=None, help="default: Swiss Dwellings (apartment) / CubiCasa5k (house)")
+    ap.add_argument("--kind", choices=sorted(KIND_REF), default="apartment",
+                    help="house: multi-storey version, Table 1 block (c) (one sample per storey)")
     ap.add_argument("--redo", choices=STEPS, help="re-run this step and all later ones")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--no-paper", action="store_true", help="do not rewrite paper/sec/results_auto.tex (test runs)")
@@ -285,7 +301,7 @@ def main():
     a = ap.parse_args()
     if a.version == "list":
         return cmd_list(a.min_homes)
-    r = Run(a.version, a.workers, a.reference, paper=not a.no_paper, benchmark=a.benchmark)
+    r = Run(a.version, a.workers, a.reference, paper=not a.no_paper, benchmark=a.benchmark, kind=a.kind)
     if a.status:
         return r.status()
     if a.redo:
