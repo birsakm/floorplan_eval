@@ -22,6 +22,7 @@ from fpeval.eval_config import VARIANTS, mason2_variants  # noqa: E402
 # metric -> (higher is better, format)
 METRICS = {"Valid": (True, "{:.1f}"), "Reach": (True, "{:.1f}"), "Types": (True, "{:.1f}"), "Graph": (True, "{:.1f}"),
            "Area": (False, "{:.1f}\\%"), "DFID": (False, "{:.1f}"), "DKID": (False, "{:.1f}")}
+HOLODECK_LLMS = {"holoqwen": "qwen3.8-27b", "hologemma": "gemma-4-31b"}
 REF_LABEL = {"swiss_dwellings:all": "Swiss Dwellings", "cubicasa5k:all": "CubiCasa5k"}
 
 
@@ -92,6 +93,8 @@ def block_a():
 def block(tag, version, kind):
     """Macros \\R<tag>... of one block (b: apartments, c: houses) from a Mason2 version and its two baselines."""
     keys = mason2_variants(version, kind)
+    # Holodeck on the same briefs as text (scripts/holodeck/generate.py --block b|c): one row per LLM
+    keys.update({tag: f"holodeck/{kind}_mason2-{version}_{llm}" for tag, llm in HOLODECK_LLMS.items()})
     ref = VARIANTS[keys["ours"]]["ref"]
     label = REF_LABEL[ref]
     vals = {m: measure(k, label) for m, k in keys.items() if (ROOT / "results" / f"{k}.json").exists()}
@@ -105,16 +108,20 @@ def block(tag, version, kind):
          f"\\def{R}NRealAll{{{int(ref_row['n_samples']):,}}}".replace(",", "{,}"),
          f"\\def{R}realValid{{{100 * (1 - float(ref_row['any_rule_violation'])):.1f}}}"]
     for metric, (higher, fmt) in METRICS.items():
-        shown = {m: fmt.format(v[metric]) for m, v in vals.items()}
+        # Holodeck gets only the brief (text), never the program, so its door graph has nothing to match: Graph n/a
+        na = {m for m in vals if metric == "Graph" and m in HOLODECK_LLMS}
+        shown = {m: fmt.format(v[metric]) for m, v in vals.items() if m not in na}
         # best by the printed value, so ties after rounding are all bold
         num = {m: float(s.replace("\\%", "")) for m, s in shown.items()}
         best = (max if higher else min)(num.values()) if num else None
         for m in keys:
-            if m not in vals:
+            if m in na:
+                L.append(f"\\def{R}{m}{metric}{{\\na}}")
+            elif m not in vals:
                 L.append(f"\\def{R}{m}{metric}{{\\tbd}}")
             else:
                 s = shown[m]
-                if num[m] == best and len(vals) > 1:
+                if num[m] == best and len(num) > 1:
                     s = "\\textbf{" + s + "}"
                 L.append(f"\\def{R}{m}{metric}{{{s}}}")
     for m in keys:

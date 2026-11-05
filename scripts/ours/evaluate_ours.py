@@ -134,7 +134,8 @@ def plan_features(path):
     f["mean_room_convexity"] = float(np.mean([r["convexity"] for r in recs])) if recs else np.nan
     if shapes:
         outline = fill_holes(closing(unary_union([g for _, g, _ in shapes]), tol))
-        f["outline_rectangularity"] = outline.area / outline.minimum_rotated_rectangle.area
+        mrr = outline.minimum_rotated_rectangle.area
+        f["outline_rectangularity"] = outline.area / mrr if mrr > 0 else np.nan  # degenerate (zero-area) outline
         f["outline_corners"] = n_corners(outline, simplify_tol=0.05) if outline.geom_type == "Polygon" else np.nan
         f["mean_adjacency_degree"] = float(np.mean([adj.degree(k) for k in adj]))
     rooms = [{"id": s["id"], "type": x, "area_m2": r["area_m2"], "aspect": r["aspect"], "width_m": r["width_m"]}

@@ -68,3 +68,25 @@ reply), `run_info.json` (failures, attempts, tokens).
 
 Evaluation: `fpeval.evaluate variants|fid <key>` with the fpe env, then `scripts/rplan/block_a.py` (logs/holodeck/).
 Servers stopped and GPUs 0, 1 released (gpuctl) after the runs.
+
+## Blocks (b) and (c): briefs (2026-11-05)
+`generate.py --block b|c --version <mason2 version>`, both blocks in one go with `scripts/holodeck/run_briefs.sh <model>`
+(tmux `fpe-holodeck` on kw61498). One job per sample of our method's run of that version
+(`outputs/ours/mason2_<version>/samples`), i.e. per storey for houses.
+- **Input:** the brief as text (`brief_query()`): room counts and total net area; for a house, one query per storey
+  with that storey's rooms. Holodeck never sees our program, so Graph is reported as n/a.
+- **Room typing:** the LLM names its rooms; `brief_rooms()` types them by keyword and assigns program rooms of the
+  same type largest first. Upper storeys get no exterior door.
+- **Houses:** a house counts only if all storeys were generated; `drop_partial_houses()` moves the storeys of
+  incomplete houses to `samples_partial/` (run_info: `n_homes_complete`, `partial_homes`).
+
+| block | LLM | storeys | homes | attempts 1/2/3 | time |
+|---|---|---|---|---|---|
+| (b) next-living-bay-ad5110bb7b58, 1,003 | Qwen3.8-27B | 859 | 859 | 465/271/267 | 47 min |
+| (b) | Gemma-4-31B | 763 | 763 | 488/170/345 | 40 min |
+| (c) next-multistory-nav-4648dcf51a12, 1,004 (2,008 storeys) | Qwen3.8-27B | 1,612 | 640 complete (332 partial) | 854/478/676 | 66 min |
+| (c) | Gemma-4-31B | 1,685 | 715 complete (255 partial) | 1134/375/499 | 63 min |
+
+Area overshoot: Holodeck's prompt forces room sides >= 3 m, so small rooms (bathrooms, storage) come out too large.
+Evaluation: `fpeval.evaluate variants <key>` and `scripts/ours/evaluate_ours.py --kind apartment|house --variant <key>`,
+then `scripts/ours2/paper_numbers.py --version ... --house-version ...`.

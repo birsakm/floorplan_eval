@@ -105,6 +105,11 @@ VARIANTS = {
     # Holodeck floor-plan stages with open-weight LLMs on the same programs, written as text (scripts/holodeck/generate.py)
     "holodeck/rplan-g2p_text_test1000_realdoors_qwen3.8-27b": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
     "holodeck/rplan-g2p_text_test1000_realdoors_gemma-4-31b": _v("bubble+areas", "rplan_graph2plan:test", scale=1.0),
+    # Blocks (b, c): Holodeck given the brief of a Mason2 version as text (houses: one query per storey)
+    "holodeck/apartment_mason2-next-living-bay-ad5110bb7b58_qwen3.8-27b": _v("brief", "swiss_dwellings:all", scale=1.0),
+    "holodeck/apartment_mason2-next-living-bay-ad5110bb7b58_gemma-4-31b": _v("brief", "swiss_dwellings:all", scale=1.0),
+    "holodeck/house_mason2-next-multistory-nav-4648dcf51a12_qwen3.8-27b": _v("brief", "cubicasa5k:all", scale=1.0),
+    "holodeck/house_mason2-next-multistory-nav-4648dcf51a12_gemma-4-31b": _v("brief", "cubicasa5k:all", scale=1.0),
     # SceneSmith's 31 published house-level scenes (scripts/scenesmith/convert.py): text prompts, only 7 of them homes.
     "scenesmith/house_published": _v("text", "cubicasa5k:all", scale=1.0),
     **{f"ds2d/procthor_{c}_test_lora-{l}": _v("constraints", "procthor10k:test", scale=1.0)
